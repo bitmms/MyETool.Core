@@ -674,6 +674,26 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 判断入参是否仅包含 ASCII 可见字符（ASCII 33 到 126，不包括空格）
+        /// </summary>
+        /// <param name="str">待检查的字符串</param>
+        /// <returns>如果字符串中每个字符的 ASCII 值均在 [33, 126] 范围内，则返回 true；否则返回 false。</returns>
+        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出。</exception>
+        public static bool ContainsOnlyVisibleAscii(string str)
+        {
+            if (str == null)
+                throw new ArgumentNullException(nameof(str));
+
+            foreach (char c in str)
+            {
+                if (c < 33 || c > 126) // 注意：33 起始
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// 判断字符串是否以指定子串开头
         /// </summary>
         /// <param name="sourceString">源字符串</param>
