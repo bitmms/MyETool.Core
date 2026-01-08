@@ -602,6 +602,30 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 判断入参是否包含数字字符
+        /// </summary>
+        /// <param name="str">待检查的字符串</param>
+        /// <returns>如果字符串包含至少一个数字字符，则返回 true；否则返回 false</returns>
+        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出。</exception>
+        public static bool ContainsDigit(string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str), "输入字符串不能为 null");
+            }
+
+            foreach (var c in str)
+            {
+                if (c >= '0' && c <= '9')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// 判断字符串是否以指定子串开头
         /// </summary>
         /// <param name="sourceString">源字符串</param>
