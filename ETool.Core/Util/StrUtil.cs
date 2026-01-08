@@ -674,6 +674,36 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 判断入参是否包含 ASCII 中除数字、字母以外的特殊符号（如 !, @, #, $ 等）
+        /// </summary>
+        /// <param name="str">待检查的字符串</param>
+        /// <returns>
+        /// 如果字符串中至少有一个字符属于 ASCII 可见字符（33～126）且不是数字（0-9）、小写字母（a-z）和大写字母（A-Z），则返回 true；否则返回 false</returns>
+        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出</exception>
+        public static bool ContainsSpecialSymbol(string str)
+        {
+            if (str == null)
+            {
+                throw new ArgumentNullException(nameof(str), "输入字符串不能为 null");
+            }
+
+            foreach (var c in str)
+            {
+                // 只考虑 ASCII 可见字符范围（33～126）
+                if (c >= 33 && c <= 126)
+                {
+                    // 排除数字、小写字母、大写字母
+                    if ((c < '0' || c > '9') && (c < 'A' || c > 'Z') && (c < 'a' || c > 'z'))
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// 判断入参是否仅包含 ASCII 可见字符（ASCII 33 到 126，不包括空格）
         /// </summary>
         /// <param name="str">待检查的字符串</param>
