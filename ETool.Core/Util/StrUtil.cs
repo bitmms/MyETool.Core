@@ -60,6 +60,16 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 获取指定字符串长度
+        /// </summary>
+        /// <param name="s">要获取长度的字符串</param>
+        /// <returns>如果 <paramref name="s"/> 为 <see langword="null"/>，返回 0；否则返回实际长度</returns>
+        public static int Length(string s)
+        {
+            return s?.Length ?? 0;
+        }
+
+        /// <summary>
         /// 比较两个字符串是否相等
         /// </summary>
         /// <param name="s1">第一个字符串</param>
