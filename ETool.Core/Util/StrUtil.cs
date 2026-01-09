@@ -111,6 +111,26 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 如果指定的字符串为 <c>null</c> 则返回 <c>""</c>，否则返回原字符串
+        /// </summary>
+        /// <param name="str">要检查的字符串</param>
+        /// <returns>如果 <c>str</c> 为 <c>null</c> 则返回 <c>""</c>，否则返回 <c>str</c></returns>
+        public static string EmptyIfNull(string str)
+        {
+            return str ?? string.Empty;
+        }
+
+        /// <summary>
+        /// 如果指定的字符串为 <c>""</c> 则返回 <c>null</c>，否则返回原字符串
+        /// </summary>
+        /// <param name="str">要检查的字符串</param>
+        /// <returns>如果 <c>str</c> 为 <c>""</c> 则返回 <c>null</c>，否则返回 <c>str</c></returns>
+        public static string NullIfEmpty(string str)
+        {
+            return string.IsNullOrEmpty(str) ? null : str;
+        }
+
+        /// <summary>
         /// 将使用 Unicode 字符集表示的字符串以 UTF8 编码保存到字节数组
         /// </summary>
         /// <remarks>无字节序问题，1~4字节的变长编码格式</remarks>
