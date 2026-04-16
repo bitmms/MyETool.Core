@@ -1,8 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using ETool.Core.Todo.MyUtil;
+using ETool.Core.Util;
 
-namespace ETool.Core.Todo.MyUtil
+namespace ETool.Core.MyUtil
 {
     /// <summary>
     /// 身份证号码工具类【中国大陆身份证号码：18位、15位】
@@ -194,10 +196,8 @@ namespace ETool.Core.Todo.MyUtil
         /// <param name="ignoreCase">是否忽略大小写（默认忽略）</param>
         /// <returns>如果字符串符合返回 true，否则返回 false</returns>
         /// <remarks>
-        /// <para>1. 注意：格式正确 ≠ 身份真实</para>
-        /// <para>2. 默认忽略大小写，当最后一位是字母时，可以是 <c>x</c> 和 <c>X</c></para>
-        /// <para>3. 如果不忽略大小写，当最后一位是字母时，必须是 <c>X</c></para>
-        /// <para>4. 校验逻辑包含：长度、数字格式、省份编码、出生日期、校验码</para>
+        /// <para>1. 只校验格式的合法性，格式正确 ≠ 身份真实</para>
+        /// <para>2. 校验逻辑包含：长度、数字格式、省份编码、出生日期、校验码</para>
         /// </remarks>
         public static bool IsValidChinaIdCard(string s, bool ignoreCase = true)
         {

@@ -39,7 +39,7 @@
             // 后 9 位：必须是 0-9 的数字
             for (var i = 2; i < 11; i++)
             {
-                if (s[i] < '0' || s[i] > '9')
+                if (!CharUtil.IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -74,7 +74,7 @@
             var len = s.Length;
             for (var i = 0; i < len; i++)
             {
-                if (s[i] < '0' || s[i] > '9')
+                if (!CharUtil.IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -118,7 +118,7 @@
             var len = s.Length;
             for (var i = startIndex; i < len; i++)
             {
-                if (s[i] < '0' || s[i] > '9')
+                if (!CharUtil.IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -159,7 +159,7 @@
             // 除首位的其他字符校验：必须是 0-9 的数字
             for (var i = 1; i < len; i++)
             {
-                if (s[i] < '0' || s[i] > '9')
+                if (!CharUtil.IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -195,9 +195,8 @@
             // 双指针算法
             for (var i = 0; i < len; i++)
             {
-                var c = s[i];
                 // 段落处理
-                if (c >= '0' && c <= '9')
+                if (CharUtil.IsDigit(s[i]))
                 {
                     // 前导零
                     if (currentSegmentLen > 0 && currentSegmentSum == 0)
@@ -212,7 +211,7 @@
                     }
 
                     // 计算数值
-                    currentSegmentSum = currentSegmentSum * 10 + (c - '0');
+                    currentSegmentSum = currentSegmentSum * 10 + (s[i] - '0');
 
                     // 数值超过255
                     if (currentSegmentSum > 255)
@@ -221,7 +220,7 @@
                     }
                 }
                 // 段落结束校验
-                else if (c == '.')
+                else if (s[i] == '.')
                 {
                     // 连续的 '.' 或 整个字符串以 '.' 开头
                     if (currentSegmentLen == 0)

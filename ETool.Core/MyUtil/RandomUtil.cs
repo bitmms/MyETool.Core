@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading;
+using ETool.Core.Todo.MyUtil;
 
-namespace ETool.Core.Todo.MyUtil
+namespace ETool.Core.MyUtil
 {
     /// <summary>
     /// 随机生成工具类
@@ -132,7 +133,7 @@ namespace ETool.Core.Todo.MyUtil
             }
 
             // 小写 -> 大写
-            format = StrUtil.ToUpperLetter(format);
+            format = Util.StrUtil.ToUpperLetter(format);
 
             // 合法 GUID 格式符集合
             const string roleString = "DNBPX";
@@ -140,7 +141,7 @@ namespace ETool.Core.Todo.MyUtil
             // 双字符规则：相同且为 DNBPX 中任意一个 → 返回大写 GUID 字符串
             if (format.Length == 2 && format[0] == format[1] && roleString.Contains(format[0].ToString()))
             {
-                return StrUtil.ToUpperLetter(Guid.NewGuid().ToString(format[0].ToString()));
+                return Util.StrUtil.ToUpperLetter(Guid.NewGuid().ToString(format[0].ToString()));
             }
 
             // 单字符规则：为 DNBPX 中任意一个  → 返回小写 GUID 字符串

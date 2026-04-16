@@ -1,4 +1,6 @@
-﻿using ETool.Core.Util;
+﻿using ETool.Core.MyUtil;
+using ETool.Core.Util;
+using StrUtil = ETool.Core.MyUtil.StrUtil;
 
 namespace ETool.Core.Todo.MyUtil
 {

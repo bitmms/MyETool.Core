@@ -1,8 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ETool.Core.Util;
 
-namespace ETool.Core.Todo.MyUtil
+namespace ETool.Core.MyUtil
 {
     /// <summary>
     /// 字符串工具类
@@ -68,48 +69,9 @@ namespace ETool.Core.Todo.MyUtil
         {
             return s?.Length ?? 0;
         }
-
-        /// <summary>
-        /// 比较两个字符串是否相等
-        /// </summary>
-        /// <param name="s1">第一个字符串</param>
-        /// <param name="s2">第二个字符串</param>
-        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
-        /// <returns>如果字符串相等返回 true，否则返回 false</returns>
-        public static bool Equals(string s1, string s2, bool ignoreCase = false)
-        {
-            if (IsNull(s1) && IsNull(s2))
-            {
-                return true;
-            }
-
-            if (IsNull(s1) || IsNull(s2))
-            {
-                return false;
-            }
-
-            if (s1.Length != s2.Length)
-            {
-                return false;
-            }
-
-            if (!ignoreCase)
-            {
-                return s1 == s2;
-            }
-
-            int len = s1.Length;
-            for (int i = 0; i < len; i++)
-            {
-                if (CharUtil.ToUpperLetter(s1[i]) != CharUtil.ToUpperLetter(s2[i]))
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
+        
+        // =======================================================
+        
         /// <summary>
         /// 如果指定的字符串为 <c>null</c> 则返回 <c>""</c>，否则返回原字符串
         /// </summary>
@@ -175,64 +137,6 @@ namespace ETool.Core.Todo.MyUtil
         {
             if (IsNullOrEmpty(s)) return Array.Empty<byte>();
             return Encoding.GetEncoding("GBK").GetBytes(s);
-        }
-
-        /// <summary>
-        /// 将字符串中的小写英文字符转大写
-        /// </summary>
-        /// <param name="s">待转换的字符串</param>
-        /// <returns>转换后的字符串</returns>
-        public static string ToUpperLetter(string s)
-        {
-            if (IsNullOrEmpty(s))
-            {
-                return "";
-            }
-
-            int len = s.Length;
-            char[] resultChars = new char[len];
-            for (int i = 0; i < len; i++)
-            {
-                if (CharUtil.IsLowerLetter(s[i]))
-                {
-                    resultChars[i] = CharUtil.ToUpperLetter(s[i]);
-                }
-                else
-                {
-                    resultChars[i] = s[i];
-                }
-            }
-
-            return new string(resultChars);
-        }
-
-        /// <summary>
-        /// 将字符串中的大写英文字符转小写
-        /// </summary>
-        /// <param name="s">待转换的字符串</param>
-        /// <returns>转换后的字符串</returns>
-        public static string ToLowerLetter(string s)
-        {
-            if (IsNullOrEmpty(s))
-            {
-                return "";
-            }
-
-            int len = s.Length;
-            char[] chars = new char[len];
-            for (int i = 0; i < len; i++)
-            {
-                if (CharUtil.IsUpperLetter(s[i]))
-                {
-                    chars[i] = CharUtil.ToLowerLetter(s[i]);
-                }
-                else
-                {
-                    chars[i] = s[i];
-                }
-            }
-
-            return new string(chars);
         }
 
         /// <summary>
@@ -1302,7 +1206,7 @@ namespace ETool.Core.Todo.MyUtil
             var index = -1;
 
             // 只有英文字母才有大小写之分
-            if (!ignoreCase || !Util.CharUtil.IsLetter(sourceChar))
+            if (!ignoreCase || !CharUtil.IsLetter(sourceChar))
             {
                 index = s.IndexOf(sourceChar);
             }
@@ -1348,7 +1252,7 @@ namespace ETool.Core.Todo.MyUtil
             }
 
             // 只有英文字母才有大小写之分
-            if (!ignoreCase || !Util.CharUtil.IsLetter(sourceChar))
+            if (!ignoreCase || !CharUtil.IsLetter(sourceChar))
             {
                 return s.Replace(sourceChar, targetChar);
             }
