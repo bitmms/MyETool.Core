@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ETool.Core.Util
+namespace ETool.Core.Todo.MyUtil
 {
     /// <summary>
     /// 模拟数据工具类

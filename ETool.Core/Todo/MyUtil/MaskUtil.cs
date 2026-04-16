@@ -1,4 +1,6 @@
-﻿namespace ETool.Core.Util
+﻿using ETool.Core.Util;
+
+namespace ETool.Core.Todo.MyUtil
 {
     /// <summary>
     /// 数据脱敏工具类

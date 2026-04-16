@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace ETool.Core.Util
+namespace ETool.Core.Todo.MyUtil
 {
     /// <summary>
     /// 分页工具类

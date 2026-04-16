@@ -1,5 +1,5 @@
 ﻿using System;
-using ETool.Core.Util;
+using ETool.Core.Todo.MyUtil;
 using Xunit;
 
 namespace ETool.Core.Test.Net472.Util.PageUtilTest

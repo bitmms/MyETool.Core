@@ -1,7 +1,8 @@
 ﻿using System;
 using System.Text;
+using ETool.Core.Util;
 
-namespace ETool.Core.Util
+namespace ETool.Core.Todo.MyUtil
 {
     /// <summary>
     /// 整数工具类

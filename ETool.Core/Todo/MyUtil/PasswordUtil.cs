@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using ETool.Core.Enum;
 
-namespace ETool.Core.Util
+namespace ETool.Core.Todo.MyUtil
 {
     /// <summary>
     /// 密码工具类

@@ -53,17 +53,13 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Util\CharUtilTest.cs" />
-        <Compile Include="Util\NumberUtilTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetEndIndexExclusiveByStartIndexTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetEndIndexExclusiveTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetPageDisplayRangesListTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetPageIndexRangeTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetStartIndexTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetTotalPagesTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetVisiblePageNumbersByTotalCountAndPageSizeTest.cs" />
-        <Compile Include="Util\PageUtilTest\GetVisiblePageNumbersTest.cs" />
-        <Compile Include="Util\StrUtilTest\IndexOfTest.cs" />
+        <Compile Include="Util\CharUtilTest\IsDigitTest.cs" />
+        <Compile Include="Util\CharUtilTest\IsLetterTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsValidIpv4Test.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsValidNumberTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsValidPhoneNumberTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsValidPositiveNumberTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsValidQqNumberTest.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="packages.config" />

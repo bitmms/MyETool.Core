@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ETool.Core.Util
+namespace ETool.Core.Todo.MyUtil
 {
     /// <summary>
     /// 字符串工具类
@@ -1302,7 +1302,7 @@ namespace ETool.Core.Util
             var index = -1;
 
             // 只有英文字母才有大小写之分
-            if (!ignoreCase || !CharUtil.IsLetter(sourceChar))
+            if (!ignoreCase || !Util.CharUtil.IsLetter(sourceChar))
             {
                 index = s.IndexOf(sourceChar);
             }
@@ -1348,7 +1348,7 @@ namespace ETool.Core.Util
             }
 
             // 只有英文字母才有大小写之分
-            if (!ignoreCase || !CharUtil.IsLetter(sourceChar))
+            if (!ignoreCase || !Util.CharUtil.IsLetter(sourceChar))
             {
                 return s.Replace(sourceChar, targetChar);
             }

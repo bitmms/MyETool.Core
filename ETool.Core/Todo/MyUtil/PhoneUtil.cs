@@ -1,4 +1,6 @@
-﻿namespace ETool.Core.Util
+﻿using ETool.Core.Util;
+
+namespace ETool.Core.Todo.MyUtil
 {
     /// <summary>
     /// 手机号码工具类
