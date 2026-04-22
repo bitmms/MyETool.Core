@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace ETool.Core.Todo.MyUtil
+namespace ETool.Core.MyUtil
 {
     /// <summary>
     /// 模拟数据工具类
@@ -18,10 +18,10 @@ namespace ETool.Core.Todo.MyUtil
             char[] resultChars = new char[11];
 
             resultChars[0] = '1';
-            resultChars[1] = Core.MyUtil.RandomUtil.GetRandomDigitChar(3, 9);
+            resultChars[1] = Core.Util.RandomUtil.GetRandomDigitChar();
             for (int i = 2; i < 11; i++)
             {
-                resultChars[i] = Core.MyUtil.RandomUtil.GetRandomDigitChar(0, 9);
+                resultChars[i] = Core.Util.RandomUtil.GetRandomDigitChar();
             }
 
             return new string(resultChars);
@@ -49,8 +49,8 @@ namespace ETool.Core.Todo.MyUtil
         /// <returns>模拟生成的中文用户名</returns>
         public static string MockChineseUsername()
         {
-            int idx1 = Core.MyUtil.RandomUtil.GetRandomInt(0, FirstUsernameList.Count);
-            int idx2 = Core.MyUtil.RandomUtil.GetRandomInt(0, LastUsernameList.Count);
+            int idx1 = Core.Util.RandomUtil.GetRandomInt(0, FirstUsernameList.Count);
+            int idx2 = Core.Util.RandomUtil.GetRandomInt(0, LastUsernameList.Count);
             return $"{FirstUsernameList[idx1]}的{LastUsernameList[idx2]}";
         }
 
@@ -82,9 +82,9 @@ namespace ETool.Core.Todo.MyUtil
         /// <returns>模拟生成的中文姓名</returns>
         public static string MockChineseName()
         {
-            string first = FirstChineseNameList[Core.MyUtil.RandomUtil.GetRandomInt(0, FirstChineseNameList.Count)];
-            string middle = LastChineseNameList[Core.MyUtil.RandomUtil.GetRandomInt(0, LastChineseNameList.Count)];
-            string last = Core.MyUtil.RandomUtil.GetRandomBool() ? "" : LastChineseNameList[Core.MyUtil.RandomUtil.GetRandomInt(0, LastChineseNameList.Count)];
+            string first = FirstChineseNameList[Core.Util.RandomUtil.GetRandomInt(0, FirstChineseNameList.Count)];
+            string middle = LastChineseNameList[Core.Util.RandomUtil.GetRandomInt(0, LastChineseNameList.Count)];
+            string last = Core.Util.RandomUtil.GetRandomBool() ? "" : LastChineseNameList[Core.Util.RandomUtil.GetRandomInt(0, LastChineseNameList.Count)];
             return first + middle + last;
         }
 
