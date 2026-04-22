@@ -183,5 +183,66 @@ namespace ETool.Core.Util
             // 4. n1<0, n2<0
             return "-" + AddPositive(n1, 1, n1.Length - 1, n2, 1, n2.Length - 1);
         }
+
+        /// <summary>
+        /// 高精度整数相减 n1-n2
+        /// </summary>
+        /// <param name="n1">第一个整数</param>
+        /// <param name="n2">第二个整数</param>
+        /// <returns>n1-n2 的值</returns>
+        /// <remarks>限制入参长度不超过 100000 字符</remarks>
+        /// <exception cref="ArgumentException"><c>n1</c> 不是有效的整数格式</exception>
+        /// <exception cref="ArgumentException"><c>n2</c> 不是有效的整数格式</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>n1</c> 的长度超过 100000 个字符</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>n2</c> 的长度超过 100000 个字符</exception>
+        public static string Sub(string n1, string n2)
+        {
+            const int maxLen = 10_0000;
+
+            if (n1 == null) throw new ArgumentNullException(nameof(n1));
+            if (n2 == null) throw new ArgumentNullException(nameof(n2));
+            if (n1.Length > maxLen) throw new ArgumentOutOfRangeException(nameof(n1), $"'{nameof(n1)}' 的长度不能超过 {maxLen} 个字符。");
+            if (n2.Length > maxLen) throw new ArgumentOutOfRangeException(nameof(n2), $"'{nameof(n2)}' 的长度不能超过 {maxLen} 个字符。");
+            if (!ValidatorUtil.IsValidNumber(n1)) throw new ArgumentException($"'{nameof(n1)}' 不是有效的整数格式", nameof(n1));
+            if (!ValidatorUtil.IsValidNumber(n2)) throw new ArgumentException($"'{nameof(n2)}' 不是有效的整数格式", nameof(n2));
+
+            /*if (n1 == "0")
+            {
+                return n2[0] == '-' ? n2.Substring(1) : "-" + n2;
+            }*/
+            if (n2 == "0") return n1;
+            if (n1.Equals(n2)) return "0";
+
+            // 1. n1>0, n2>0 → 直接相加
+            if (n1[0] != '-' && n2[0] != '-')
+            {
+                var compareResult1 = Compare(n1, 0, n1.Length - 1, n2, 0, n2.Length - 1);
+                return compareResult1 switch
+                {
+                    1 => SubPositive(n1, 0, n1.Length - 1, n2, 0, n2.Length - 1),
+                    _ => "-" + SubPositive(n2, 0, n2.Length - 1, n1, 0, n1.Length - 1),
+                };
+            }
+
+            // 2. n1>0, n2<0 → 绝对值相减
+            if (n1[0] != '-' && n2[0] == '-')
+            {
+                return AddPositive(n1, 0, n1.Length - 1, n2, 1, n2.Length - 1);
+            }
+
+            // 3. n1<0, n2>0 → 绝对值相减
+            if (n1[0] == '-' && n2[0] != '-')
+            {
+                return "-" + AddPositive(n1, 1, n1.Length - 1, n2, 0, n2.Length - 1);
+            }
+
+            // 4. n1<0, n2<0
+            var compareResult2 = Compare(n1, 1, n1.Length - 1, n2, 1, n2.Length - 1);
+            return compareResult2 switch
+            {
+                1 => "-" + SubPositive(n1, 1, n1.Length - 1, n2, 1, n2.Length - 1),
+                _ => SubPositive(n2, 1, n2.Length - 1, n1, 1, n1.Length - 1),
+            };
+        }
     }
 }
