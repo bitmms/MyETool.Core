@@ -7,6 +7,8 @@ namespace ETool.Core.Util
     /// </summary>
     public static class NumberUtil
     {
+        private const int MaxLen = 10_0000;
+        
         /// <summary>
         /// 正整数比较大小（支持 Offset）
         /// </summary>
@@ -78,9 +80,8 @@ namespace ETool.Core.Util
         /// </summary>
         private static string SubPositive(string n1, int start1, int end1, string n2, int start2, int end2)
         {
-            // 1. 获取两个数字字符串的长度
+            // 1. 获取数字字符串的长度
             var len1 = end1 - start1 + 1;
-            var len2 = end2 - start2 + 1;
             var maxLen = len1;
 
             // 2. 结果数组
@@ -197,12 +198,10 @@ namespace ETool.Core.Util
         /// <exception cref="ArgumentOutOfRangeException"><c>n2</c> 的长度超过 100000 个字符</exception>
         public static string Sub(string n1, string n2)
         {
-            const int maxLen = 10_0000;
-
             if (n1 == null) throw new ArgumentNullException(nameof(n1));
             if (n2 == null) throw new ArgumentNullException(nameof(n2));
-            if (n1.Length > maxLen) throw new ArgumentOutOfRangeException(nameof(n1), $"'{nameof(n1)}' 的长度不能超过 {maxLen} 个字符。");
-            if (n2.Length > maxLen) throw new ArgumentOutOfRangeException(nameof(n2), $"'{nameof(n2)}' 的长度不能超过 {maxLen} 个字符。");
+            if (n1.Length > MaxLen) throw new ArgumentOutOfRangeException(nameof(n1), $"'{nameof(n1)}' 的长度不能超过 {MaxLen} 个字符。");
+            if (n2.Length > MaxLen) throw new ArgumentOutOfRangeException(nameof(n2), $"'{nameof(n2)}' 的长度不能超过 {MaxLen} 个字符。");
             if (!ValidatorUtil.IsValidNumber(n1)) throw new ArgumentException($"'{nameof(n1)}' 不是有效的整数格式", nameof(n1));
             if (!ValidatorUtil.IsValidNumber(n2)) throw new ArgumentException($"'{nameof(n2)}' 不是有效的整数格式", nameof(n2));
 
