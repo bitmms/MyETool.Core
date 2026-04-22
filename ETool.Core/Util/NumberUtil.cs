@@ -82,15 +82,14 @@ namespace ETool.Core.Util
         {
             // 1. 获取数字字符串的长度
             var len1 = end1 - start1 + 1;
-            var maxLen = len1;
 
             // 2. 结果数组
-            var result = new char[maxLen];
+            var result = new char[len1];
 
             // 3. 指针
             var pos1 = end1; // 指向 n1 的末尾
             var pos2 = end2; // 指向 n2 的末尾
-            var writePos = maxLen - 1; // 结果数组的写入位置（从后往前写），writePos 最终只可能是 0 或 -1
+            var writePos = len1 - 1; // 结果数组的写入位置（从后往前写），writePos 最终只可能是 0 或 -1
             var carry = 0; // 借位值（0 或 -1）
 
             // 4. 模拟竖式减法：只要还有数字没减完，就继续计算
@@ -117,13 +116,13 @@ namespace ETool.Core.Util
 
             // 5. 找到第一个非 0 位置
             var pos = 0;
-            while (pos < maxLen && result[pos] == '0')
+            while (pos < len1 && result[pos] == '0')
             {
                 pos++;
             }
 
             // 6. 构造最终字符串
-            return pos == maxLen ? "0" : new string(result, pos, maxLen - pos);
+            return pos == len1 ? "0" : new string(result, pos, len1 - pos);
         }
 
         /// <summary>
