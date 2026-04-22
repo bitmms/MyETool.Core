@@ -71,7 +71,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         /// 综合测试所有不合法的输入 - 前导零
         /// </summary>
         [Theory]
-        [InlineData("0", false, "单独的零（前导零）应验证失败")]
+        [InlineData("0", true, "单独的零应属于整数")]
         [InlineData("01", false, "前导零「01」应验证失败")]
         [InlineData("00123", false, "前导零「00123」应验证失败")]
         [InlineData("000", false, "多个零「000」应验证失败")]

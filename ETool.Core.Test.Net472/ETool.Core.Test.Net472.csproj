@@ -59,6 +59,7 @@
         <Compile Include="Util\CharUtilTest\IsUpperLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToUpperLetterTest.cs" />
+        <Compile Include="Util\NumberUtilTest\AddTest.cs" />
         <Compile Include="Util\PasswordUtilTest\CheckPasswordStrengthTest.cs" />
         <Compile Include="Util\PhoneUtilTest\FormatTest.cs" />
         <Compile Include="Util\RandomUtilTest\GetRandomBoolTest.cs" />

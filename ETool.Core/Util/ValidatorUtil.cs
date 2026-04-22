@@ -105,6 +105,12 @@
                 return false;
             }
 
+            // 单独判断整数 0
+            if (s == "0")
+            {
+                return true;
+            }
+
             // 起始索引
             var startIndex = s[0] != '-' ? 0 : 1;
 
