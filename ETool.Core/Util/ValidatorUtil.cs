@@ -264,5 +264,68 @@
 
             return true;
         }
+
+        /// <summary>
+        /// 判断一个数字是否是质数
+        /// </summary>
+        /// <param name="number">待判断的数字</param>
+        /// <returns>如果是质数，则返回 true，否则返回 false</returns>
+        /// <example>
+        /// <code>
+        /// 定理：除2和3之外的所有质数都可以表示为 6k±1 的形式，其中 k 为正整数
+        /// ---------------------------------------------------------------
+        ///     6k+0   -->   被6整除
+        ///  (*)6n+1   -->   可能是质数
+        ///     6n+2   -->   2(3n+1)   -->   被2整除
+        ///     6n+3   -->   3(2n+1)   -->   被3整除
+        ///     6n+4   -->   2(3n+2)   -->   被2整除   
+        ///  (*)6n+5   -->   6(n+1)-1  -->   6n-1     -->  可能是质数
+        /// ---------------------------------------------------------------
+        /// 所以
+        ///     1. 所有大于 3 的质数，只能出现在 6k - 1 或 6k + 1 的序列中
+        ///     2. 所有不是 6k±1 的数一定是 2 或 3 的倍数
+        /// </code>
+        /// </example>
+        public static bool IsPrime(int number)
+        {
+            // 1. 小于 2 的一定不是
+            if (number < 2) return false;
+
+            // 2. 小质数快速判断
+            int[] smallPrimes = { 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 };
+            foreach (var p in smallPrimes)
+            {
+                if (number % p == 0) return number == p;
+            }
+
+            // 3. 利用 6k±1 的性质判断质数
+            for (var i = 5; i <= number / i; i += 6)
+            {
+                if (number % i == 0 || number % (i + 2) == 0)
+                    return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个数字是否是偶数
+        /// </summary>
+        /// <param name="number">待判断的数字</param>
+        /// <returns>如果是偶数，则返回 true，否则返回 false</returns>
+        /// <example>
+        /// <code>当 n 可以使用 2k（k 属于任意整数） 表示时，n 是偶数</code>
+        /// </example>
+        public static bool IsEven(int number) => (number & 1) == 0;
+
+        /// <summary>
+        /// 判断一个数字是否是奇数
+        /// </summary>
+        /// <param name="number">待判断的数字</param>
+        /// <returns>如果是奇数，则返回 true，否则返回 false</returns>
+        /// <example>
+        /// <code>当 n 可以使用 2k+1（k 属于任意整数） 表示时，n 是奇数</code>
+        /// </example>
+        public static bool IsOdd(int number) => (number & 1) == 1;
     }
 }

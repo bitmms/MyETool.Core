@@ -79,6 +79,9 @@
         <Compile Include="Util\StrUtilTest\Equals.cs" />
         <Compile Include="Util\StrUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\StrUtilTest\ToUpperLetterTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsEvenTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsOddTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsPrimeTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidIpv4Test.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidNumberTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidPhoneNumberTest.cs" />
