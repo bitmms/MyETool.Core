@@ -16,12 +16,7 @@ namespace EasyTool.Extension
         /// <returns>指定键的值，如果字典中不存在该键，则返回默认值</returns>
         public static TValue GetValueOrDefault<TKey, TValue>(this IDictionary<TKey, TValue> dictionary, TKey key, TValue defaultValue = default)
         {
-            if (dictionary.TryGetValue(key, out TValue value))
-            {
-                return value;
-            }
-
-            return defaultValue;
+            return dictionary.TryGetValue(key, out var value) ? value : defaultValue;
         }
 
         /// <summary>

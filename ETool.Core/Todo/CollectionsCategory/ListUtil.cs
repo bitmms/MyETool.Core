@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using EasyTool;
 
-namespace EasyTool
+namespace ETool.Core.Todo
 {
-    public class ListUtil
+    public static class ListUtil
     {
         /// <summary>
         /// 在列表中查找元素，并返回其索引。如果未找到，则返回 -1。
@@ -153,8 +153,7 @@ namespace EasyTool
         /// <returns>指定页的元素列表</returns>
         public static List<T> Page<T>(List<T> list, int pageSize, int pageIndex)
         {
-            return list.Skip(pageIndex * pageSize)
-                .Take(pageSize)
+            return IteratorUtil.Take(IteratorUtil.Skip(list, pageIndex * pageSize), pageSize)
                 .ToList();
         }
 
@@ -182,26 +181,26 @@ namespace EasyTool
             {
                 return true;
             }
-            else if (list1 == null || list2 == null)
-            {
-                return false;
-            }
-            else if (list1.Count != list2.Count)
-            {
-                return false;
-            }
-            else
-            {
-                for (int i = 0; i < list1.Count; i++)
-                {
-                    if (!list1[i].Equals(list2[i]))
-                    {
-                        return false;
-                    }
-                }
 
-                return true;
+            if (list1 == null || list2 == null)
+            {
+                return false;
             }
+
+            if (list1.Count != list2.Count)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < list1.Count; i++)
+            {
+                if (!list1[i].Equals(list2[i]))
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         /// <summary>

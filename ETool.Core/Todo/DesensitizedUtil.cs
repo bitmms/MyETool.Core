@@ -52,23 +52,7 @@ namespace ETool.Core.Todo
             string lastChar = name.Substring(name.Length - 1, 1);
             return firstChar + new string('*', name.Length - 2) + lastChar;
         }
-
-        /// <summary>
-        /// 脱敏身份证号码，只保留前两位和后四位
-        /// </summary>
-        /// <param name="idcard">身份证号码</param>
-        /// <returns>脱敏后的身份证号码</returns>
-        public static string Idcard(string idcard)
-        {
-            if (string.IsNullOrWhiteSpace(idcard) || !IdcardRegex.IsMatch(idcard))
-            {
-                return idcard;
-            }
-
-            string prefix = idcard.Substring(0, 4);
-            string suffix = idcard.Substring(idcard.Length - 4, 4);
-            return prefix + new string('*', idcard.Length - 8) + suffix;
-        }
+        
 
         /// <summary>
         /// 脱敏座机号码，只保留前三位和后四位
@@ -85,23 +69,6 @@ namespace ETool.Core.Todo
             int startIndex = tel.Length - 4 > 0 ? tel.Length - 4 : 0;
             string suffix = tel.Substring(startIndex, 4);
             return tel.Substring(0, 3) + new string('*', startIndex) + suffix;
-        }
-
-        /// <summary>
-        /// 脱敏手机号码，只保留前三位和后四位
-        /// </summary>
-        /// <param name="mobile">手机号码</param>
-        /// <returns>脱敏后的手机号码</returns>
-        public static string Mobile(string mobile)
-        {
-            if (string.IsNullOrWhiteSpace(mobile) || !MobileRegex.IsMatch(mobile))
-            {
-                return mobile;
-            }
-
-            string prefix = mobile.Substring(0, 3);
-            string suffix = mobile.Substring(mobile.Length - 4, 4);
-            return prefix + new string('*', mobile.Length - 7) + suffix;
         }
 
         /// <summary>
