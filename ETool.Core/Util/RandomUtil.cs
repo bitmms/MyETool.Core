@@ -184,6 +184,43 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 获取一个指定格式的 Guid 字符串
+        /// </summary>
+        /// <param name="format">格式参数</param>
+        /// <returns>指定格式的 Guid 字符串</returns>
+        /// <example>
+        /// <code>
+        ///     GetGuidString("n");  // 48a204b40e254e4883da8febf5f5c036
+        ///     GetGuidString("N");  // 48a204b40e254e4883da8febf5f5c036
+        ///     GetGuidString("nn"); // CF048754CF0342A0A75DB1F141A69880
+        ///     GetGuidString("NN"); // CF048754CF0342A0A75DB1F141A69880
+        ///     ------------------------------------------------------------
+        ///     GetGuidString("d");  // d1cc94c4-ac65-462c-8ef4-c3efa0ae1ecc
+        ///     GetGuidString("D");  // d1cc94c4-ac65-462c-8ef4-c3efa0ae1ecc
+        ///     GetGuidString("dd"); // D3EBEE1C-6526-4C16-882B-9D4272971E6C
+        ///     GetGuidString("DD"); // D3EBEE1C-6526-4C16-882B-9D4272971E6C
+        /// </code>
+        /// </example>
+        public static string GetGuidString(string format = "DD")
+        {
+            if (format == null)
+            {
+                throw new ArgumentNullException(nameof(format));
+            }
+
+            format = StrUtil.ToUpperLetter(format);
+
+            return format.Trim().ToUpperInvariant() switch
+            {
+                "D" => Guid.NewGuid().ToString("D"),
+                "DD" => Guid.NewGuid().ToString("D").ToUpperInvariant(),
+                "N" => Guid.NewGuid().ToString("N"),
+                "NN" => Guid.NewGuid().ToString("N").ToUpperInvariant(),
+                _ => throw new ArgumentException("仅支持 D、N、DD、NN", nameof(format))
+            };
+        }
+
+        /// <summary>
         /// 从指定可枚举集合中随机选取一个元素
         /// </summary>
         /// <typeparam name="T">元素类型</typeparam>

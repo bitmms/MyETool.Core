@@ -69,6 +69,7 @@
         <Compile Include="Util\NumberUtilTest\SubTest.cs" />
         <Compile Include="Util\PasswordUtilTest\CheckPasswordStrengthTest.cs" />
         <Compile Include="Util\PhoneUtilTest\FormatTest.cs" />
+        <Compile Include="Util\RandomUtilTest\GetGuidStringTest.cs" />
         <Compile Include="Util\RandomUtilTest\GetRandomBoolTest.cs" />
         <Compile Include="Util\RandomUtilTest\GetRandomDigitCharTest.cs" />
         <Compile Include="Util\RandomUtilTest\GetRandomDoubleTest.cs" />
