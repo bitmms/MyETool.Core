@@ -48,8 +48,6 @@ namespace ETool.Core.MyUtil
             return "00000000-0000-0000-0000-000000000000";
         }
         
-        
-        
         /// <summary>
         /// 生成随机日期
         /// </summary>

@@ -33,5 +33,39 @@ namespace ETool.Core.Util
             chars[6] = maskChar;
             return new string(chars);
         }
+
+        /// <summary>
+        /// 中国大陆身份证号码脱敏处理：保留前3位和后3位，中间部分替换为指定掩码字符
+        /// </summary>
+        /// <param name="idCard">待脱敏的身份证号码字符串</param>
+        /// <param name="maskChar">用于替换的填充字符</param>
+        /// <returns>脱敏后的字符串</returns>
+        public static string MaskIdCard(string idCard, char maskChar = '*')
+        {
+            if (idCard == null)
+            {
+                throw new ArgumentNullException(nameof(idCard));
+            }
+
+            if (!ValidatorUtil.IsChinaIdCard(idCard))
+            {
+                throw new ArgumentException("输入不是有效的中国大陆身份证号码", nameof(idCard));
+            }
+
+            var chars = idCard.ToCharArray();
+            for (var i = 3; i < idCard.Length - 3; i++)
+            {
+                chars[i] = maskChar;
+            }
+
+            return new string(chars);
+        }
+
+        public static void Main()
+        {
+            // 110101199003071233
+            // 110************233
+            Console.WriteLine(MaskIdCard("110101199003071233"));
+        }
     }
 }

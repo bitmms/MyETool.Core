@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace ETool.Core.Util
 {
@@ -8,7 +10,7 @@ namespace ETool.Core.Util
     public static class ValidatorUtil
     {
         /// <summary>
-        /// 校验指定字符串是否符合中国大陆 11 位手机号码的格式规范
+        /// 判断一个字符串是否符合中国大陆 11 位手机号码的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
         /// <returns>如果字符串符合中国大陆手机号码的格式规范返回 true，否则返回 false</returns>
@@ -51,7 +53,7 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
-        /// 校验指定字符串是否符合正整数的格式规范
+        /// 判断一个字符串是否符合正整数的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
         /// <returns>如果字符串符合正整数的格式规范返回 true，否则返回 false</returns>
@@ -86,7 +88,7 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
-        /// 校验指定字符串是否符合整数的格式规范
+        /// 判断一个字符串是否符合整数的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
         /// <returns>如果字符串符合整数的格式规范返回 true，否则返回 false</returns>
@@ -136,7 +138,7 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
-        /// 校验指定字符串是否符合 QQ 号码的格式规范
+        /// 判断一个字符串是否符合 QQ 号码的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
         /// <returns>如果字符串符合 QQ 号码的格式规范返回 true，否则返回 false</returns>
@@ -177,7 +179,7 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
-        /// 校验指定字符串是否符合 IPv4 地址点分十进制表示法的格式规范
+        /// 判断一个字符串是否符合 IPv4 地址点分十进制表示法的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
         /// <returns>如果字符串符合 IPv4 地址点分十进制表示法的格式规范返回 true，否则返回 false</returns>
@@ -341,6 +343,146 @@ namespace ETool.Core.Util
 
             var sqrt = (int)Math.Sqrt(number);
             return sqrt * sqrt == number;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否完全由数字字符（0-9）组成
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果字符串每一个字符都是数字字符，则返回 true，否则返回 false</returns>
+        public static bool IsAllDigitChar(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (!CharUtil.IsDigit(s[i])) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否完全由英文字符（a-zA-Z）组成
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果字符串每一个字符都是英文字符，则返回 true，否则返回 false</returns>
+        public static bool IsAllLetterChar(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (!CharUtil.IsLetter(s[i])) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否完全由小写英文字符（a-z）组成
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果字符串每一个字符都是小写英文字符，则返回 true，否则返回 false</returns>
+        public static bool IsAllLowerLetterChar(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (!CharUtil.IsLowerLetter(s[i])) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否完全由大写英文字符（A-Z）组成
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果字符串每一个字符都是大写英文字符，则返回 true，否则返回 false</returns>
+        public static bool IsAllUpperLetterChar(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (!CharUtil.IsUpperLetter(s[i])) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否符合中国大陆身份证号码的格式规范【兼容15、18位身份证号码】
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合中国大陆身份证号码的格式规范返回 true，否则返回 false</returns>
+        /// <remarks>只校验格式的合法性，格式正确并不等价于身份真实</remarks>
+        public static bool IsChinaIdCard(string s)
+        {
+            // 判空
+            if (string.IsNullOrWhiteSpace(s)) return false;
+
+            // 长度只能是 15、18 二者之一
+            var len = s.Length;
+            if (len != 15 && len != 18) return false;
+
+            // 省份编码校验
+            var mainland = new HashSet<string>
+            {
+                "11", "12", "13", "14", "15", // 华北
+                "21", "22", "23", // 东北
+                "31", "32", "33", "34", "35", "36", "37", // 华东
+                "41", "42", "43", "44", "45", "46", // 华南
+                "50", "51", "52", "53", "54", // 西南
+                "61", "62", "63", "64", "65", // 西北
+            };
+            var all = new HashSet<string>(mainland)
+            {
+                "71", // 台湾
+                "81", // 香港
+                "82", // 澳门
+            };
+            var provinceCode = s.Substring(0, 2);
+            if (len == 15 && !mainland.Contains(provinceCode)) return false;
+            if (len == 18 && !all.Contains(provinceCode)) return false;
+
+            // 只可以是数字
+            var digitLastIndex = len == 15 ? len : len - 1;
+            for (var i = 0; i < digitLastIndex; i++)
+            {
+                if (!CharUtil.IsDigit(s[i])) return false;
+            }
+
+            // 第18位字符只可以是 "xX0-9"
+            if (len == 18 && s[17] != 'x' && s[17] != 'X' && !CharUtil.IsDigit(s[17])) return false;
+
+            // 出生日期格式校验
+            var birthStr = len == 15 ? "19" + s.Substring(6, 6) : s.Substring(6, 8);
+            if (!DateTime.TryParseExact(birthStr, "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var datetime)) return false;
+
+            // 出生日期范围校验：1900-01-01 往后
+            if (datetime < new DateTime(1900, 1, 1)) return false;
+
+            // 此时的 15 位身份证一定合法
+            if (len == 15) return true;
+
+            // 校验码计算
+            // 加权因子与校验码映射表
+            int[] checkWeights = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
+            char[] checkCodes = { '1', '0', 'X', '9', '8', '7', '6', '5', '4', '3', '2' };
+            var sum = 0;
+            for (var i = 0; i < 17; i++)
+            {
+                sum += (s[i] - '0') * checkWeights[i];
+            }
+
+            return checkCodes[sum % 11] == CharUtil.ToUpperLetter(s[17]);
         }
     }
 }

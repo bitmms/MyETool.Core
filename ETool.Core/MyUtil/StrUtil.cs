@@ -11,88 +11,6 @@ namespace ETool.Core.MyUtil
     public static class StrUtil
     {
         /// <summary>
-        /// 判断指定字符串是否为 null
-        /// </summary>
-        /// <param name="s">待判断的字符串</param>
-        /// <returns>如果字符串为 null 返回 true，否则返回 false</returns>
-        public static bool IsNull(string s)
-        {
-            return s == null;
-        }
-
-        /// <summary>
-        /// 判断指定字符串是否不为 null
-        /// </summary>
-        /// <param name="s">待判断的字符串</param>
-        /// <returns>如果字符串不为 null 返回 true，否则返回 false</returns>
-        public static bool IsNotNull(string s)
-        {
-            return s != null;
-        }
-
-        /// <summary>
-        /// 判断指定字符串是否为空
-        /// </summary>
-        /// <param name="s">待判断的字符串</param>
-        /// <returns>如果字符串为空返回 true，否则返回 false</returns>
-        public static bool IsEmpty(string s)
-        {
-            return s == string.Empty;
-        }
-
-        /// <summary>
-        /// 判断指定字符串是否不为空
-        /// </summary>
-        /// <param name="s">待判断的字符串</param>
-        /// <returns>如果字符串不为空返回 true，否则返回 false</returns>
-        public static bool IsNotEmpty(string s)
-        {
-            return s != string.Empty;
-        }
-
-        /// <summary>
-        /// 判断指定字符串是否为 null 或为空
-        /// </summary>
-        /// <param name="s">待判断的字符串</param>
-        /// <returns>如果字符串为 null 或为空返回 true，否则返回 false</returns>
-        public static bool IsNullOrEmpty(string s)
-        {
-            return string.IsNullOrEmpty(s);
-        }
-
-        /// <summary>
-        /// 获取指定字符串长度
-        /// </summary>
-        /// <param name="s">要获取长度的字符串</param>
-        /// <returns>如果 <paramref name="s"/> 为 <see langword="null"/>，返回 0；否则返回实际长度</returns>
-        public static int Length(string s)
-        {
-            return s?.Length ?? 0;
-        }
-
-        // =======================================================
-
-        /// <summary>
-        /// 如果指定的字符串为 <c>null</c> 则返回 <c>""</c>，否则返回原字符串
-        /// </summary>
-        /// <param name="str">要检查的字符串</param>
-        /// <returns>如果 <c>str</c> 为 <c>null</c> 则返回 <c>""</c>，否则返回 <c>str</c></returns>
-        public static string EmptyIfNull(string str)
-        {
-            return str ?? string.Empty;
-        }
-
-        /// <summary>
-        /// 如果指定的字符串为 <c>""</c> 则返回 <c>null</c>，否则返回原字符串
-        /// </summary>
-        /// <param name="str">要检查的字符串</param>
-        /// <returns>如果 <c>str</c> 为 <c>""</c> 则返回 <c>null</c>，否则返回 <c>str</c></returns>
-        public static string NullIfEmpty(string str)
-        {
-            return string.IsNullOrEmpty(str) ? null : str;
-        }
-
-        /// <summary>
         /// 将使用 Unicode 字符集表示的字符串以 UTF8 编码保存到字节数组
         /// </summary>
         /// <remarks>无字节序问题，1~4字节的变长编码格式</remarks>
@@ -100,7 +18,7 @@ namespace ETool.Core.MyUtil
         /// <returns>字节数组</returns>
         public static byte[] GetUtf8Bytes(string s)
         {
-            if (IsNullOrEmpty(s)) return Array.Empty<byte>();
+            if (string.IsNullOrEmpty(s)) return Array.Empty<byte>();
             return Encoding.UTF8.GetBytes(s);
         }
 
@@ -112,7 +30,7 @@ namespace ETool.Core.MyUtil
         /// <returns>字节数组</returns>
         public static byte[] GetUtf16Bytes(string s)
         {
-            if (IsNullOrEmpty(s)) return Array.Empty<byte>();
+            if (string.IsNullOrEmpty(s)) return Array.Empty<byte>();
             return Encoding.Unicode.GetBytes(s);
         }
 
@@ -124,7 +42,7 @@ namespace ETool.Core.MyUtil
         /// <returns>字节数组</returns>
         public static byte[] GetUtf32Bytes(string s)
         {
-            if (IsNullOrEmpty(s)) return Array.Empty<byte>();
+            if (string.IsNullOrEmpty(s)) return Array.Empty<byte>();
             return Encoding.UTF32.GetBytes(s);
         }
 
@@ -135,7 +53,7 @@ namespace ETool.Core.MyUtil
         /// <returns>字节数组</returns>
         public static byte[] GetGbkBytes(string s)
         {
-            if (IsNullOrEmpty(s)) return Array.Empty<byte>();
+            if (string.IsNullOrEmpty(s)) return Array.Empty<byte>();
             return Encoding.GetEncoding("GBK").GetBytes(s);
         }
 
@@ -200,12 +118,12 @@ namespace ETool.Core.MyUtil
                 return c.ToString();
             }
 
-            if (IsNull(sep))
+            if (sep == null)
             {
                 sep = "";
             }
 
-            if (IsEmpty(sep))
+            if (sep == string.Empty)
             {
                 return new string(c, count);
             }
@@ -242,7 +160,7 @@ namespace ETool.Core.MyUtil
         /// <returns>重复拼接后的字符串</returns>
         public static string Repeat(string s, int count, char sep = ' ')
         {
-            if (IsNull(s) || count <= 0)
+            if (s == null || count <= 0)
             {
                 return "";
             }
@@ -284,7 +202,7 @@ namespace ETool.Core.MyUtil
         /// <returns>重复拼接后的字符串</returns>
         public static string Repeat(string s, int count, string sep = " ")
         {
-            if (IsNull(s) || count <= 0)
+            if (s == null || count <= 0)
             {
                 return "";
             }
@@ -294,7 +212,7 @@ namespace ETool.Core.MyUtil
                 return s;
             }
 
-            if (IsNull(sep))
+            if (sep == null)
             {
                 sep = "";
             }
@@ -307,7 +225,7 @@ namespace ETool.Core.MyUtil
 
             char[] resultChars = new char[totalLength];
 
-            if (IsEmpty(sep))
+            if (sep == string.Empty)
             {
                 // 开头部分：直接手动拷贝
                 s.CopyTo(0, resultChars, 0, s.Length);
@@ -354,7 +272,7 @@ namespace ETool.Core.MyUtil
         /// <returns>找到返回索引，否则返回 -1</returns>
         public static int IndexOf(string s, char c, int start, int count, bool ignoreCase = false)
         {
-            if (IsNull(s) || IsEmpty(s))
+            if (string.IsNullOrEmpty(s))
             {
                 return -1;
             }
@@ -410,7 +328,7 @@ namespace ETool.Core.MyUtil
         /// <returns>找到返回索引，否则返回 -1</returns>
         public static int IndexOf(string s, char c, bool ignoreCase = false)
         {
-            if (IsNull(s))
+            if (s == null)
             {
                 return -1;
             }
@@ -429,7 +347,7 @@ namespace ETool.Core.MyUtil
         /// <returns>找到返回索引，否则返回 -1</returns>
         public static int IndexOf(string sourceString, string targetString, int start, int count, bool ignoreCase = false)
         {
-            if (IsNull(sourceString) || IsNull(targetString))
+            if (sourceString == null || targetString == null)
             {
                 return -1;
             }
@@ -503,7 +421,7 @@ namespace ETool.Core.MyUtil
         /// <returns>找到返回索引，否则返回 -1</returns>
         public static int IndexOf(string sourceString, string targetString, bool ignoreCase = false)
         {
-            if (IsNull(sourceString))
+            if (sourceString == null)
             {
                 return -1;
             }
@@ -666,12 +584,12 @@ namespace ETool.Core.MyUtil
         /// <returns>字符串以指定子串开头返回 true，否则返回 false</returns>
         public static bool StartsWith(string sourceString, string prefix, bool ignoreCase = false)
         {
-            if (IsNull(sourceString) || IsNull(prefix))
+            if (sourceString == null || prefix == null)
             {
                 return false;
             }
 
-            if (IsEmpty(prefix))
+            if (prefix == string.Empty)
             {
                 return true;
             }
@@ -709,12 +627,12 @@ namespace ETool.Core.MyUtil
         /// <returns>字符串以指定子串结束返回 true，否则返回 false</returns>
         public static bool EndsWith(string sourceString, string suffix, bool ignoreCase = false)
         {
-            if (IsNull(sourceString) || IsNull(suffix))
+            if (sourceString == null || suffix == null)
             {
                 return false;
             }
 
-            if (IsEmpty(suffix))
+            if (suffix == string.Empty)
             {
                 return true;
             }
@@ -759,7 +677,7 @@ namespace ETool.Core.MyUtil
                 return "";
             }
 
-            if (!skipNull && IsNull(nullReplacement))
+            if (!skipNull && nullReplacement == null)
             {
                 nullReplacement = "null";
             }
@@ -773,7 +691,7 @@ namespace ETool.Core.MyUtil
             StringBuilder sb = new StringBuilder();
             foreach (string item in items)
             {
-                if (IsNull(item) && skipNull)
+                if (item == null && skipNull)
                 {
                     continue;
                 }
@@ -787,7 +705,7 @@ namespace ETool.Core.MyUtil
                     sb.Append(separator);
                 }
 
-                sb.Append(IsNull(item) ? nullReplacement : item);
+                sb.Append(item ?? nullReplacement);
             }
 
             return sb.ToString();
@@ -815,12 +733,12 @@ namespace ETool.Core.MyUtil
         /// <returns>移除前缀的字符串</returns>
         public static string RemovePrefix(string sourceString, string prefix, bool ignoreCase = false)
         {
-            if (IsNull(sourceString) || IsEmpty(sourceString))
+            if (string.IsNullOrEmpty(sourceString))
             {
                 return "";
             }
 
-            if (IsNull(prefix) || IsEmpty(prefix))
+            if (string.IsNullOrEmpty(prefix))
             {
                 return sourceString;
             }
@@ -842,12 +760,12 @@ namespace ETool.Core.MyUtil
         /// <returns>移除后缀的字符串</returns>
         public static string RemoveSuffix(string sourceString, string suffix, bool ignoreCase = false)
         {
-            if (IsNull(sourceString) || IsEmpty(sourceString))
+            if (sourceString == null || sourceString == string.Empty)
             {
                 return "";
             }
 
-            if (IsNull(suffix) || IsEmpty(suffix))
+            if (string.IsNullOrEmpty(suffix))
             {
                 return sourceString;
             }

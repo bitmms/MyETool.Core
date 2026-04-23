@@ -59,6 +59,7 @@
         <Compile Include="Util\CharUtilTest\IsUpperLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToUpperLetterTest.cs" />
+        <Compile Include="Util\MaskUtilTest\MaskIdCardTest.cs" />
         <Compile Include="Util\MaskUtilTest\MaskPhoneNumberTest.cs" />
         <Compile Include="Util\MockUtilTest\MockChineseName.cs" />
         <Compile Include="Util\MockUtilTest\MockChineseUsernameTest.cs" />
@@ -85,6 +86,11 @@
         <Compile Include="Util\StrUtilTest\ReplaceRangeWithCharTest.cs" />
         <Compile Include="Util\StrUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\StrUtilTest\ToUpperLetterTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsAllDigitCharTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsAllLetterCharTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsAllLowerLetterCharTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsAllUpperLetterCharTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsChinaIdCardTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEvenTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsOddTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsPerfectSquareTest.cs" />
