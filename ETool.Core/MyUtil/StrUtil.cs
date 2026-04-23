@@ -69,9 +69,9 @@ namespace ETool.Core.MyUtil
         {
             return s?.Length ?? 0;
         }
-        
+
         // =======================================================
-        
+
         /// <summary>
         /// 如果指定的字符串为 <c>null</c> 则返回 <c>""</c>，否则返回原字符串
         /// </summary>
@@ -1145,47 +1145,6 @@ namespace ETool.Core.MyUtil
             }
 
             return sourceString;
-        }
-
-        /// <summary>
-        /// 将字符串指定区间的若干字符替换为目标字符
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="startIndex">起始索引</param>
-        /// <param name="length">要替换的字符数量</param>
-        /// <param name="fillChar">用于填充的目标字符</param>
-        /// <returns>替换后的新字符串</returns>
-        public static string FillChars(string sourceString, int startIndex, int length, char fillChar)
-        {
-            if (string.IsNullOrEmpty(sourceString))
-            {
-                return string.Empty;
-            }
-
-            if (startIndex < 0)
-            {
-                startIndex = 0;
-            }
-
-            if (startIndex >= sourceString.Length || length <= 0)
-            {
-                return sourceString;
-            }
-
-            if (length > sourceString.Length - startIndex)
-            {
-                length = sourceString.Length - startIndex;
-            }
-
-            var resultChars = sourceString.ToCharArray();
-
-            // 仅填充目标字符
-            for (var i = 0; i < length; i++)
-            {
-                resultChars[startIndex + i] = fillChar;
-            }
-
-            return new string(resultChars);
         }
 
         /// <summary>

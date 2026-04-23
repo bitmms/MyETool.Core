@@ -16,7 +16,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("13711112246", true, "标准11位合法手机号应验证成功")]
         public void IsValidPhoneNumber_ValidStandardMobileNumber_ReturnsTrue(string input, bool expectedResult, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidPhoneNumber(input);
+            var result = ValidatorUtil.IsPhoneNumber(input);
             Assert.True(result == expectedResult, errorMessage);
         }
         
@@ -28,7 +28,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("1371１11224２", false, "包含全角字符『２』应验证失败")]
         public void IsValidIpv4_FullWidthCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidPhoneNumber(input);
+            var result = ValidatorUtil.IsPhoneNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -75,7 +75,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("\t13711112222", false, "前导制表符应验证失败")]
         public void IsValidPhoneNumber_InvalidCases_ReturnsFalse(string input, bool expectedResult, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidPhoneNumber(input);
+            var result = ValidatorUtil.IsPhoneNumber(input);
             Assert.True(result == expectedResult, errorMessage);
         }
 
@@ -91,7 +91,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidPhoneNumber("13785268526");
+                ValidatorUtil.IsPhoneNumber("13785268526");
             }
 
             stopwatch.Stop();

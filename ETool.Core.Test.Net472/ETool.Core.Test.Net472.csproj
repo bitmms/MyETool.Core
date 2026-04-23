@@ -59,7 +59,12 @@
         <Compile Include="Util\CharUtilTest\IsUpperLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToUpperLetterTest.cs" />
+        <Compile Include="Util\MaskUtilTest\MaskPhoneNumberTest.cs" />
+        <Compile Include="Util\MockUtilTest\MockChineseName.cs" />
+        <Compile Include="Util\MockUtilTest\MockChineseUsernameTest.cs" />
+        <Compile Include="Util\MockUtilTest\MockPhoneNumberTest.cs" />
         <Compile Include="Util\NumberUtilTest\AddTest.cs" />
+        <Compile Include="Util\NumberUtilTest\MulTest.cs" />
         <Compile Include="Util\NumberUtilTest\SubTest.cs" />
         <Compile Include="Util\PasswordUtilTest\CheckPasswordStrengthTest.cs" />
         <Compile Include="Util\PhoneUtilTest\FormatTest.cs" />
@@ -77,10 +82,12 @@
         <Compile Include="Util\RandomUtilTest\GetRandomStringFromNumberTest.cs" />
         <Compile Include="Util\RandomUtilTest\ShuffleTest.cs" />
         <Compile Include="Util\StrUtilTest\Equals.cs" />
+        <Compile Include="Util\StrUtilTest\ReplaceRangeWithCharTest.cs" />
         <Compile Include="Util\StrUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\StrUtilTest\ToUpperLetterTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEvenTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsOddTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsPerfectSquareTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsPrimeTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidIpv4Test.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidNumberTest.cs" />

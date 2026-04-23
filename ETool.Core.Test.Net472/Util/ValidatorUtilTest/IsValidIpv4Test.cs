@@ -24,7 +24,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("200.200.200.200", true, "任意有效地址应验证成功")]
         public void IsValidIpv4_ValidIpv4Addresses_ReturnsTrue(string input, bool expectedResult, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expectedResult, errorMessage);
         }
 
@@ -42,7 +42,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("192.168.12.１", false, "末位全角数字应验证失败")]
         public void IsValidIpv4_FullWidthCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
         
@@ -58,7 +58,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData(" ", false, "单个空格应验证失败")]
         public void IsValidIpv4_NullOrWhitespace_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -73,7 +73,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData(".1.1.1", false, "以点开头应验证失败")]
         public void IsValidIpv4_TooShort_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -87,7 +87,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("999.999.999.999", false, "超出最大长度应验证失败")]
         public void IsValidIpv4_TooLong_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -104,7 +104,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("010.010.010.010", false, "所有段都有前导零应验证失败")]
         public void IsValidIpv4_LeadingZeros_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -122,7 +122,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("192.168.1.1000", false, "最后一段远超范围应验证失败")]
         public void IsValidIpv4_OutOfRange_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -146,7 +146,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("-192.168.1.1", false, "包含负号应验证失败")]
         public void IsValidIpv4_InvalidCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -159,7 +159,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("192.168.1.1.1.1", false, "六段应验证失败")]
         public void IsValidIpv4_WrongSegmentCount_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -174,7 +174,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("192.168.1.", false, "末段为空应验证失败")]
         public void IsValidIpv4_EmptySegments_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -184,7 +184,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [Fact]
         public void IsValidIpv4_MinimumAddress_ReturnsTrue()
         {
-            var result = ValidatorUtil.IsValidIpv4("0.0.0.0");
+            var result = ValidatorUtil.IsIpv4("0.0.0.0");
             Assert.True(result, "最小地址 0.0.0.0 应验证成功");
         }
 
@@ -194,7 +194,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [Fact]
         public void IsValidIpv4_MaximumAddress_ReturnsTrue()
         {
-            var result = ValidatorUtil.IsValidIpv4("255.255.255.255");
+            var result = ValidatorUtil.IsIpv4("255.255.255.255");
             Assert.True(result, "最大地址 255.255.255.255 应验证成功");
         }
 
@@ -208,7 +208,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("0.0.0.255", true)]
         public void IsValidIpv4_SegmentMaxValues_ReturnsTrue(string input, bool expected)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.Equal(expected, result);
         }
 
@@ -222,7 +222,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("0.0.0.256", false)]
         public void IsValidIpv4_SegmentExceedsMax_ReturnsFalse(string input, bool expected)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.Equal(expected, result);
         }
 
@@ -237,7 +237,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("1000.1.1.1", false, "4位数字应验证失败")]
         public void IsValidIpv4_SegmentLength_ReturnsExpected(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -260,7 +260,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("192.168.1.0a", false, "包含非数字")]
         public void IsValidIpv4_RealWorldScenarios_ReturnsExpected(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -273,7 +273,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("5.6.7.8", true)]
         public void IsValidIpv4_SingleDigitSegments_ReturnsTrue(string input, bool expected)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.Equal(expected, result);
         }
 
@@ -287,7 +287,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("169.254.0.0", true, "链接本地地址")]
         public void IsValidIpv4_SpecialAddresses_ReturnsTrue(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -302,7 +302,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("-1.0.0.0", false, "负数")]
         public void IsValidIpv4_BoundaryValues_ReturnsExpected(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -319,7 +319,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData(".192.168.1.1", false, "开头多余点")]
         public void IsValidIpv4_WrongSeparators_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -334,7 +334,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("256.256.256.256", false, "15个字符（但值超范围）")]
         public void IsValidIpv4_LengthBoundary_ReturnsExpected(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidIpv4(input);
+            var result = ValidatorUtil.IsIpv4(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -350,7 +350,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidIpv4("192.168.1.100");
+                ValidatorUtil.IsIpv4("192.168.1.100");
             }
 
             stopwatch.Stop();
@@ -370,7 +370,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidIpv4("256.256.256.256");
+                ValidatorUtil.IsIpv4("256.256.256.256");
             }
 
             stopwatch.Stop();
@@ -390,7 +390,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidIpv4("255.255.255.255");
+                ValidatorUtil.IsIpv4("255.255.255.255");
             }
 
             stopwatch.Stop();

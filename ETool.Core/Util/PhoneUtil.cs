@@ -30,9 +30,9 @@ namespace ETool.Core.Util
             }
 
             // 2. 合法性校验
-            if (!ValidatorUtil.IsValidPhoneNumber(s))
+            if (!ValidatorUtil.IsPhoneNumber(s))
             {
-                throw new ArgumentException("输入不是有效的中国大陆手机号码", nameof(s));
+                throw new ArgumentException("输入不是有效的中国大陆11位手机号码", nameof(s));
             }
 
             // 3. 拆分

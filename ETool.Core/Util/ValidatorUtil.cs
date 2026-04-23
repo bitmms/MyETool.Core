@@ -1,4 +1,6 @@
-﻿namespace ETool.Core.Util
+﻿using System;
+
+namespace ETool.Core.Util
 {
     /// <summary>
     /// 校验工具类
@@ -6,11 +8,11 @@
     public static class ValidatorUtil
     {
         /// <summary>
-        /// 校验指定字符串是否符合中国大陆手机号码的格式规范
+        /// 校验指定字符串是否符合中国大陆 11 位手机号码的格式规范
         /// </summary>
         /// <param name="s">待校验的字符串</param>
         /// <returns>如果字符串符合中国大陆手机号码的格式规范返回 true，否则返回 false</returns>
-        public static bool IsValidPhoneNumber(string s)
+        public static bool IsPhoneNumber(string s)
         {
             // 判空
             if (string.IsNullOrWhiteSpace(s))
@@ -56,7 +58,7 @@
         /// <remarks>
         /// 不支持以 '+' 开头的正整数
         /// </remarks>
-        public static bool IsValidPositiveNumber(string s)
+        public static bool IsPositiveNumber(string s)
         {
             // 判空
             if (string.IsNullOrWhiteSpace(s))
@@ -91,7 +93,7 @@
         /// <remarks>
         /// 不支持以 '+' 开头的正整数
         /// </remarks>
-        public static bool IsValidNumber(string s)
+        public static bool IsNumber(string s)
         {
             // 判空
             if (string.IsNullOrWhiteSpace(s))
@@ -141,7 +143,7 @@
         /// <remarks>
         /// QQ号码的长度是 5-11
         /// </remarks>
-        public static bool IsValidQqNumber(string s)
+        public static bool IsQqNumber(string s)
         {
             // 判空
             if (string.IsNullOrWhiteSpace(s))
@@ -179,7 +181,7 @@
         /// </summary>
         /// <param name="s">待校验的字符串</param>
         /// <returns>如果字符串符合 IPv4 地址点分十进制表示法的格式规范返回 true，否则返回 false</returns>
-        public static bool IsValidIpv4(string s)
+        public static bool IsIpv4(string s)
         {
             // 判空
             if (string.IsNullOrWhiteSpace(s))
@@ -327,5 +329,18 @@
         /// <code>当 n 可以使用 2k+1（k 属于任意整数） 表示时，n 是奇数</code>
         /// </example>
         public static bool IsOdd(int number) => (number & 1) == 1;
+
+        /// <summary>
+        /// 判断一个数字是否是完全平方数
+        /// </summary>
+        /// <param name="number">待判断的数字</param>
+        /// <returns>如果是完全平方数，则返回 true，否则返回 false</returns>
+        public static bool IsPerfectSquare(int number)
+        {
+            if (number < 0) return false;
+
+            var sqrt = (int)Math.Sqrt(number);
+            return sqrt * sqrt == number;
+        }
     }
 }

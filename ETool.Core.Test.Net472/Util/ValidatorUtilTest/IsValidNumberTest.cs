@@ -18,7 +18,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("99999999999999999999", true, "标准大数字应验证成功")]
         public void IsValidNumber_ValidPositiveNumber_ReturnsTrue(string input, bool expectedResult, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidNumber(input);
+            var result = ValidatorUtil.IsNumber(input);
             Assert.True(result == expectedResult, errorMessage);
         }
 
@@ -31,7 +31,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("１95621", false, "包含全角字符『１』应验证失败")]
         public void IsValidIpv4_FullWidthCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidNumber(input);
+            var result = ValidatorUtil.IsNumber(input);
             Assert.True(result == expected, errorMessage);
         }
         
@@ -47,7 +47,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("-99999999999999999999", true, "标准大负数应验证成功")]
         public void IsValidNumber_ValidNegativeNumber_ReturnsTrue(string input, bool expectedResult, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidNumber(input);
+            var result = ValidatorUtil.IsNumber(input);
             Assert.True(result == expectedResult, errorMessage);
         }
 
@@ -63,7 +63,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData(" ", false, "单个空格应验证失败")]
         public void IsValidNumber_NullOrWhitespace_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidNumber(input);
+            var result = ValidatorUtil.IsNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -80,7 +80,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("-00123", false, "负数前导零「-00123」应验证失败")]
         public void IsValidNumber_LeadingZero_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidNumber(input);
+            var result = ValidatorUtil.IsNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -103,7 +103,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("123-", false, "尾部跟负号「123-」应验证失败")]
         public void IsValidNumber_InvalidCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidNumber(input);
+            var result = ValidatorUtil.IsNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -115,7 +115,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         {
             // 构造一个 100000 位的数字字符串（全部为 '1'）
             var longNumber = new string('1', 100000);
-            var result = ValidatorUtil.IsValidNumber(longNumber);
+            var result = ValidatorUtil.IsNumber(longNumber);
             Assert.True(result, "超长纯数字字符串（无前导零）应验证通过");
         }
 
@@ -127,7 +127,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         {
             // 构造一个 100000 位的负数字符串
             var longNumber = "-" + new string('1', 100000);
-            var result = ValidatorUtil.IsValidNumber(longNumber);
+            var result = ValidatorUtil.IsNumber(longNumber);
             Assert.True(result, "超长纯数字负数字符串（无前导零）应验证通过");
         }
 
@@ -138,7 +138,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         public void IsValidNumber_LongNumberWithLeadingZero_ReturnsFalse()
         {
             var numberWithLeadingZero = "0" + new string('1', 100000);
-            var result = ValidatorUtil.IsValidNumber(numberWithLeadingZero);
+            var result = ValidatorUtil.IsNumber(numberWithLeadingZero);
             Assert.False(result, "前导零的超长数字字符串应验证失败");
         }
 
@@ -149,7 +149,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         public void IsValidNumber_LongNegativeNumberWithLeadingZero_ReturnsFalse()
         {
             var numberWithLeadingZero = "-0" + new string('1', 100000);
-            var result = ValidatorUtil.IsValidNumber(numberWithLeadingZero);
+            var result = ValidatorUtil.IsNumber(numberWithLeadingZero);
             Assert.False(result, "前导零的超长负数字符串应验证失败");
         }
 
@@ -165,7 +165,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidNumber("999999999999999999999");
+                ValidatorUtil.IsNumber("999999999999999999999");
             }
 
             stopwatch.Stop();
@@ -184,7 +184,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidNumber("-999999999999999999999");
+                ValidatorUtil.IsNumber("-999999999999999999999");
             }
 
             stopwatch.Stop();
@@ -205,7 +205,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("-9999999999", true)]
         public void IsValidNumber_BoundaryValues_ReturnsExpected(string input, bool expected)
         {
-            var result = ValidatorUtil.IsValidNumber(input);
+            var result = ValidatorUtil.IsNumber(input);
             Assert.Equal(expected, result);
         }
     }

@@ -23,7 +23,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("99999999999", true, "9开头的11位QQ号应验证成功")]
         public void IsValidQqNumber_ValidQqNumbers_ReturnsTrue(string input, bool expectedResult, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(result == expectedResult, errorMessage);
         }
 
@@ -35,7 +35,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("134254224２", false, "包含全角字符『２』应验证失败")]
         public void IsValidIpv4_FullWidthCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -52,7 +52,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("  10000  ", false, "前后带空格应验证失败")]
         public void IsValidQqNumber_NullOrWhitespace_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -69,7 +69,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("99999999999999", false, "过长的数字应验证失败")]
         public void IsValidQqNumber_InvalidLength_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -83,7 +83,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("0123456789", false, "首位为0的10位号应验证失败")]
         public void IsValidQqNumber_LeadingZero_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -106,7 +106,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("1q0000", false, "中间包含字母应验证失败")]
         public void IsValidQqNumber_InvalidCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -116,7 +116,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [Fact]
         public void IsValidQqNumber_MinimumValidLength_ReturnsTrue()
         {
-            var result = ValidatorUtil.IsValidQqNumber("10000");
+            var result = ValidatorUtil.IsQqNumber("10000");
             Assert.True(result, "最小长度（5位）的有效QQ号应验证成功");
         }
 
@@ -126,7 +126,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [Fact]
         public void IsValidQqNumber_MaximumValidLength_ReturnsTrue()
         {
-            var result = ValidatorUtil.IsValidQqNumber("12345678901");
+            var result = ValidatorUtil.IsQqNumber("12345678901");
             Assert.True(result, "最大长度（11位）的有效QQ号应验证成功");
         }
 
@@ -136,7 +136,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [Fact]
         public void IsValidQqNumber_BelowMinimumLength_ReturnsFalse()
         {
-            var result = ValidatorUtil.IsValidQqNumber("1234");
+            var result = ValidatorUtil.IsQqNumber("1234");
             Assert.False(result, "小于最小长度（5位）应验证失败");
         }
 
@@ -146,7 +146,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [Fact]
         public void IsValidQqNumber_ExceedsMaximumLength_ReturnsFalse()
         {
-            var result = ValidatorUtil.IsValidQqNumber("123456789012");
+            var result = ValidatorUtil.IsQqNumber("123456789012");
             Assert.False(result, "超过最大长度（11位）应验证失败");
         }
 
@@ -165,7 +165,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("90000", true, "首位为9应验证成功")]
         public void IsValidQqNumber_VariousLeadingDigits_ReturnsTrue(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -183,7 +183,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("100000000000", false, "过长的号码")]
         public void IsValidQqNumber_RealWorldScenarios_ReturnsExpected(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(expected == result, errorMessage);
         }
 
@@ -199,7 +199,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidQqNumber("123456789");
+                ValidatorUtil.IsQqNumber("123456789");
             }
 
             stopwatch.Stop();
@@ -219,7 +219,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidQqNumber("abc");
+                ValidatorUtil.IsQqNumber("abc");
             }
 
             stopwatch.Stop();
@@ -242,7 +242,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("123401234567", false, "12位应失败")]
         public void IsValidQqNumber_AllBoundaryLengths_ReturnsExpected(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidQqNumber(input);
+            var result = ValidatorUtil.IsQqNumber(input);
             Assert.True(expected == result, errorMessage);
         }
     }

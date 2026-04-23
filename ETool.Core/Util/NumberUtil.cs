@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 
 namespace ETool.Core.Util
 {
@@ -8,7 +9,7 @@ namespace ETool.Core.Util
     public static class NumberUtil
     {
         private const int MaxLen = 10_0000;
-        
+
         /// <summary>
         /// 正整数比较大小（支持 Offset）
         /// </summary>
@@ -114,7 +115,7 @@ namespace ETool.Core.Util
                 writePos--;
             }
 
-            // 5. 找到第一个非 0 位置
+            // 5. 找到第一个非 0 的位置
             var pos = 0;
             while (pos < len1 && result[pos] == '0')
             {
@@ -123,6 +124,58 @@ namespace ETool.Core.Util
 
             // 6. 构造最终字符串
             return pos == len1 ? "0" : new string(result, pos, len1 - pos);
+        }
+
+        /// <summary>
+        /// 正整数相乘（支持 Offset）
+        /// </summary>
+        private static string MulPositive(string n1, int start1, int end1, string n2, int start2, int end2)
+        {
+            var len1 = end1 - start1 + 1;
+            var len2 = end2 - start2 + 1;
+
+            if (len1 == 1 && n1[start1] == '0') return "0";
+            if (len2 == 1 && n2[start2] == '0') return "0";
+            if (len1 == 1 && n1[start1] == '1') return n2.Substring(start2, len2);
+            if (len2 == 1 && n2[start2] == '1') return n1.Substring(start1, len1);
+
+            var resultC = new int[len1 + len2];
+
+            for (var i = 0; i < len1; i++)
+            {
+                // 提取 n1 对应位的数字
+                var val1 = n1[end1 - i] - '0';
+
+                if (val1 == 0) continue; // 优化
+
+                for (var j = 0; j < len2; j++)
+                {
+                    // 提取 n2 对应位的数字
+                    var val2 = n2[end2 - j] - '0';
+
+                    // 结果存入第 i+j 位
+                    resultC[i + j] += val1 * val2;
+                }
+            }
+
+            var carry = 0;
+            for (var i = 0; i < resultC.Length; i++)
+            {
+                carry += resultC[i];
+                resultC[i] = carry % 10;
+                carry /= 10;
+            }
+
+            var pos = resultC.Length - 1;
+            while (pos > 0 && resultC[pos] == 0) pos--;
+
+            var sb = new StringBuilder(pos + 1);
+            for (var i = pos; i >= 0; i--)
+            {
+                sb.Append(resultC[i]);
+            }
+
+            return sb.ToString();
         }
 
         /// <summary>
@@ -144,8 +197,8 @@ namespace ETool.Core.Util
             if (n2 == null) throw new ArgumentNullException(nameof(n2));
             if (n1.Length > maxLen) throw new ArgumentOutOfRangeException(nameof(n1), $"'{nameof(n1)}' 的长度不能超过 {maxLen} 个字符。");
             if (n2.Length > maxLen) throw new ArgumentOutOfRangeException(nameof(n2), $"'{nameof(n2)}' 的长度不能超过 {maxLen} 个字符。");
-            if (!ValidatorUtil.IsValidNumber(n1)) throw new ArgumentException($"'{nameof(n1)}' 不是有效的整数格式", nameof(n1));
-            if (!ValidatorUtil.IsValidNumber(n2)) throw new ArgumentException($"'{nameof(n2)}' 不是有效的整数格式", nameof(n2));
+            if (!ValidatorUtil.IsNumber(n1)) throw new ArgumentException($"'{nameof(n1)}' 不是有效的整数格式", nameof(n1));
+            if (!ValidatorUtil.IsNumber(n2)) throw new ArgumentException($"'{nameof(n2)}' 不是有效的整数格式", nameof(n2));
 
             if (n1 == "0") return n2;
             if (n2 == "0") return n1;
@@ -201,8 +254,8 @@ namespace ETool.Core.Util
             if (n2 == null) throw new ArgumentNullException(nameof(n2));
             if (n1.Length > MaxLen) throw new ArgumentOutOfRangeException(nameof(n1), $"'{nameof(n1)}' 的长度不能超过 {MaxLen} 个字符。");
             if (n2.Length > MaxLen) throw new ArgumentOutOfRangeException(nameof(n2), $"'{nameof(n2)}' 的长度不能超过 {MaxLen} 个字符。");
-            if (!ValidatorUtil.IsValidNumber(n1)) throw new ArgumentException($"'{nameof(n1)}' 不是有效的整数格式", nameof(n1));
-            if (!ValidatorUtil.IsValidNumber(n2)) throw new ArgumentException($"'{nameof(n2)}' 不是有效的整数格式", nameof(n2));
+            if (!ValidatorUtil.IsNumber(n1)) throw new ArgumentException($"'{nameof(n1)}' 不是有效的整数格式", nameof(n1));
+            if (!ValidatorUtil.IsNumber(n2)) throw new ArgumentException($"'{nameof(n2)}' 不是有效的整数格式", nameof(n2));
 
             /*if (n1 == "0")
             {
@@ -241,6 +294,50 @@ namespace ETool.Core.Util
                 1 => "-" + SubPositive(n1, 1, n1.Length - 1, n2, 1, n2.Length - 1),
                 _ => SubPositive(n2, 1, n2.Length - 1, n1, 1, n1.Length - 1),
             };
+        }
+
+        /// <summary>
+        /// 高精度整数相乘
+        /// </summary>
+        /// <param name="n1">第一个整数</param>
+        /// <param name="n2">第二个整数</param>
+        /// <returns>n1 * n2的结果</returns>
+        /// <remarks>限制入参长度不超过 100000 字符</remarks>
+        /// <exception cref="ArgumentException"><c>n1</c> 不是有效的整数格式</exception>
+        /// <exception cref="ArgumentException"><c>n2</c> 不是有效的整数格式</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>n1</c> 的长度超过 100000 个字符</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>n2</c> 的长度超过 100000 个字符</exception>
+        public static string Mul(string n1, string n2)
+        {
+            if (n1 == null) throw new ArgumentNullException(nameof(n1));
+            if (n2 == null) throw new ArgumentNullException(nameof(n2));
+            if (n1.Length > MaxLen) throw new ArgumentOutOfRangeException(nameof(n1), $"'{nameof(n1)}' 的长度不能超过 {MaxLen} 个字符。");
+            if (n2.Length > MaxLen) throw new ArgumentOutOfRangeException(nameof(n2), $"'{nameof(n2)}' 的长度不能超过 {MaxLen} 个字符。");
+            if (!ValidatorUtil.IsNumber(n1)) throw new ArgumentException($"'{nameof(n1)}' 不是有效的整数格式", nameof(n1));
+            if (!ValidatorUtil.IsNumber(n2)) throw new ArgumentException($"'{nameof(n2)}' 不是有效的整数格式", nameof(n2));
+
+            if (n1 == "0" || n2 == "0") return "0";
+
+            // 1. n1>0, n2>0
+            if (n1[0] != '-' && n2[0] != '-')
+            {
+                return MulPositive(n1, 0, n1.Length - 1, n2, 0, n2.Length - 1);
+            }
+
+            // 2. n1>0, n2<0
+            if (n1[0] != '-' && n2[0] == '-')
+            {
+                return "-" + MulPositive(n1, 0, n1.Length - 1, n2, 1, n2.Length - 1);
+            }
+
+            // 3. n1<0, n2>0
+            if (n1[0] == '-' && n2[0] != '-')
+            {
+                return "-" + MulPositive(n1, 1, n1.Length - 1, n2, 0, n2.Length - 1);
+            }
+
+            // 4. n1<0, n2<0
+            return MulPositive(n1, 1, n1.Length - 1, n2, 1, n2.Length - 1);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("99999999999999999999", true, "标准大数字应验证成功")]
         public void IsValidPositiveNumber_ValidNumber_ReturnsTrue(string input, bool expectedResult, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidPositiveNumber(input);
+            var result = ValidatorUtil.IsPositiveNumber(input);
             Assert.True(result == expectedResult, errorMessage);
         }
 
@@ -30,7 +30,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("1371１11224２", false, "包含全角字符『２』应验证失败")]
         public void IsValidIpv4_FullWidthCharacters_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidPositiveNumber(input);
+            var result = ValidatorUtil.IsPositiveNumber(input);
             Assert.True(result == expected, errorMessage);
         }
         
@@ -63,7 +63,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData(" ", false, "单个空格应验证失败")]
         public void IsValidPositiveNumber_InvalidCases_ReturnsFalse(string input, bool expected, string errorMessage)
         {
-            var result = ValidatorUtil.IsValidPositiveNumber(input);
+            var result = ValidatorUtil.IsPositiveNumber(input);
             Assert.True(result == expected, errorMessage);
         }
 
@@ -75,7 +75,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         {
             // 构造一个 1000 位的数字字符串（全部为 '1'）
             var longNumber = new string('1', 100000);
-            var result = ValidatorUtil.IsValidPositiveNumber(longNumber);
+            var result = ValidatorUtil.IsPositiveNumber(longNumber);
             Assert.True(result, "超长纯数字字符串（无前导零）应验证通过");
         }
 
@@ -86,7 +86,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         public void IsValidPositiveNumber_LongNumberWithLeadingZero_ReturnsFalse()
         {
             var numberWithLeadingZero = "0" + new string('1', 100000);
-            var result = ValidatorUtil.IsValidPositiveNumber(numberWithLeadingZero);
+            var result = ValidatorUtil.IsPositiveNumber(numberWithLeadingZero);
             Assert.False(result, "前导零的超长数字字符串应验证失败");
         }
 
@@ -102,7 +102,7 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 
             for (var i = 0; i < count; i++)
             {
-                ValidatorUtil.IsValidPositiveNumber("999999999999999999999");
+                ValidatorUtil.IsPositiveNumber("999999999999999999999");
             }
 
             stopwatch.Stop();

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using ETool.Core.Todo.MyUtil;
 using ETool.Core.Util;
 
 namespace ETool.Core.MyUtil
@@ -461,7 +460,7 @@ namespace ETool.Core.MyUtil
                 return idCard;
             }
 
-            return StrUtil.FillChars(idCard, start, count, maskChar);
+            return Util.StrUtil.ReplaceRangeWithChar(idCard, start, count, maskChar);
         }
 
         /// <summary>

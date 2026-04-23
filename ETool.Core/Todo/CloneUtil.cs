@@ -50,7 +50,7 @@ namespace ETool.Core.Todo
         /// <param name="obj"></param>
         /// <returns></returns>
         /// <exception cref="ArgumentException"></exception>
-        public static async Task<T> CloneAsync<T>(T obj)
+        public static T CloneAsync<T>(T obj)
         {
             // 检查类型是否可序列化
             if (!typeof(T).IsSerializable)
@@ -59,7 +59,7 @@ namespace ETool.Core.Todo
             }
 
             // 如果对象为 null，则返回 null
-            if (ReferenceEquals(obj, null))
+            if (object.ReferenceEquals(obj, null))
             {
                 return default(T);
             }
@@ -68,17 +68,15 @@ namespace ETool.Core.Todo
             IFormatter formatter = new BinaryFormatter();
 
             // 创建一个内存流
-            using (var stream = new MemoryStream())
-            {
-                // 使用二进制序列化将对象写入内存流
-                formatter.Serialize(stream, obj);
+            using var stream = new MemoryStream();
+            // 使用二进制序列化将对象写入内存流
+            formatter.Serialize(stream, obj);
 
-                // 将内存流位置重置为开头
-                stream.Seek(0, SeekOrigin.Begin);
+            // 将内存流位置重置为开头
+            stream.Seek(0, SeekOrigin.Begin);
 
-                // 使用反序列化从内存流中读取并返回克隆的对象
-                return (T)formatter.Deserialize(stream);
-            }
+            // 使用反序列化从内存流中读取并返回克隆的对象
+            return (T)formatter.Deserialize(stream);
         }
     }
 }

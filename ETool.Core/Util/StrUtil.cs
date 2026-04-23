@@ -98,5 +98,63 @@ namespace ETool.Core.Util
 
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 将字符串指定区间的字符替换为目标字符
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="startIndex">起始索引</param>
+        /// <param name="count">替换字符的数量</param>
+        /// <param name="targetChar">用于替换的目标字符</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceRangeWithChar(string sourceString, int startIndex, int count, char targetChar)
+        {
+            // 判 null
+            if (sourceString == null)
+            {
+                throw new ArgumentNullException(nameof(sourceString));
+            }
+
+            var length = sourceString.Length;
+
+            // 起始索引必须在合法范围内
+            if (startIndex < 0 || startIndex > length)
+            {
+                throw new ArgumentOutOfRangeException(nameof(startIndex));
+            }
+
+            // 替换数量不能为负数
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+
+            // 如果无需替换，直接返回原字符串
+            if (startIndex == length || count == 0)
+            {
+                return sourceString;
+            }
+
+            // 如果替换范围超出字符串长度，则自动截断
+            if (startIndex + count > length)
+            {
+                count = length - startIndex;
+            }
+
+            // 将字符串复制为字符数组（因为 string 不可变）
+            var resultChars = sourceString.ToCharArray();
+
+            // 计算结束索引（避免循环中重复计算）
+            var end = startIndex + count;
+
+            // 执行替换
+            for (var i = startIndex; i < end; i++)
+            {
+                resultChars[i] = targetChar;
+            }
+
+            // 构造新的字符串实例
+            return new string(resultChars);
+        }
     }
 }
