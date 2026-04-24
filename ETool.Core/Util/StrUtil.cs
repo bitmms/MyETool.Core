@@ -213,5 +213,46 @@ namespace ETool.Core.Util
             // 返回
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 移除字符串中全部的换行符
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <returns>移除全部换行符后的字符串</returns>
+        /// <remarks>换行符："\r\n"，"\n"，"\r"</remarks>
+        public static string RemoveAllNewLines(string s)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+
+            var result = new char[s.Length];
+            var idx = 0;
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] != '\r' && s[i] != '\n') result[idx++] = s[i];
+            }
+
+            return new string(result, 0, idx);
+        }
+
+        /// <summary>
+        /// 移除字符串中全部的空白字符
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <returns>移除全部空白字符后的字符串</returns>
+        public static string RemoveAllWhitespace(string s)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+
+            var result = new char[s.Length];
+            var idx = 0;
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (!char.IsWhiteSpace(s[i])) result[idx++] = s[i];
+            }
+
+            return new string(result, 0, idx);
+        }
     }
 }

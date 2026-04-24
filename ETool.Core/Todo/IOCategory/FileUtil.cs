@@ -11,46 +11,6 @@ namespace ETool.Core.Todo.CodeCategory
     /// </summary>
     public class FileUtil
     {
-
-        /// <summary>
-        /// 判断当前操作系统是否为 Windows
-        /// </summary>
-        public static bool IsWindows()
-        {
-            // 判断当前操作系统的 PlatformID 是否为 Win32S、Win32Windows、Win32NT 或 WinCE
-            return Environment.OSVersion.Platform == PlatformID.Win32S
-                || Environment.OSVersion.Platform == PlatformID.Win32Windows
-                || Environment.OSVersion.Platform == PlatformID.Win32NT
-                || Environment.OSVersion.Platform == PlatformID.WinCE;
-        }
-
-        /// <summary>
-        /// 判断当前操作系统是否为 Unix
-        /// </summary>
-        public static bool IsUnix()
-        {
-            // 判断当前操作系统的 PlatformID 是否为 Unix
-            return Environment.OSVersion.Platform == PlatformID.Unix;
-        }
-
-        /// <summary>
-        /// 判断当前操作系统是否为 Xbox
-        /// </summary>
-        public static bool IsXbox()
-        {
-            // 判断当前操作系统的 PlatformID 是否为 Xbox
-            return Environment.OSVersion.Platform == PlatformID.Xbox;
-        }
-
-        /// <summary>
-        /// 判断当前操作系统是否为 macOS
-        /// </summary>
-        public static bool IsMacOSX()
-        {
-            // 判断当前操作系统的 PlatformID 是否为 macOSX
-            return Environment.OSVersion.Platform == PlatformID.MacOSX;
-        }
-
         /// <summary>
         /// 判断文件或目录是否为空
         /// 
@@ -65,7 +25,7 @@ namespace ETool.Core.Todo.CodeCategory
             if (Directory.Exists(path))
             {
                 // 如果是目录，遍历目录下的所有文件，判断是否有文件
-                return Directory.GetFiles(path).Length>0;
+                return Directory.GetFiles(path).Length > 0;
             }
             else
             {
@@ -73,7 +33,6 @@ namespace ETool.Core.Todo.CodeCategory
                 return new FileInfo(path).Length == 0;
             }
         }
-
 
         /// <summary>
         /// 递归遍历目录以及子目录中的所有文件
@@ -83,7 +42,7 @@ namespace ETool.Core.Todo.CodeCategory
         /// <returns>所有符合过滤规则的文件完整路径的列表</returns>
         public static List<string> LoopFiles(string path, string searchPattern = "*")
         {
-            return LoopFiles(path,-1, searchPattern);
+            return LoopFiles(path, -1, searchPattern);
         }
 
         /// <summary>
@@ -614,23 +573,19 @@ namespace ETool.Core.Todo.CodeCategory
                 return false;
             }
 
-            using (var reader1 = new StreamReader(file1.OpenRead()))
-            using (var reader2 = new StreamReader(file2.OpenRead()))
+            using var reader1 = new StreamReader(file1.OpenRead());
+            using var reader2 = new StreamReader(file2.OpenRead());
+            while (reader1.ReadLine() is { } line1)
             {
-                string line1 = null;
-                string line2 = null;
-                while ((line1 = reader1.ReadLine()) != null)
+                var line2 = reader2.ReadLine();
+                if (line2 == null || !line1.Equals(line2))
                 {
-                    line2 = reader2.ReadLine();
-                    if (line2 == null || !line1.Equals(line2))
-                    {
-                        return false;
-                    }
+                    return false;
                 }
-
-                // 检查第二个文件是否还有剩余行
-                return reader2.ReadLine() == null;
             }
+
+            // 检查第二个文件是否还有剩余行
+            return reader2.ReadLine() == null;
         }
 
         /// <summary>
@@ -806,7 +761,7 @@ namespace ETool.Core.Todo.CodeCategory
             }
             catch (Exception ex)
             {
-                throw new Exception($"删除目录 {path} 失败：{ex.Message}",ex);
+                throw new Exception($"删除目录 {path} 失败：{ex.Message}", ex);
             }
         }
 
@@ -821,6 +776,7 @@ namespace ETool.Core.Todo.CodeCategory
             {
                 return null;
             }
+
             return file.Name;
         }
 
@@ -888,12 +844,14 @@ namespace ETool.Core.Todo.CodeCategory
             {
                 return null;
             }
+
             string fileName = file.Name;
             int lastIndex = fileName.LastIndexOf('.');
             if (lastIndex <= 0)
             {
                 return fileName;
             }
+
             return fileName.Substring(0, lastIndex);
         }
 
@@ -943,6 +901,7 @@ namespace ETool.Core.Todo.CodeCategory
             {
                 encoding = Encoding.UTF8;
             }
+
             var stream = new FileStream(file.FullName, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             var reader = new StreamReader(stream, encoding, true);
             reader.Peek();
@@ -967,11 +926,13 @@ namespace ETool.Core.Todo.CodeCategory
                 {
                     bomPresent = false;
                 }
+
                 if (!bomPresent)
                 {
                     reader.BaseStream.Seek(0, SeekOrigin.Begin);
                 }
             }
+
             return reader;
         }
 
@@ -987,6 +948,7 @@ namespace ETool.Core.Todo.CodeCategory
             {
                 encoding = Encoding.UTF8;
             }
+
             return new StreamReader(file.FullName, encoding);
         }
 
@@ -1016,6 +978,7 @@ namespace ETool.Core.Todo.CodeCategory
                 {
                     throw new IOException("Read file failed");
                 }
+
                 return buffer;
             }
         }
@@ -1063,7 +1026,6 @@ namespace ETool.Core.Todo.CodeCategory
         /// <returns>内容</returns>
         public static string ReadString(FileInfo file, Encoding encoding = null)
         {
-
             if (encoding == null)
             {
                 encoding = Encoding.UTF8; // 如果未指定编码格式，则使用默认的UTF-8编码
@@ -1088,8 +1050,7 @@ namespace ETool.Core.Todo.CodeCategory
         {
             return ReadString(new FileInfo(path), encoding); // 直接调用另一个重载方法
         }
-
-
+        
         /// <summary>
         /// 读取网络文件内容
         /// </summary>
@@ -1144,8 +1105,7 @@ namespace ETool.Core.Todo.CodeCategory
 
             return lines;
         }
-
-
+        
         /// <summary>
         /// 获得一个输出流对象
         /// </summary>
@@ -1160,8 +1120,7 @@ namespace ETool.Core.Todo.CodeCategory
 
             return file.OpenWrite();
         }
-
-
+        
         /// <summary>
         /// 获得一个输出流对象
         /// </summary>
@@ -1170,16 +1129,6 @@ namespace ETool.Core.Todo.CodeCategory
         public static Stream GetOutputStream(string path)
         {
             return GetOutputStream(new FileInfo(path));
-        }
-
-
-        /// <summary>
-        /// 获取当前系统的换行分隔符
-        /// </summary>
-        /// <returns>换行分隔符</returns>
-        public static string GetLineSeparator()
-        {
-            return Environment.NewLine;
         }
 
         /// <summary>
@@ -1203,8 +1152,7 @@ namespace ETool.Core.Todo.CodeCategory
 
             return new FileInfo(path);
         }
-
-
+        
         /// <summary>
         /// 将string写入文件，追加模式
         /// </summary>
@@ -1218,10 +1166,12 @@ namespace ETool.Core.Todo.CodeCategory
             {
                 encoding = Encoding.UTF8;
             }
+
             using (StreamWriter writer = new StreamWriter(path, true, encoding))
             {
                 writer.Write(content);
             }
+
             return new FileInfo(path);
         }
 
@@ -1241,10 +1191,7 @@ namespace ETool.Core.Todo.CodeCategory
 
             using (StreamWriter writer = new StreamWriter(path, false, encoding))
             {
-                list.ForEach(content =>
-                {
-                    writer.Write(content);
-                });
+                list.ForEach(content => { writer.Write(content); });
             }
 
             return new FileInfo(path);
@@ -1266,10 +1213,7 @@ namespace ETool.Core.Todo.CodeCategory
 
             using (StreamWriter writer = new StreamWriter(path, true, encoding))
             {
-                list.ForEach(content =>
-                {
-                    writer.Write(content);
-                });
+                list.ForEach(content => { writer.Write(content); });
             }
 
             return new FileInfo(path);
@@ -1290,10 +1234,12 @@ namespace ETool.Core.Todo.CodeCategory
             {
                 return file;
             }
+
             if (file == null)
             {
                 return null;
             }
+
             if (offset < 0 || len < 0 || offset + len > data.Length)
             {
                 throw new ArgumentOutOfRangeException("offset 或 len 不在 data 的范围内");
@@ -1341,6 +1287,7 @@ namespace ETool.Core.Todo.CodeCategory
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -1379,6 +1326,7 @@ namespace ETool.Core.Todo.CodeCategory
                 default:
                     break;
             }
+
             return mimeType;
         }
     }

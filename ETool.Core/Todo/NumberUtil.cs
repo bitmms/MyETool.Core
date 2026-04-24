@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace ETool.Core.Todo
+﻿namespace ETool.Core.Todo
 {
     /// <summary>
     /// 数字工具类，提供了多种对数字的操作方法
@@ -45,7 +43,6 @@ namespace ETool.Core.Todo
             return DecimalFormat(number, "0,0.00");
         }
 
-  
 
         /// <summary>
         /// 把一个数字转换为二进制字符串

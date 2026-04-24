@@ -235,70 +235,6 @@ namespace ETool.Core.Todo
         //-----------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// 字符串集合转字符串
-        /// </summary>
-        /// <param name="separator">用于连接各元素的分隔符</param>
-        /// <param name="items">待连接的字符串集合</param>
-        /// <param name="skipNull">是否跳过集合中的 null 元素</param>
-        /// <param name="nullReplacement">当不跳过 null 时，用此字符串代替 null</param>
-        /// <returns>拼接后的字符串</returns>
-        public static string Join(string separator, IEnumerable<string> items, bool skipNull = true, string nullReplacement = "null")
-        {
-            if (items == null)
-            {
-                return "";
-            }
-
-            if (!skipNull && nullReplacement == null)
-            {
-                nullReplacement = "null";
-            }
-
-            if (separator == null)
-            {
-                separator = "";
-            }
-
-            bool isFirstItem = true;
-            StringBuilder sb = new StringBuilder();
-            foreach (string item in items)
-            {
-                if (item == null && skipNull)
-                {
-                    continue;
-                }
-
-                if (isFirstItem)
-                {
-                    isFirstItem = false;
-                }
-                else
-                {
-                    sb.Append(separator);
-                }
-
-                sb.Append(item ?? nullReplacement);
-            }
-
-            return sb.ToString();
-        }
-
-        /// <summary>
-        /// 字符串集合转字符串
-        /// </summary>
-        /// <param name="sep">用于连接各元素的分隔符</param>
-        /// <param name="items">待连接的字符串集合</param>
-        /// <param name="skipNull">是否跳过集合中的 null 元素</param>
-        /// <param name="nullReplacement">当不跳过 null 时，用此字符串代替 null</param>
-        /// <returns>拼接后的字符串</returns>
-        public static string Join(char sep, IEnumerable<string> items, bool skipNull = true, string nullReplacement = "null")
-        {
-            return Join(sep.ToString(), items, skipNull, nullReplacement);
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------------------------
-
-        /// <summary>
         /// 移除字符串的指定前缀
         /// </summary>
         /// <param name="sourceString">源字符串</param>
@@ -350,56 +286,6 @@ namespace ETool.Core.Todo
             }
 
             return sourceString;
-        }
-
-        /// <summary>
-        /// 移除字符串中全部的换行符【"\r\n"，"\n"，"\r"】
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <returns>移除全部换行符后的字符串</returns>
-        public static string RemoveAllNewLines(string str)
-        {
-            if (string.IsNullOrEmpty(str))
-            {
-                return "";
-            }
-
-            var idx = 0;
-            var resultChars = new char[str.Length];
-            foreach (var c in str)
-            {
-                if (c != '\r' && c != '\n')
-                {
-                    resultChars[idx++] = c;
-                }
-            }
-
-            return new string(resultChars, 0, idx);
-        }
-
-        /// <summary>
-        /// 移除字符串中全部的空白字符
-        /// </summary>
-        /// <param name="str">字符串</param>
-        /// <returns>移除全部空白字符后的字符串</returns>
-        public static string RemoveAllWhitespace(string str)
-        {
-            if (string.IsNullOrEmpty(str))
-            {
-                return "";
-            }
-
-            int idx = 0;
-            var resultChars = new char[str.Length];
-            foreach (char c in str)
-            {
-                if (!char.IsWhiteSpace(c))
-                {
-                    resultChars[idx++] = c;
-                }
-            }
-
-            return new string(resultChars, 0, idx);
         }
 
         /// <summary>
