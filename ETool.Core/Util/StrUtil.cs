@@ -220,7 +220,7 @@ namespace ETool.Core.Util
         /// <param name="s">字符串</param>
         /// <returns>移除全部换行符后的字符串</returns>
         /// <remarks>换行符："\r\n"，"\n"，"\r"</remarks>
-        public static string RemoveAllNewLines(string s)
+        public static string RemoveAllNewLine(string s)
         {
             if (s == null) throw new ArgumentNullException(nameof(s));
 
