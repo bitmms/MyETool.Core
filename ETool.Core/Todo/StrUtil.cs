@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using ETool.Core.Util;
 
-namespace ETool.Core.MyUtil
+namespace ETool.Core.Todo
 {
     /// <summary>
     /// 字符串工具类
@@ -57,263 +57,68 @@ namespace ETool.Core.MyUtil
             return Encoding.GetEncoding("GBK").GetBytes(s);
         }
 
-        /// <summary>
-        /// 将指定字符重复指定次数
-        /// </summary>
-        /// <param name="c">待重复的字符</param>
-        /// <param name="count">重复次数</param>
-        /// <param name="sep">分隔符</param>
-        /// <returns>重复拼接后的字符串</returns>
-        public static string Repeat(char c, int count, char sep = ' ')
-        {
-            if (count <= 0)
-            {
-                return "";
-            }
-
-            if (count == 1)
-            {
-                return c.ToString();
-            }
-
-            long totalLength = 2L * count - 1;
-            if (totalLength > int.MaxValue)
-            {
-                return "";
-            }
-
-            char[] resultChars = new char[totalLength];
-
-            int nextIndex = 0;
-            resultChars[nextIndex] = c;
-            nextIndex += 1;
-            for (int i = 1; i < count; i++)
-            {
-                resultChars[nextIndex] = sep;
-                nextIndex += 1;
-
-                resultChars[nextIndex] = c;
-                nextIndex += 1;
-            }
-
-            return new string(resultChars);
-        }
-
-        /// <summary>
-        /// 将指定字符重复指定次数
-        /// </summary>
-        /// <param name="c">待重复的字符</param>
-        /// <param name="count">重复次数</param>
-        /// <param name="sep">分隔符</param>
-        /// <returns>重复拼接后的字符串</returns>
-        public static string Repeat(char c, int count, string sep = " ")
-        {
-            if (count <= 0)
-            {
-                return "";
-            }
-
-            if (count == 1)
-            {
-                return c.ToString();
-            }
-
-            if (sep == null)
-            {
-                sep = "";
-            }
-
-            if (sep == string.Empty)
-            {
-                return new string(c, count);
-            }
-
-            long totalLength = (long)(1 + sep.Length) * count - sep.Length;
-            if (totalLength > int.MaxValue)
-            {
-                return "";
-            }
-
-            char[] resultChars = new char[totalLength];
-
-            int nextIndex = 0;
-            resultChars[nextIndex] = c;
-            nextIndex += 1;
-            for (int i = 1; i < count; i++)
-            {
-                sep.CopyTo(0, resultChars, nextIndex, sep.Length);
-                nextIndex += sep.Length;
-
-                resultChars[nextIndex] = c;
-                nextIndex += 1;
-            }
-
-            return new string(resultChars);
-        }
-
-        /// <summary>
-        /// 将指定字符串重复指定次数
-        /// </summary>
-        /// <param name="s">待重复的源字符串</param>
-        /// <param name="count">重复次数</param>
-        /// <param name="sep">分隔符</param>
-        /// <returns>重复拼接后的字符串</returns>
-        public static string Repeat(string s, int count, char sep = ' ')
-        {
-            if (s == null || count <= 0)
-            {
-                return "";
-            }
-
-            if (count == 1)
-            {
-                return s;
-            }
-
-            long totalLength = (long)(s.Length + 1) * count - 1;
-            if (totalLength > int.MaxValue)
-            {
-                return "";
-            }
-
-            char[] resultChars = new char[totalLength];
-
-            int nextIndex = 0;
-            s.CopyTo(0, resultChars, nextIndex, s.Length);
-            nextIndex += s.Length;
-            for (int i = 1; i < count; i++)
-            {
-                resultChars[nextIndex] = sep;
-                nextIndex += 1;
-
-                s.CopyTo(0, resultChars, nextIndex, s.Length);
-                nextIndex += s.Length;
-            }
-
-            return new string(resultChars);
-        }
-
-        /// <summary>
-        /// 将指定字符串重复指定次数
-        /// </summary>
-        /// <param name="s">待重复的源字符串</param>
-        /// <param name="count">重复次数</param>
-        /// <param name="sep">分隔符</param>
-        /// <returns>重复拼接后的字符串</returns>
-        public static string Repeat(string s, int count, string sep = " ")
-        {
-            if (s == null || count <= 0)
-            {
-                return "";
-            }
-
-            if (count == 1)
-            {
-                return s;
-            }
-
-            if (sep == null)
-            {
-                sep = "";
-            }
-
-            long totalLength = (long)(s.Length + sep.Length) * count - sep.Length;
-            if (totalLength > int.MaxValue)
-            {
-                return "";
-            }
-
-            char[] resultChars = new char[totalLength];
-
-            if (sep == string.Empty)
-            {
-                // 开头部分：直接手动拷贝
-                s.CopyTo(0, resultChars, 0, s.Length);
-
-                // 记录当前已经拷贝的数量
-                int n = s.Length;
-
-                // 中间部分：倍增拷贝
-                while (n < totalLength - n)
-                {
-                    Array.Copy(resultChars, 0, resultChars, n, n);
-                    n <<= 1; // n *= 2;
-                }
-
-                // 结尾部分：直接手动拷贝
-                Array.Copy(resultChars, 0, resultChars, n, totalLength - n);
-
-                return new string(resultChars);
-            }
-
-            int nextIndex = 0;
-            s.CopyTo(0, resultChars, nextIndex, s.Length);
-            nextIndex += s.Length;
-            for (int i = 1; i < count; i++)
-            {
-                sep.CopyTo(0, resultChars, nextIndex, sep.Length);
-                nextIndex += sep.Length;
-
-                s.CopyTo(0, resultChars, nextIndex, s.Length);
-                nextIndex += s.Length;
-            }
-
-            return new string(resultChars);
-        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// 在字符串的指定范围内查找指定字符首次出现的索引
         /// </summary>
-        /// <param name="s">源字符串</param>
-        /// <param name="c">目标字符</param>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="targetChar">目标字符</param>
         /// <param name="start">起始索引位置（包含）</param>
         /// <param name="count">需要检查的字符数量</param>
         /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
         /// <returns>找到返回索引，否则返回 -1</returns>
-        public static int IndexOf(string s, char c, int start, int count, bool ignoreCase = false)
+        /// <exception cref="ArgumentNullException"><c>sourceString</c> 为 null</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>start</c> 超出有效范围</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>count</c> 小于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException">检查范围超出字符串边界</exception>
+        public static int IndexOf(string sourceString, char targetChar, int start, int count, bool ignoreCase = false)
         {
-            if (string.IsNullOrEmpty(s))
+            // 空值校验
+            if (sourceString == null)
+            {
+                throw new ArgumentNullException(nameof(sourceString));
+            }
+
+            var len = sourceString.Length;
+
+            // 起始索引范围校验
+            if (start < 0 || start > len)
+            {
+                throw new ArgumentOutOfRangeException(nameof(start), $"起始索引 {start} 超出有效范围 [0, {len}]");
+            }
+
+            // 检查数量校验
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), $"检查数量必须大于等于 0，当前值为 {count}");
+            }
+
+            // 检查范围超出字符串边界
+            if (start > len - count)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), $"检查范围超出字符串边界。起始位置：{start}，数量：{count}，字符串长度：{len}");
+            }
+
+            // 无字符可遍历，直接返回 -1
+            if (count == 0)
             {
                 return -1;
             }
 
-            if (start >= s.Length || count <= 0)
-            {
-                return -1;
-            }
-
-            if (start < 0)
-            {
-                start = 0;
-            }
-
-            if (count > s.Length - start)
-            {
-                count = s.Length - start;
-            }
-
-            int endIndex = start + count - 1;
-
+            // 不忽略大小写时使用内置方法
             if (!ignoreCase)
             {
-                for (int i = start; i <= endIndex; i++)
-                {
-                    if (s[i] == c)
-                    {
-                        return i;
-                    }
-                }
+                return sourceString.IndexOf(targetChar, start, count);
             }
-            else
+
+            // 忽略大小时遍历查找
+            var endIndex = start + count - 1;
+            var upperTarget = CharUtil.ToUpperLetter(targetChar);
+
+            for (var i = start; i <= endIndex; i++)
             {
-                char upperTargetChar = CharUtil.ToUpperLetter(c);
-                for (int i = start; i <= endIndex; i++)
-                {
-                    if (CharUtil.ToUpperLetter(s[i]) == upperTargetChar)
-                    {
-                        return i;
-                    }
-                }
+                if (upperTarget == CharUtil.ToUpperLetter(sourceString[i])) return i;
             }
 
             return -1;
@@ -322,18 +127,19 @@ namespace ETool.Core.MyUtil
         /// <summary>
         /// 在字符串中查找指定字符首次出现的索引
         /// </summary>
-        /// <param name="s">源字符串</param>
-        /// <param name="c">目标字符</param>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="targetChar">目标字符</param>
         /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
         /// <returns>找到返回索引，否则返回 -1</returns>
-        public static int IndexOf(string s, char c, bool ignoreCase = false)
+        /// <exception cref="ArgumentNullException"><c>sourceString</c> 为 null</exception>
+        public static int IndexOf(string sourceString, char targetChar, bool ignoreCase = false)
         {
-            if (s == null)
+            if (sourceString == null)
             {
-                return -1;
+                throw new ArgumentNullException(nameof(sourceString));
             }
 
-            return IndexOf(s, c, 0, s.Length, ignoreCase);
+            return IndexOf(sourceString, targetChar, 0, sourceString.Length, ignoreCase);
         }
 
         /// <summary>
@@ -347,59 +153,61 @@ namespace ETool.Core.MyUtil
         /// <returns>找到返回索引，否则返回 -1</returns>
         public static int IndexOf(string sourceString, string targetString, int start, int count, bool ignoreCase = false)
         {
-            if (sourceString == null || targetString == null)
+            if (sourceString == null)
             {
-                return -1;
+                throw new ArgumentNullException(nameof(sourceString));
             }
 
-            if (start < 0)
+            if (targetString == null)
             {
-                start = 0;
+                throw new ArgumentNullException(nameof(targetString));
             }
 
-            if (targetString == string.Empty && start <= sourceString.Length)
+            var sourceStringLen = sourceString.Length;
+            var targetStringLen = targetString.Length;
+
+            if (start < 0 || start >= sourceStringLen)
+            {
+                throw new ArgumentOutOfRangeException(nameof(start), $"起始索引 {start} 超出有效范围 [0, {sourceStringLen - 1}]");
+            }
+
+            if (count <= 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), $"检查数量必须大于 0，当前值为 {count}");
+            }
+
+            if (targetStringLen == 0)
             {
                 return start;
             }
 
-            if (start >= sourceString.Length || count <= 0)
+            if (count > sourceStringLen - start)
+            {
+                count = sourceStringLen - start;
+            }
+
+            if (count < targetStringLen)
             {
                 return -1;
             }
 
-            if (count > sourceString.Length - start)
+            var endIndex = start + (count - 1) - (targetStringLen - 1);
+            for (var i = start; i <= endIndex; i++) // 外层大源串
             {
-                count = sourceString.Length - start;
-            }
+                var match = true;
 
-            if (count < targetString.Length)
-            {
-                return -1;
-            }
-
-            // 外层循环：尝试每一个可能的起始位置
-            int lastStart = start + (count - 1) - (targetString.Length - 1);
-            for (int i = start; i <= lastStart; i++)
-            {
-                bool match = true;
-
-                // 内层循环：逐字符比较
-                for (int j = 0; j < targetString.Length; j++)
+                for (var j = 0; j < targetStringLen; j++) // 内层小子串
                 {
-                    char sourceChar = sourceString[i + j];
-                    char targetChar = targetString[j];
+                    var sourceChar = ignoreCase ? CharUtil.ToUpperLetter(sourceString[i + j]) : sourceString[i + j];
+                    var targetChar = ignoreCase ? CharUtil.ToUpperLetter(targetString[j]) : targetString[j];
 
-                    if (ignoreCase)
+                    if (sourceChar == targetChar)
                     {
-                        sourceChar = CharUtil.ToUpperLetter(sourceChar);
-                        targetChar = CharUtil.ToUpperLetter(targetChar);
+                        continue;
                     }
 
-                    if (sourceChar != targetChar)
-                    {
-                        match = false;
-                        break;
-                    }
+                    match = false;
+                    break;
                 }
 
                 if (match)
@@ -421,246 +229,10 @@ namespace ETool.Core.MyUtil
         /// <returns>找到返回索引，否则返回 -1</returns>
         public static int IndexOf(string sourceString, string targetString, bool ignoreCase = false)
         {
-            if (sourceString == null)
-            {
-                return -1;
-            }
-
             return IndexOf(sourceString, targetString, 0, sourceString.Length, ignoreCase);
         }
 
-        /// <summary>
-        /// 判断字符串是否包含指定字符
-        /// </summary>
-        /// <param name="s">源字符串</param>
-        /// <param name="c">目标字符</param>
-        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
-        /// <returns>包含返回 true，否则返回 false</returns>
-        public static bool Contains(string s, char c, bool ignoreCase = false)
-        {
-            return IndexOf(s, c, ignoreCase) >= 0;
-        }
-
-        /// <summary>
-        /// 判断字符串是否包含指定子串
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="targetString">目标子串</param>
-        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
-        /// <returns>包含返回 true，否则返回 false</returns>
-        public static bool Contains(string sourceString, string targetString, bool ignoreCase = false)
-        {
-            return IndexOf(sourceString, targetString, ignoreCase) >= 0;
-        }
-
-        /// <summary>
-        /// 判断入参是否包含数字字符
-        /// </summary>
-        /// <param name="str">待检查的字符串</param>
-        /// <returns>如果字符串包含至少一个数字字符，则返回 true；否则返回 false</returns>
-        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出。</exception>
-        public static bool ContainsDigit(string str)
-        {
-            if (str == null)
-            {
-                throw new ArgumentNullException(nameof(str), "输入字符串不能为 null");
-            }
-
-            foreach (var c in str)
-            {
-                if (c >= '0' && c <= '9')
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 判断入参是否包含小写英文字符
-        /// </summary>
-        /// <param name="str">待检查的字符串</param>
-        /// <returns>如果字符串包含至少一个小写英文字符，则返回 true；否则返回 false</returns>
-        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出。</exception>
-        public static bool ContainsLowerLetter(string str)
-        {
-            if (str == null)
-            {
-                throw new ArgumentNullException(nameof(str), "输入字符串不能为 null");
-            }
-
-            foreach (var c in str)
-            {
-                if (c >= 'a' && c <= 'z')
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 判断入参是否包含大写英文字符
-        /// </summary>
-        /// <param name="str">待检查的字符串</param>
-        /// <returns>如果字符串包含至少一个大写英文字符，则返回 true；否则返回 false</returns>
-        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出。</exception>
-        public static bool ContainsUpperLetter(string str)
-        {
-            if (str == null)
-            {
-                throw new ArgumentNullException(nameof(str), "输入字符串不能为 null");
-            }
-
-            foreach (var c in str)
-            {
-                if (c >= 'A' && c <= 'Z')
-                {
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 判断入参是否包含 ASCII 中除数字、字母以外的特殊符号（如 !, @, #, $ 等）
-        /// </summary>
-        /// <param name="str">待检查的字符串</param>
-        /// <returns>
-        /// 如果字符串中至少有一个字符属于 ASCII 可见字符（33～126）且不是数字（0-9）、小写字母（a-z）和大写字母（A-Z），则返回 true；否则返回 false</returns>
-        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出</exception>
-        public static bool ContainsSpecialSymbol(string str)
-        {
-            if (str == null)
-            {
-                throw new ArgumentNullException(nameof(str), "输入字符串不能为 null");
-            }
-
-            foreach (var c in str)
-            {
-                // 只考虑 ASCII 可见字符范围（33～126）
-                if (c >= 33 && c <= 126)
-                {
-                    // 排除数字、小写字母、大写字母
-                    if ((c < '0' || c > '9') && (c < 'A' || c > 'Z') && (c < 'a' || c > 'z'))
-                    {
-                        return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
-        /// <summary>
-        /// 判断入参是否仅包含 ASCII 可见字符（ASCII 33 到 126，不包括空格）
-        /// </summary>
-        /// <param name="str">待检查的字符串</param>
-        /// <returns>如果字符串中每个字符的 ASCII 值均在 [33, 126] 范围内，则返回 true；否则返回 false。</returns>
-        /// <exception cref="ArgumentNullException">当输入字符串为 null 时抛出。</exception>
-        public static bool ContainsOnlyVisibleAscii(string str)
-        {
-            if (str == null)
-                throw new ArgumentNullException(nameof(str));
-
-            foreach (char c in str)
-            {
-                if (c < 33 || c > 126) // 注意：33 起始
-                    return false;
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// 判断字符串是否以指定子串开头
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="prefix">待检查的前缀子串</param>
-        /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>字符串以指定子串开头返回 true，否则返回 false</returns>
-        public static bool StartsWith(string sourceString, string prefix, bool ignoreCase = false)
-        {
-            if (sourceString == null || prefix == null)
-            {
-                return false;
-            }
-
-            if (prefix == string.Empty)
-            {
-                return true;
-            }
-
-            if (sourceString.Length < prefix.Length)
-            {
-                return false;
-            }
-
-            for (int i = 0; i < prefix.Length; i++)
-            {
-                char sourceChar = sourceString[i];
-                char targetChar = prefix[i];
-                if (ignoreCase)
-                {
-                    sourceChar = CharUtil.ToUpperLetter(sourceChar);
-                    targetChar = CharUtil.ToUpperLetter(targetChar);
-                }
-
-                if (sourceChar != targetChar)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-
-        /// <summary>
-        /// 判断字符串是否以指定子串结束
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="suffix">待检查的后缀子串</param>
-        /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>字符串以指定子串结束返回 true，否则返回 false</returns>
-        public static bool EndsWith(string sourceString, string suffix, bool ignoreCase = false)
-        {
-            if (sourceString == null || suffix == null)
-            {
-                return false;
-            }
-
-            if (suffix == string.Empty)
-            {
-                return true;
-            }
-
-            if (sourceString.Length < suffix.Length)
-            {
-                return false;
-            }
-
-            int idx = 0;
-            for (int i = sourceString.Length - suffix.Length; i < sourceString.Length; i++)
-            {
-                char sourceChar = sourceString[i];
-                char targetChar = suffix[idx++];
-                if (ignoreCase)
-                {
-                    sourceChar = CharUtil.ToUpperLetter(sourceChar);
-                    targetChar = CharUtil.ToUpperLetter(targetChar);
-                }
-
-                if (sourceChar != targetChar)
-                {
-                    return false;
-                }
-            }
-
-            return true;
-        }
+        //-----------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// 字符串集合转字符串
@@ -724,6 +296,8 @@ namespace ETool.Core.MyUtil
             return Join(sep.ToString(), items, skipNull, nullReplacement);
         }
 
+        //-----------------------------------------------------------------------------------------------------------------------------------
+
         /// <summary>
         /// 移除字符串的指定前缀
         /// </summary>
@@ -743,7 +317,7 @@ namespace ETool.Core.MyUtil
                 return sourceString;
             }
 
-            if (StartsWith(sourceString, prefix, ignoreCase))
+            if (ValidatorUtil.IsStartsWith(sourceString, prefix, ignoreCase))
             {
                 sourceString = sourceString.Substring(prefix.Length);
             }
@@ -770,7 +344,7 @@ namespace ETool.Core.MyUtil
                 return sourceString;
             }
 
-            if (EndsWith(sourceString, suffix, ignoreCase))
+            if (ValidatorUtil.IsEndsWith(sourceString, suffix, ignoreCase))
             {
                 sourceString = sourceString.Substring(0, sourceString.Length - suffix.Length);
             }
@@ -842,7 +416,7 @@ namespace ETool.Core.MyUtil
                 return string.Empty;
             }
 
-            var index = ignoreCase ? IndexOf(s, c, true) : s.IndexOf(c);
+            var index = ignoreCase ? Core.Todo.StrUtil.IndexOf(s, c, true) : s.IndexOf(c);
             if (index < 0)
             {
                 return s;
@@ -970,7 +544,7 @@ namespace ETool.Core.MyUtil
                 return sourceString;
             }
 
-            var index = ignoreCase ? IndexOf(sourceString, targetSubstring, true) : sourceString.IndexOf(targetSubstring, StringComparison.Ordinal);
+            var index = ignoreCase ? Core.Todo.StrUtil.IndexOf(sourceString, targetSubstring, true) : sourceString.IndexOf(targetSubstring, StringComparison.Ordinal);
             if (index < 0)
             {
                 return sourceString;
@@ -1019,7 +593,7 @@ namespace ETool.Core.MyUtil
 
             while (startIndex <= sourceLength - targetLength)
             {
-                var foundIndex = IndexOf(sourceString, targetSubstring, startIndex, sourceLength - startIndex, true);
+                var foundIndex = Core.Todo.StrUtil.IndexOf(sourceString, targetSubstring, startIndex, sourceLength - startIndex, true);
                 if (foundIndex == -1)
                 {
                     break;
@@ -1064,6 +638,8 @@ namespace ETool.Core.MyUtil
 
             return sourceString;
         }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// 替换字符串中第一个匹配的字符为指定字符
@@ -1183,7 +759,7 @@ namespace ETool.Core.MyUtil
             while (startIndex <= s.Length - sourceLen)
             {
                 var index = ignoreCase
-                    ? IndexOf(s, sourceString, startIndex, s.Length - startIndex, true)
+                    ? Core.Todo.StrUtil.IndexOf(s, sourceString, startIndex, s.Length - startIndex, true)
                     : s.IndexOf(sourceString, startIndex, StringComparison.Ordinal);
 
                 if (index < 0)
@@ -1225,10 +801,10 @@ namespace ETool.Core.MyUtil
                 return s;
             }
 
-            targetString = targetString ?? string.Empty;
+            targetString ??= string.Empty;
 
             var index = ignoreCase
-                ? IndexOf(s, sourceString, true)
+                ? Core.Todo.StrUtil.IndexOf(s, sourceString, true)
                 : s.IndexOf(sourceString, StringComparison.Ordinal);
 
             if (index == -1)
@@ -1243,6 +819,8 @@ namespace ETool.Core.MyUtil
 
             return s.Substring(0, index) + targetString + s.Substring(index + sourceString.Length);
         }
+
+        //-----------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
         /// 在字符串指定起始位置删除指定长度的子串，并插入目标字符指定次数

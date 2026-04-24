@@ -22,10 +22,23 @@ namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
         [InlineData("622421198604042314")]
         [InlineData("622421199104296419")]
         [InlineData("620123196611303215")]
+        [InlineData("13020219620814854X")]
+        [InlineData("21091119900629706X")]
+        [InlineData("14118219900522789X")]
         public void Valid_18IdCard_Return_True(string idCard)
         {
             Assert.True(ValidatorUtil.IsChinaIdCard(idCard));
         }
+
+        [Theory(DisplayName = "合法18位身份证，但是大小写异常，返回false")]
+        [InlineData("13020219620814854x")]
+        [InlineData("21091119900629706x")]
+        [InlineData("14118219900522789x")]
+        public void Valid_18IdCard_Return_Fasle(string idCard)
+        {
+            Assert.False(ValidatorUtil.IsChinaIdCard(idCard, false));
+        }
+
 
         /// <summary>
         /// 测试：非法15位身份证 → 返回 false

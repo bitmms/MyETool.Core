@@ -3,7 +3,7 @@ using Xunit;
 
 namespace ETool.Core.Test.Net472.Util.StrUtilTest
 {
-    public class Equals
+    public class EqualsTest
     {
         // 区分大小写
         [Theory]

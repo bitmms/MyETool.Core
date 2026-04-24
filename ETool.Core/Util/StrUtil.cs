@@ -156,5 +156,62 @@ namespace ETool.Core.Util
             // 构造新的字符串实例
             return new string(resultChars);
         }
+
+        /// <summary>
+        /// 将指定字符串重复指定次数
+        /// </summary>
+        /// <param name="s">待重复的源字符串</param>
+        /// <param name="count">重复次数</param>
+        /// <param name="sep">分隔符</param>
+        /// <returns>重复拼接后的字符串</returns>
+        public static string Repeat(string s, int count, string sep = " ")
+        {
+            // 判 null
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (sep == null) throw new ArgumentNullException(nameof(sep));
+
+            // 重复次数不能为负数
+            if (count < 0)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count));
+            }
+
+            // 重复 0 次
+            if (count == 0 || s.Length == 0 && sep.Length == 0) return string.Empty;
+            if (count == 1) return s;
+
+            // 总长度判断
+            if (((long)s.Length + sep.Length) * (count - 1) + s.Length > int.MaxValue)
+            {
+                throw new ArgumentOutOfRangeException(nameof(count), "字符串重复后长度超出限制");
+            }
+
+            // 计算总长度
+            var totalLength = (s.Length + sep.Length) * (count - 1);
+
+            // 结果字符数组
+            var resultChars = new char[totalLength + s.Length];
+
+            // 1. 写入第一个(s+sep) 
+            s.CopyTo(0, resultChars, 0, s.Length);
+            sep.CopyTo(0, resultChars, s.Length, sep.Length);
+
+            // 2. 倍增复制填充(s+sep) 
+            var pos = s.Length + sep.Length;
+            while (pos < totalLength - pos)
+            {
+                Array.Copy(resultChars, 0, resultChars, pos, pos);
+                pos <<= 1; // n *= 2;
+            }
+
+            // 3. 补充剩余部分
+            Array.Copy(resultChars, 0, resultChars, pos, totalLength - pos);
+
+            // 4. 添加最后一个(s) 
+            s.CopyTo(0, resultChars, totalLength, s.Length);
+
+            // 返回
+            return new string(resultChars);
+        }
     }
 }

@@ -418,12 +418,36 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 判断一个字符串是否完全由 ASCII 可见的可打印字符组成
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>仅包含 ASCII 可打印可见字符返回 true，否则返回 false</returns>
+        /// <remarks>ASCII 编码的范围是 [0-127]，其中 [0-31] 和 127 是不可见的控制字符，[32-126] 是可见的可打印字符</remarks>
+        /// 
+        public static bool IsAllAsciiPrintable(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] <= 31 || s[i] >= 127)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
         /// 判断一个字符串是否符合中国大陆身份证号码的格式规范【兼容15、18位身份证号码】
         /// </summary>
         /// <param name="s">待校验的字符串</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
         /// <returns>如果字符串符合中国大陆身份证号码的格式规范返回 true，否则返回 false</returns>
         /// <remarks>只校验格式的合法性，格式正确并不等价于身份真实</remarks>
-        public static bool IsChinaIdCard(string s)
+        public static bool IsChinaIdCard(string s, bool ignoreCase = true)
         {
             // 判空
             if (string.IsNullOrWhiteSpace(s)) return false;
@@ -460,7 +484,8 @@ namespace ETool.Core.Util
             }
 
             // 第18位字符只可以是 "xX0-9"
-            if (len == 18 && s[17] != 'x' && s[17] != 'X' && !CharUtil.IsDigit(s[17])) return false;
+            if (len == 18 && ignoreCase && !CharUtil.IsDigit(s[17]) && s[17] != 'X' && s[17] != 'x') return false;
+            if (len == 18 && !ignoreCase && !CharUtil.IsDigit(s[17]) && s[17] != 'X') return false;
 
             // 出生日期格式校验
             var birthStr = len == 15 ? "19" + s.Substring(6, 6) : s.Substring(6, 8);
@@ -483,6 +508,272 @@ namespace ETool.Core.Util
             }
 
             return checkCodes[sum % 11] == CharUtil.ToUpperLetter(s[17]);
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否包含指定字符
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <param name="c">目标字符</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>如果包含指定字符则返回 true，否则返回 false</returns>
+        public static bool IsContainsChar(string s, char c, bool ignoreCase = false)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            if (ignoreCase)
+            {
+                s = StrUtil.ToUpperLetter(s);
+                c = CharUtil.ToUpperLetter(c);
+            }
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] == c) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否包含指定子串
+        /// </summary>
+        /// <param name="sourceString">待判断的字符串</param>
+        /// <param name="targetString">目标子串</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>如果包含指定子串则返回 true，否则返回 false</returns>
+        public static bool IsContainsString(string sourceString, string targetString, bool ignoreCase = false)
+        {
+            // 空值校验
+            if (string.IsNullOrEmpty(sourceString)) return false;
+            if (string.IsNullOrEmpty(targetString)) return false;
+
+            // 长度
+            var sourceLen = sourceString.Length;
+            var targetLen = targetString.Length;
+
+            // 空串默认包含
+            if (targetLen == 0) return true;
+
+            // 子串比源字符串长 → 直接不匹配
+            if (sourceLen < targetLen) return false;
+
+            // 开启忽略大小写 → 统一转换（仅英文转大写）
+            sourceString = ignoreCase ? StrUtil.ToUpperLetter(sourceString) : sourceString;
+            targetString = ignoreCase ? StrUtil.ToUpperLetter(targetString) : targetString;
+
+            // 匹配子串
+            for (var i = 0; i < sourceLen - targetLen + 1; i++)
+            {
+                var match = true;
+                for (var j = 0; j < targetLen; j++)
+                {
+                    if (sourceString[i + j] != targetString[j])
+                    {
+                        match = false;
+                        break;
+                    }
+                }
+
+                if (match) return true;
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否包含数字字符
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果包含数字字符则返回 true，否则返回 false</returns>
+        public static bool IsContainsDigit(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] >= '0' && s[i] <= '9')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否包含英文字符
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果包含英文字符则返回 true，否则返回 false</returns>
+        public static bool IsContainsLetter(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] >= 'a' && s[i] <= 'z' || s[i] >= 'A' && s[i] <= 'Z')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否包含小写英文字符
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果包含小写英文字符则返回 true，否则返回 false</returns>
+        public static bool IsContainsLowerLetter(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] >= 'a' && s[i] <= 'z')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否包含大写英文字符
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果包含大写英文字符则返回 true，否则返回 false</returns>
+        public static bool IsContainsUpperLetter(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] >= 'A' && s[i] <= 'Z')
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否包含 ASCII 编码中的控制字符
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果包含 ASCII 编码中的控制字符则返回 true，否则返回 false</returns>
+        public static bool IsContainsAsciiControl(string s)
+        {
+            if (string.IsNullOrEmpty(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                if (s[i] >= 0 && s[i] <= 31 || s[i] == 127)
+                {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否以指定子串开头
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <param name="prefix">待检查的前缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>如果字符串以指定子串开头则返回 true，否则返回 false</returns>
+        public static bool IsStartsWith(string s, string prefix, bool ignoreCase = false)
+        {
+            if (s == null || prefix == null)
+            {
+                return false;
+            }
+
+            if (prefix == string.Empty)
+            {
+                return true;
+            }
+
+            if (s.Length < prefix.Length)
+            {
+                return false;
+            }
+
+            for (var i = 0; i < prefix.Length; i++)
+            {
+                var sourceChar = s[i];
+                var targetChar = prefix[i];
+
+                if (ignoreCase)
+                {
+                    sourceChar = CharUtil.ToUpperLetter(sourceChar);
+                    targetChar = CharUtil.ToUpperLetter(targetChar);
+                }
+
+                if (sourceChar != targetChar)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否以指定子串结束
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <param name="suffix">待检查的后缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>如果字符串以指定子串结束则返回 true，否则返回 false</returns>
+        public static bool IsEndsWith(string s, string suffix, bool ignoreCase = false)
+        {
+            if (s == null || suffix == null)
+            {
+                return false;
+            }
+
+            if (suffix == string.Empty)
+            {
+                return true;
+            }
+
+            if (s.Length < suffix.Length)
+            {
+                return false;
+            }
+
+            var idx = 0;
+            for (var i = s.Length - suffix.Length; i < s.Length; i++)
+            {
+                var sourceChar = s[i];
+                var targetChar = suffix[idx++];
+
+                if (ignoreCase)
+                {
+                    sourceChar = CharUtil.ToUpperLetter(sourceChar);
+                    targetChar = CharUtil.ToUpperLetter(targetChar);
+                }
+
+                if (sourceChar != targetChar)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 }

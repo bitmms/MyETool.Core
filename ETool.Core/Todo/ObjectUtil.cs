@@ -26,13 +26,7 @@ namespace ETool.Core.Todo
             return obj == null;
         }
 
-        /// <summary>
-        /// 检查对象是否不为 null
-        /// </summary>
-        public static bool IsNotNull(object obj)
-        {
-            return obj != null;
-        }
+
 
         /// <summary>
         /// 检查对象是否为空（null 或者 空字符串或空白字符）
@@ -56,15 +50,7 @@ namespace ETool.Core.Todo
 
             return false;
         }
-
-        /// <summary>
-        /// 检查对象是否不为空（非 null 且 非空字符串 或者 非空集合）
-        /// </summary>
-        public static bool IsNotNullOrEmpty(object obj)
-        {
-            return !IsNullOrEmpty(obj);
-        }
-
+        
         /// <summary>
         /// 检查两个对象是否相等
         /// </summary>
