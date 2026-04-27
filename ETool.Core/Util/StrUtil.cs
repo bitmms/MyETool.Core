@@ -256,6 +256,50 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 移除字符串的指定前缀
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="prefix">待移除的前缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除前缀的字符串</returns>
+        public static string RemovePrefix(string sourceString, string prefix, bool ignoreCase = false)
+        {
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            if (prefix == null) throw new ArgumentNullException(nameof(prefix));
+
+            if (sourceString == "") return sourceString;
+
+            if (ValidatorUtil.IsStartsWith(sourceString, prefix, ignoreCase))
+            {
+                sourceString = sourceString.Substring(prefix.Length);
+            }
+
+            return sourceString;
+        }
+
+        /// <summary>
+        /// 移除字符串的指定后缀
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="suffix">待移除的后缀子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除后缀的字符串</returns>
+        public static string RemoveSuffix(string sourceString, string suffix, bool ignoreCase = false)
+        {
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            if (suffix == null) throw new ArgumentNullException(nameof(suffix));
+
+            if (sourceString == "") return sourceString;
+
+            if (ValidatorUtil.IsEndsWith(sourceString, suffix, ignoreCase))
+            {
+                sourceString = sourceString.Substring(0, sourceString.Length - suffix.Length);
+            }
+
+            return sourceString;
+        }
+
+        /// <summary>
         /// 在字符串的指定范围内查找指定字符首次出现的索引
         /// </summary>
         /// <param name="sourceString">源字符串</param>
