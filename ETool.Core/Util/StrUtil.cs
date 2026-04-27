@@ -298,6 +298,34 @@ namespace ETool.Core.Util
 
             return sourceString;
         }
+        
+        /// <summary>
+        /// 移除字符串中第一个匹配的指定字符
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="c">指定字符</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除第一个匹配的指定字符后的字符串</returns>
+        public static string RemoveFirstChar(string s, char c, bool ignoreCase = false)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (s == "") return s;
+
+            var index = ignoreCase ? IndexOfChar(s, c, 0, s.Length, true) : s.IndexOf(c);
+            if (index < 0)
+            {
+                return s;
+            }
+
+            // 构造新字符串：跳过 index 位置
+            var resultChars = new char[s.Length - 1];
+
+            // 复制字符串
+            s.CopyTo(0, resultChars, 0, index);
+            s.CopyTo(index + 1, resultChars, index, s.Length - index - 1);
+
+            return new string(resultChars);
+        }
 
         /// <summary>
         /// 在字符串的指定范围内查找指定字符首次出现的索引

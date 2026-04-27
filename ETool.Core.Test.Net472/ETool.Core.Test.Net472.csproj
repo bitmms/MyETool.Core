@@ -89,6 +89,7 @@
         <Compile Include="Util\StrUtilTest\IndexOfStringTest.cs" />
         <Compile Include="Util\StrUtilTest\RemoveAllNewLinesTest.cs" />
         <Compile Include="Util\StrUtilTest\RemoveAllWhitespaceTest.cs" />
+        <Compile Include="Util\StrUtilTest\RemoveFirstCharTest.cs" />
         <Compile Include="Util\StrUtilTest\RemovePrefixTest.cs" />
         <Compile Include="Util\StrUtilTest\RemoveSuffixTest.cs" />
         <Compile Include="Util\StrUtilTest\RepeatTest.cs" />

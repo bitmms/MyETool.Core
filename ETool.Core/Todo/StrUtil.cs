@@ -60,38 +60,6 @@ namespace ETool.Core.Todo
         //-----------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// 移除字符串中第一个匹配的指定字符
-        /// </summary>
-        /// <param name="s">字符串</param>
-        /// <param name="c">指定字符</param>
-        /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>移除第一个匹配的指定字符后的字符串</returns>
-        public static string RemoveFirstChar(string s, char c, bool ignoreCase = false)
-        {
-            if (string.IsNullOrEmpty(s))
-            {
-                return string.Empty;
-            }
-
-            var index = ignoreCase ? Core.Util.StrUtil.IndexOfChar(s, c, 0, s.Length, true) : s.IndexOf(c);
-            if (index < 0)
-            {
-                return s;
-            }
-
-            // 构造新字符串：跳过 index 位置
-            var resultChars = new char[s.Length - 1];
-
-            // 复制字符串前半部分 [0, index)
-            s.CopyTo(0, resultChars, 0, index);
-
-            // 复制字符串后半部分 [index+1, end)
-            s.CopyTo(index + 1, resultChars, index, s.Length - index - 1);
-
-            return new string(resultChars);
-        }
-
-        /// <summary>
         /// 移除字符串中全部的指定字符
         /// </summary>
         /// <param name="s">字符串</param>
