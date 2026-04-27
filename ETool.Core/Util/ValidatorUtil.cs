@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.Net.Mail;
 
 namespace ETool.Core.Util
 {
@@ -84,6 +85,64 @@ namespace ETool.Core.Util
                 }
             }
 
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否符合网络邮箱的格式规范【规则比较宽容的版本】
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合网络邮箱的格式规范返回 true，否则返回 false</returns>
+        /// <remarks>
+        /// <code>
+        /// 邮箱格式规则总结
+        ///  - 结构组成是：[用户名] @ [域名]
+        ///  - 总长度不超过 254 个字符
+        ///  - 只可以由 a-z, A-Z, 0-9 以及特殊符号 @ . _ % + - 组成
+        ///  - 特殊符号不能在用户名和域名的开头、结尾
+        ///  - 有且仅有一个 '@'
+        ///  - 用户名和域名不可为空
+        /// </code>
+        /// </remarks>
+        public static bool IsEmail(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+
+            // 判空
+            // 总长度不超过 254 个字符
+            var len = s.Length;
+            if (len > 254) return false;
+
+            // 只可以由 a-z, A-Z, 0-9 以及特殊符号 . _ % + - 组成
+            var chars = new[] { '.', '_', '%', '+', '-', '@' };
+            for (var i = 0; i < len; i++)
+            {
+                var c = s[i];
+                if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') || Array.IndexOf(chars, c) >= 0))
+                {
+                    return false;
+                }
+            }
+
+            // 分割
+            var segments = s.Split('@');
+
+            // 有且仅有一个 '@'
+            if (segments.Length != 2) return false;
+
+            var username = segments[0];
+            var domain = segments[1];
+
+            // 用户名和域名不可为空
+            if (username.Length <= 0 || domain.Length <= 0) return false;
+
+            // 特殊符号不能在用户名的开头、结尾
+            if (Array.IndexOf(chars, username[0]) >= 0 || Array.IndexOf(chars, username[username.Length - 1]) >= 0) return false;
+
+            // 特殊符号不能在域名的开头、结尾
+            if (Array.IndexOf(chars, domain[0]) >= 0 || Array.IndexOf(chars, domain[domain.Length - 1]) >= 0) return false;
+
+            // 全部校验通过
             return true;
         }
 
@@ -298,11 +357,6 @@ namespace ETool.Core.Util
             return part1 == 10
                    || (part1 == 172 && part2 >= 16 && part2 <= 31)
                    || (part1 == 192 && part2 == 168);
-        }
-
-        public static void Xx()
-        {
-            Console.WriteLine(IsPrivateIpv4("192.18.1.1"));
         }
 
         /// <summary>

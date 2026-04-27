@@ -13,6 +13,7 @@ namespace ETool.Core.Util
         /// <param name="phoneNumber">待脱敏的手机号码字符串</param>
         /// <param name="maskChar">用于替换的填充字符</param>
         /// <returns>脱敏后的字符串</returns>
+        /// <exception cref="ArgumentNullException"><c>phoneNumber</c> 为 null</exception>
         public static string MaskPhoneNumber(string phoneNumber, char maskChar = '*')
         {
             if (phoneNumber == null)
@@ -40,6 +41,7 @@ namespace ETool.Core.Util
         /// <param name="idCard">待脱敏的身份证号码字符串</param>
         /// <param name="maskChar">用于替换的填充字符</param>
         /// <returns>脱敏后的字符串</returns>
+        /// <exception cref="ArgumentNullException"><c>idCard</c> 为 null</exception>
         public static string MaskIdCard(string idCard, char maskChar = '*')
         {
             if (idCard == null)
@@ -61,11 +63,48 @@ namespace ETool.Core.Util
             return new string(chars);
         }
 
-        public static void Main()
+        /// <summary>
+        /// 密码脱敏处理：保留前2位和后2位
+        /// </summary>
+        /// <param name="password">待脱敏的密码字符串</param>
+        /// <param name="maskChar">用于替换的填充字符</param>
+        /// <returns>脱敏后的字符串</returns>
+        /// <exception cref="ArgumentNullException"><c>password</c> 为 null</exception>
+        public static string MaskPassword(string password, char maskChar = '*')
         {
-            // 110101199003071233
-            // 110************233
-            Console.WriteLine(MaskIdCard("110101199003071233"));
+            // 空值校验
+            if (password == null)
+            {
+                throw new ArgumentNullException(nameof(password));
+            }
+
+            // 提取长度
+            var length = password.Length;
+
+            // 长度≤4 固定返回 "****"
+            if (password.Length <= 4)
+            {
+                return "****";
+            }
+
+            // 初始化字符数组
+            var result = new char[password.Length];
+
+            // 保留前2位
+            result[0] = password[0];
+            result[1] = password[1];
+
+            // 保留后2位
+            result[length - 2] = password[length - 2];
+            result[length - 1] = password[length - 1];
+
+            // 中间全部填充掩码
+            for (var i = 2; i < length - 2; i++)
+            {
+                result[i] = maskChar;
+            }
+
+            return new string(result);
         }
     }
 }
