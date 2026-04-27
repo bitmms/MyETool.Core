@@ -105,7 +105,7 @@ namespace ETool.Core.Todo
                 return System.Convert.ChangeType(obj, targetType);
             }
 
-            // TODO: 支持自定义类型转换
+            // 支持自定义类型转换
 
             throw new InvalidCastException($"无法将类型为 {obj.GetType().Name} 的对象转换为类型为 {targetType.Name} 的对象");
         }

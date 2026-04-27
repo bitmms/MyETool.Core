@@ -254,5 +254,63 @@ namespace ETool.Core.Util
 
             return new string(result, 0, idx);
         }
+
+        // ===========================================================================================================================
+
+        /// <summary>
+        /// 在字符串的指定范围内查找指定字符首次出现的索引
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="targetChar">目标字符</param>
+        /// <param name="start">起始索引位置（包含）</param>
+        /// <param name="count">需要检查的字符数量</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        /// <exception cref="ArgumentNullException"><c>sourceString</c> 为 null</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>start</c> 小于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>start</c> 大于等于 <c>sourceString.Length</c></exception>
+        /// <exception cref="ArgumentOutOfRangeException"><c>count</c> 小于 0</exception>
+        /// <exception cref="ArgumentOutOfRangeException">检查范围超出字符串边界</exception>
+        public static int IndexOfChar(string sourceString, char targetChar, int start, int count, bool ignoreCase = false)
+        {
+            // 空值校验
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            // 起始索引范围校验
+            if (start < 0) throw new ArgumentOutOfRangeException(nameof(start), $"起始索引必须大于等于 0，当前值为 {start}");
+            if (start >= sourceString.Length) throw new ArgumentOutOfRangeException(nameof(start), $"起始索引必须小于 {sourceString.Length}，当前值为 {start}");
+            // 检查数量校验
+            if (count < 0) throw new ArgumentOutOfRangeException(nameof(count), $"检查数量必须大于等于 0，当前值为 {count}");
+            // 检查范围超出字符串边界
+            if (start > sourceString.Length - count) throw new ArgumentOutOfRangeException(nameof(count), $"检查范围超出字符串边界。起始位置={start}，数量={count}，长度={sourceString.Length}");
+
+            // 不忽略大小写时使用内置方法
+            if (!ignoreCase) return sourceString.IndexOf(targetChar, start, count);
+
+            // 忽略大小时遍历查找
+            var endIndex = start + count - 1;
+            var upperTarget = CharUtil.ToUpperLetter(targetChar);
+
+            for (var i = start; i <= endIndex; i++)
+            {
+                if (upperTarget == CharUtil.ToUpperLetter(sourceString[i])) return i;
+            }
+
+            return -1;
+        }
+
+        /// <summary>
+        /// 在字符串中查找指定字符首次出现的索引
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="targetChar">目标字符</param>
+        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        /// <exception cref="ArgumentNullException"><c>sourceString</c> 为 null</exception>
+        public static int IndexOfChar(string sourceString, char targetChar, bool ignoreCase = false)
+        {
+            return sourceString == null
+                ? throw new ArgumentNullException(nameof(sourceString))
+                : IndexOfChar(sourceString, targetChar, 0, sourceString.Length, ignoreCase);
+        }
     }
 }
