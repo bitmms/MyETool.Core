@@ -60,181 +60,6 @@ namespace ETool.Core.Todo
         //-----------------------------------------------------------------------------------------------------------------------------------
 
         /// <summary>
-        /// 在字符串的指定范围内查找指定字符首次出现的索引
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="targetChar">目标字符</param>
-        /// <param name="start">起始索引位置（包含）</param>
-        /// <param name="count">需要检查的字符数量</param>
-        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
-        /// <returns>找到返回索引，否则返回 -1</returns>
-        /// <exception cref="ArgumentNullException"><c>sourceString</c> 为 null</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><c>start</c> 超出有效范围</exception>
-        /// <exception cref="ArgumentOutOfRangeException"><c>count</c> 小于 0</exception>
-        /// <exception cref="ArgumentOutOfRangeException">检查范围超出字符串边界</exception>
-        public static int IndexOf(string sourceString, char targetChar, int start, int count, bool ignoreCase = false)
-        {
-            // 空值校验
-            if (sourceString == null)
-            {
-                throw new ArgumentNullException(nameof(sourceString));
-            }
-
-            var len = sourceString.Length;
-
-            // 起始索引范围校验
-            if (start < 0 || start > len)
-            {
-                throw new ArgumentOutOfRangeException(nameof(start), $"起始索引 {start} 超出有效范围 [0, {len}]");
-            }
-
-            // 检查数量校验
-            if (count < 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count), $"检查数量必须大于等于 0，当前值为 {count}");
-            }
-
-            // 检查范围超出字符串边界
-            if (start > len - count)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count), $"检查范围超出字符串边界。起始位置：{start}，数量：{count}，字符串长度：{len}");
-            }
-
-            // 无字符可遍历，直接返回 -1
-            if (count == 0)
-            {
-                return -1;
-            }
-
-            // 不忽略大小写时使用内置方法
-            if (!ignoreCase)
-            {
-                return sourceString.IndexOf(targetChar, start, count);
-            }
-
-            // 忽略大小时遍历查找
-            var endIndex = start + count - 1;
-            var upperTarget = CharUtil.ToUpperLetter(targetChar);
-
-            for (var i = start; i <= endIndex; i++)
-            {
-                if (upperTarget == CharUtil.ToUpperLetter(sourceString[i])) return i;
-            }
-
-            return -1;
-        }
-
-        /// <summary>
-        /// 在字符串中查找指定字符首次出现的索引
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="targetChar">目标字符</param>
-        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
-        /// <returns>找到返回索引，否则返回 -1</returns>
-        /// <exception cref="ArgumentNullException"><c>sourceString</c> 为 null</exception>
-        public static int IndexOf(string sourceString, char targetChar, bool ignoreCase = false)
-        {
-            if (sourceString == null)
-            {
-                throw new ArgumentNullException(nameof(sourceString));
-            }
-
-            return IndexOf(sourceString, targetChar, 0, sourceString.Length, ignoreCase);
-        }
-
-        /// <summary>
-        /// 在字符串的指定范围内查找指定子串首次出现的索引
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="targetString">目标子串</param>
-        /// <param name="start">起始索引位置（包含）</param>
-        /// <param name="count">需要检查的字符数量</param>
-        /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>找到返回索引，否则返回 -1</returns>
-        public static int IndexOf(string sourceString, string targetString, int start, int count, bool ignoreCase = false)
-        {
-            if (sourceString == null)
-            {
-                throw new ArgumentNullException(nameof(sourceString));
-            }
-
-            if (targetString == null)
-            {
-                throw new ArgumentNullException(nameof(targetString));
-            }
-
-            var sourceStringLen = sourceString.Length;
-            var targetStringLen = targetString.Length;
-
-            if (start < 0 || start >= sourceStringLen)
-            {
-                throw new ArgumentOutOfRangeException(nameof(start), $"起始索引 {start} 超出有效范围 [0, {sourceStringLen - 1}]");
-            }
-
-            if (count <= 0)
-            {
-                throw new ArgumentOutOfRangeException(nameof(count), $"检查数量必须大于 0，当前值为 {count}");
-            }
-
-            if (targetStringLen == 0)
-            {
-                return start;
-            }
-
-            if (count > sourceStringLen - start)
-            {
-                count = sourceStringLen - start;
-            }
-
-            if (count < targetStringLen)
-            {
-                return -1;
-            }
-
-            var endIndex = start + (count - 1) - (targetStringLen - 1);
-            for (var i = start; i <= endIndex; i++) // 外层大源串
-            {
-                var match = true;
-
-                for (var j = 0; j < targetStringLen; j++) // 内层小子串
-                {
-                    var sourceChar = ignoreCase ? CharUtil.ToUpperLetter(sourceString[i + j]) : sourceString[i + j];
-                    var targetChar = ignoreCase ? CharUtil.ToUpperLetter(targetString[j]) : targetString[j];
-
-                    if (sourceChar == targetChar)
-                    {
-                        continue;
-                    }
-
-                    match = false;
-                    break;
-                }
-
-                if (match)
-                {
-                    return i;
-                }
-            }
-
-
-            return -1;
-        }
-
-        /// <summary>
-        /// 在字符串中查找指定子串首次出现的索引
-        /// </summary>
-        /// <param name="sourceString">源字符串</param>
-        /// <param name="targetString">目标子串</param>
-        /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>找到返回索引，否则返回 -1</returns>
-        public static int IndexOf(string sourceString, string targetString, bool ignoreCase = false)
-        {
-            return IndexOf(sourceString, targetString, 0, sourceString.Length, ignoreCase);
-        }
-
-        //-----------------------------------------------------------------------------------------------------------------------------------
-
-        /// <summary>
         /// 移除字符串的指定前缀
         /// </summary>
         /// <param name="sourceString">源字符串</param>
@@ -270,7 +95,7 @@ namespace ETool.Core.Todo
         /// <returns>移除后缀的字符串</returns>
         public static string RemoveSuffix(string sourceString, string suffix, bool ignoreCase = false)
         {
-            if (sourceString == null || sourceString == string.Empty)
+            if (string.IsNullOrEmpty(sourceString))
             {
                 return "";
             }
@@ -302,7 +127,7 @@ namespace ETool.Core.Todo
                 return string.Empty;
             }
 
-            var index = ignoreCase ? Core.Todo.StrUtil.IndexOf(s, c, true) : s.IndexOf(c);
+            var index = ignoreCase ? Core.Util.StrUtil.IndexOfChar(s, c, true) : s.IndexOf(c);
             if (index < 0)
             {
                 return s;
@@ -430,7 +255,7 @@ namespace ETool.Core.Todo
                 return sourceString;
             }
 
-            var index = ignoreCase ? Core.Todo.StrUtil.IndexOf(sourceString, targetSubstring, true) : sourceString.IndexOf(targetSubstring, StringComparison.Ordinal);
+            var index = ignoreCase ? Core.Util.StrUtil.IndexOfString(sourceString, targetSubstring, true) : sourceString.IndexOf(targetSubstring, StringComparison.Ordinal);
             if (index < 0)
             {
                 return sourceString;
@@ -479,7 +304,7 @@ namespace ETool.Core.Todo
 
             while (startIndex <= sourceLength - targetLength)
             {
-                var foundIndex = Core.Todo.StrUtil.IndexOf(sourceString, targetSubstring, startIndex, sourceLength - startIndex, true);
+                var foundIndex = Core.Util.StrUtil.IndexOfString(sourceString, targetSubstring, startIndex, sourceLength - startIndex, true);
                 if (foundIndex == -1)
                 {
                     break;
@@ -645,7 +470,7 @@ namespace ETool.Core.Todo
             while (startIndex <= s.Length - sourceLen)
             {
                 var index = ignoreCase
-                    ? Core.Todo.StrUtil.IndexOf(s, sourceString, startIndex, s.Length - startIndex, true)
+                    ? Core.Util.StrUtil.IndexOfString(s, sourceString, startIndex, s.Length - startIndex, true)
                     : s.IndexOf(sourceString, startIndex, StringComparison.Ordinal);
 
                 if (index < 0)
@@ -690,7 +515,7 @@ namespace ETool.Core.Todo
             targetString ??= string.Empty;
 
             var index = ignoreCase
-                ? Core.Todo.StrUtil.IndexOf(s, sourceString, true)
+                ? Core.Util.StrUtil.IndexOfString(s, sourceString, true)
                 : s.IndexOf(sourceString, StringComparison.Ordinal);
 
             if (index == -1)
