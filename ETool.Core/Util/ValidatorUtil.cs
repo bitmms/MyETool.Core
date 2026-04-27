@@ -270,6 +270,42 @@ namespace ETool.Core.Util
         }
 
         /// <summary>
+        /// 判断一个字符串是否符合 私有IPv4 地址点分十进制表示法的格式规范
+        /// </summary>
+        /// <param name="s">待校验的字符串</param>
+        /// <returns>如果字符串符合 私有IPv4 地址点分十进制表示法的格式规范返回 true，否则返回 false</returns>
+        /// <remarks>
+        /// <code>
+        /// 私有 IPv4 地址
+        ///     1. 10.0.0.0 – 10.255.255.255
+        ///     2. 172.16.0.0 – 172.31.255.255
+        ///     3. 192.168.0.0 – 192.168.255.255
+        /// </code>
+        /// </remarks>
+        public static bool IsPrivateIpv4(string s)
+        {
+            // 先校验是否为合法 IPv4 格式
+            if (!IsIpv4(s)) return false;
+
+            // 分割为4个分段
+            var segments = s.Split('.');
+
+            // 解析前两段用于私有地址判断
+            var part1 = byte.Parse(segments[0]);
+            var part2 = byte.Parse(segments[1]);
+
+            // 私有地址三段规则
+            return part1 == 10
+                   || (part1 == 172 && part2 >= 16 && part2 <= 31)
+                   || (part1 == 192 && part2 == 168);
+        }
+
+        public static void Xx()
+        {
+            Console.WriteLine(IsPrivateIpv4("192.18.1.1"));
+        }
+
+        /// <summary>
         /// 判断一个数字是否是质数
         /// </summary>
         /// <param name="number">待判断的数字</param>
