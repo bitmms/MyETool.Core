@@ -86,6 +86,7 @@
         <Compile Include="Util\RandomUtilTest\ShuffleTest.cs" />
         <Compile Include="Util\StrUtilTest\EqualsTest.cs" />
         <Compile Include="Util\StrUtilTest\IndexOfChar.cs" />
+        <Compile Include="Util\StrUtilTest\IndexOfStringTest.cs" />
         <Compile Include="Util\StrUtilTest\RemoveAllNewLinesTest.cs" />
         <Compile Include="Util\StrUtilTest\RemoveAllWhitespaceTest.cs" />
         <Compile Include="Util\StrUtilTest\RemovePrefixTest.cs" />

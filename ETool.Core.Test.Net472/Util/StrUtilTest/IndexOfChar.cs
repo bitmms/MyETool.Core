@@ -45,18 +45,9 @@ namespace ETool.Core.Test.Net472.Util.StrUtilTest
         }
 
         [Fact]
-        public void IndexOfChar_SimpleOverload()
-        {
-            Assert.Equal(1, StrUtil.IndexOfChar("Hello", 'e', false));
-            Assert.Equal(1, StrUtil.IndexOfChar("Hello", 'E', true));
-            Assert.Equal(-1, StrUtil.IndexOfChar("Hello", 'x', false));
-        }
-
-        [Fact]
         public void IndexOfChar_SourceNull_Throws()
         {
             Assert.Throws<ArgumentNullException>(() => StrUtil.IndexOfChar(null, 'a', 0, 1, false));
-            Assert.Throws<ArgumentNullException>(() => StrUtil.IndexOfChar(null, 'a', false));
         }
 
         [Fact]

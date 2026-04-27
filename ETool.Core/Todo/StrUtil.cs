@@ -73,7 +73,7 @@ namespace ETool.Core.Todo
                 return string.Empty;
             }
 
-            var index = ignoreCase ? Core.Util.StrUtil.IndexOfChar(s, c, true) : s.IndexOf(c);
+            var index = ignoreCase ? Core.Util.StrUtil.IndexOfChar(s, c, 0, s.Length, true) : s.IndexOf(c);
             if (index < 0)
             {
                 return s;
@@ -201,7 +201,7 @@ namespace ETool.Core.Todo
                 return sourceString;
             }
 
-            var index = ignoreCase ? Core.Util.StrUtil.IndexOfString(sourceString, targetSubstring, true) : sourceString.IndexOf(targetSubstring, StringComparison.Ordinal);
+            var index = ignoreCase ? Core.Util.StrUtil.IndexOfString(sourceString, targetSubstring, 0, sourceString.Length, true) : sourceString.IndexOf(targetSubstring, StringComparison.Ordinal);
             if (index < 0)
             {
                 return sourceString;
@@ -461,7 +461,7 @@ namespace ETool.Core.Todo
             targetString ??= string.Empty;
 
             var index = ignoreCase
-                ? Core.Util.StrUtil.IndexOfString(s, sourceString, true)
+                ? Core.Util.StrUtil.IndexOfString(s, sourceString, 0, s.Length, true)
                 : s.IndexOf(sourceString, StringComparison.Ordinal);
 
             if (index == -1)
