@@ -255,8 +255,6 @@ namespace ETool.Core.Util
             return new string(result, 0, idx);
         }
 
-        // ===========================================================================================================================
-
         /// <summary>
         /// 在字符串的指定范围内查找指定字符首次出现的索引
         /// </summary>
@@ -312,5 +310,35 @@ namespace ETool.Core.Util
                 ? throw new ArgumentNullException(nameof(sourceString))
                 : IndexOfChar(sourceString, targetChar, 0, sourceString.Length, ignoreCase);
         }
+
+        // ===========================================================================================================================
+
+        /// <summary>
+        /// 在字符串的指定范围内查找指定子串首次出现的索引
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="targetString">目标子串</param>
+        /// <param name="start">起始索引位置（包含）</param>
+        /// <param name="count">需要检查的字符数量</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOfString(string sourceString, string targetString, int start, int count, bool ignoreCase = false)
+        {
+            return sourceString.IndexOf(targetString, start, count, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 在字符串中查找指定子串首次出现的索引
+        /// </summary>
+        /// <param name="sourceString">源字符串</param>
+        /// <param name="targetString">目标子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>找到返回索引，否则返回 -1</returns>
+        public static int IndexOfString(string sourceString, string targetString, bool ignoreCase = false)
+        {
+            return sourceString?.IndexOf(targetString, 0, sourceString.Length, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal) ?? throw new ArgumentNullException(nameof(sourceString));
+        }
+
+        // ===========================================================================================================================
     }
 }
