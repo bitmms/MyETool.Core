@@ -128,6 +128,10 @@ namespace ETool.Core.Todo
         /// <returns>该数字的十六进制字符串</returns>
         public static string ToHexString(int number)
         {
+            // return number.ToString("X");
+            
+            // 或者
+            
             if (number == 0)
             {
                 return "0";
@@ -150,6 +154,49 @@ namespace ETool.Core.Todo
             }
 
             return result;
+        }
+        
+        /// <summary>
+        /// 将16进制字符串转换为十进制数值
+        /// </summary>
+        /// <param name="hex">16进制字符串</param>
+        /// <returns>十进制数值</returns>
+        public static int HexToInt(string hex)
+        {
+            return Convert.ToInt32(hex, 16);
+        }
+
+        /// <summary>
+        /// 将16进制字符串转换为字节数组
+        /// </summary>
+        /// <param name="hex">16进制字符串</param>
+        /// <returns>字节数组</returns>
+        /// <exception cref="ArgumentException"></exception>
+        public static byte[] HexToBytes(string hex)
+        {
+            hex = hex.Replace(" ", "");
+            if (hex.Length % 2 != 0)
+                throw new ArgumentException("Hex string must have an even length");
+
+            byte[] bytes = new byte[hex.Length / 2];
+            for (int i = 0; i < hex.Length; i += 2)
+                bytes[i / 2] = Convert.ToByte(hex.Substring(i, 2), 16);
+
+            return bytes;
+        }
+
+        /// <summary>
+        /// 将字节数组转换为16进制字符串
+        /// </summary>
+        /// <param name="bytes">字节数组</param>
+        /// <returns>16进制字符串</returns>
+        public static string BytesToHex(byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in bytes)
+                sb.Append(b.ToString("X2"));
+
+            return sb.ToString();
         }
         
         /// <summary>
