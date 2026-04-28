@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Text;
 
 namespace ETool.Core.Util
 {
@@ -298,14 +300,14 @@ namespace ETool.Core.Util
 
             return sourceString;
         }
-        
+
         /// <summary>
-        /// 移除字符串中第一个匹配的指定字符
+        /// 移除字符串中匹配的第一个指定字符
         /// </summary>
         /// <param name="s">字符串</param>
         /// <param name="c">指定字符</param>
         /// <param name="ignoreCase">是否忽略大小写</param>
-        /// <returns>移除第一个匹配的指定字符后的字符串</returns>
+        /// <returns>移除匹配的第一个指定字符后的字符串</returns>
         public static string RemoveFirstChar(string s, char c, bool ignoreCase = false)
         {
             if (s == null) throw new ArgumentNullException(nameof(s));
@@ -325,6 +327,263 @@ namespace ETool.Core.Util
             s.CopyTo(index + 1, resultChars, index, s.Length - index - 1);
 
             return new string(resultChars);
+        }
+
+        /// <summary>
+        /// 移除字符串中匹配的全部指定字符
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="c">指定字符</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除匹配的全部指定字符后的字符串</returns>
+        public static string RemoveAllChar(string s, char c, bool ignoreCase = false)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (s == "") return s;
+
+            var idx = 0;
+            var len = s.Length;
+            var resultChars = new char[len];
+
+            if (ignoreCase)
+            {
+                c = CharUtil.ToUpperLetter(c);
+                for (var i = 0; i < len; i++)
+                {
+                    if (CharUtil.ToUpperLetter(s[i]) != c)
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < len; i++)
+                {
+                    if (s[i] != c)
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+
+            return new string(resultChars, 0, idx);
+        }
+
+        /// <summary>
+        /// 移除字符串中全部的指定字符
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="chars">字符数组</param>
+        /// <returns>移除全部指定字符后的字符串</returns>
+        public static string RemoveAllChars(string s, params char[] chars)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (chars == null) throw new ArgumentNullException(nameof(chars));
+            if (s == "" || chars.Length == 0) return s;
+
+            var idx = 0;
+            var len = s.Length;
+            var resultChars = new char[len];
+
+            if (chars.Length > 4)
+            {
+                var charSet = new HashSet<char>(chars);
+                for (var i = 0; i < len; i++)
+                {
+                    if (!charSet.Contains(s[i]))
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < len; i++)
+                {
+                    if (Array.IndexOf(chars, s[i]) < 0)
+                    {
+                        resultChars[idx++] = s[i];
+                    }
+                }
+            }
+
+            return new string(resultChars, 0, idx);
+        }
+
+        /// <summary>
+        /// 移除字符串中全部的指定字符【忽略大小写】
+        /// </summary>
+        /// <param name="s">字符串</param>
+        /// <param name="chars">字符数组</param>
+        /// <returns>移除全部指定字符后的字符串</returns>
+        public static string RemoveAllCharsIgnoreCase(string s, params char[] chars)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (chars == null) throw new ArgumentNullException(nameof(chars));
+            if (s == "" || chars.Length == 0) return s;
+
+            var idx = 0;
+            var len = s.Length;
+            var indexs = new int[len];
+            var temp = s;
+
+            s = ToUpperLetter(s);
+            for (var i = 0; i < chars.Length; i++) chars[i] = CharUtil.ToUpperLetter(chars[i]);
+
+            if (chars.Length > 4)
+            {
+                var charSet = new HashSet<char>(chars);
+                for (var i = 0; i < len; i++)
+                {
+                    if (!charSet.Contains(s[i]))
+                    {
+                        indexs[idx++] = i;
+                    }
+                }
+            }
+            else
+            {
+                for (var i = 0; i < len; i++)
+                {
+                    if (Array.IndexOf(chars, s[i]) < 0)
+                    {
+                        indexs[idx++] = i;
+                    }
+                }
+            }
+
+            var resultChars = new char[idx];
+            for (var i = 0; i < idx; i++)
+            {
+                resultChars[i] = temp[indexs[i]];
+            }
+
+            return new string(resultChars, 0, idx);
+        }
+
+        /// <summary>
+        /// 移除字符串中第一个匹配的指定子串
+        /// </summary>
+        /// <param name="sourceString">字符串</param>
+        /// <param name="targetSubstring">待移除的子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除第一个匹配的指定子串后的字符串</returns>
+        public static string RemoveFirstString(string sourceString, string targetSubstring, bool ignoreCase = false)
+        {
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            if (targetSubstring == null) throw new ArgumentNullException(nameof(targetSubstring));
+            if (sourceString == string.Empty || targetSubstring == string.Empty) return sourceString;
+
+            var index = IndexOfString(sourceString, targetSubstring, 0, sourceString.Length, ignoreCase);
+            if (index < 0)
+            {
+                return sourceString;
+            }
+
+            var resultChars = new char[sourceString.Length - targetSubstring.Length];
+            sourceString.CopyTo(0, resultChars, 0, index);
+            sourceString.CopyTo(index + targetSubstring.Length, resultChars, index, sourceString.Length - index - targetSubstring.Length);
+
+            return new string(resultChars);
+        }
+
+        /// <summary>
+        /// 移除字符串中全部的指定子串
+        /// </summary>
+        /// <param name="sourceString">字符串</param>
+        /// <param name="targetSubstring">待移除的子串</param>
+        /// <param name="ignoreCase">是否忽略大小写</param>
+        /// <returns>移除全部指定子串后的字符串</returns>
+        public static string RemoveAllString(string sourceString, string targetSubstring, bool ignoreCase = false)
+        {
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            if (targetSubstring == null) throw new ArgumentNullException(nameof(targetSubstring));
+            if (sourceString == string.Empty || targetSubstring == string.Empty) return sourceString;
+
+            var index = IndexOfString(sourceString, targetSubstring, 0, sourceString.Length, ignoreCase);
+            if (index < 0)
+            {
+                return sourceString;
+            }
+
+            if (!ignoreCase)
+            {
+                return sourceString.Replace(targetSubstring, "");
+            }
+
+            var sb = new StringBuilder();
+            var startIndex = 0;
+            var targetLength = targetSubstring.Length;
+            var sourceLength = sourceString.Length;
+
+            while (startIndex <= sourceLength - targetLength)
+            {
+                var foundIndex = IndexOfString(sourceString, targetSubstring, startIndex, sourceLength - startIndex, true);
+                if (foundIndex == -1)
+                {
+                    break;
+                }
+
+                // 追加 [start, foundIndex) 之间的内容
+                sb.Append(sourceString, startIndex, foundIndex - startIndex);
+                // 跳过匹配部分
+                startIndex = foundIndex + targetLength;
+            }
+
+            // 追加剩余部分
+            sb.Append(sourceString, startIndex, sourceLength - startIndex);
+            return sb.ToString();
+        }
+
+        /// <summary>
+        /// 按照子串的传入顺序移除字符串中全部的指定子串
+        /// </summary>
+        /// <param name="sourceString">字符串</param>
+        /// <param name="targetSubstrings">字符串数组</param>
+        /// <returns>移除全部指定子串后的字符串</returns>
+        public static string RemoveAllStrings(string sourceString, params string[] targetSubstrings)
+        {
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            if (targetSubstrings == null) throw new ArgumentNullException(nameof(targetSubstrings));
+            if (sourceString == "" || targetSubstrings.Length == 0) return sourceString;
+
+            var len = targetSubstrings.Length;
+            for (var i = 0; i < len; i++)
+            {
+                var targetSubstring = targetSubstrings[i];
+                if (!string.IsNullOrEmpty(targetSubstring))
+                {
+                    sourceString = RemoveAllString(sourceString, targetSubstring);
+                }
+            }
+
+            return sourceString;
+        }
+
+        /// <summary>
+        /// 按照子串的传入顺序移除字符串中全部的指定子串
+        /// </summary>
+        /// <param name="sourceString">字符串</param>
+        /// <param name="targetSubstrings">字符串数组</param>
+        /// <returns>移除全部指定子串后的字符串</returns>
+        public static string RemoveAllStringsIgnoreCase(string sourceString, params string[] targetSubstrings)
+        {
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            if (targetSubstrings == null) throw new ArgumentNullException(nameof(targetSubstrings));
+            if (sourceString == "" || targetSubstrings.Length == 0) return sourceString;
+
+            var len = targetSubstrings.Length;
+            for (var i = 0; i < len; i++)
+            {
+                var targetSubstring = targetSubstrings[i];
+                if (!string.IsNullOrEmpty(targetSubstring))
+                {
+                    sourceString = RemoveAllString(sourceString, targetSubstring, true);
+                }
+            }
+
+            return sourceString;
         }
 
         /// <summary>
@@ -380,6 +639,83 @@ namespace ETool.Core.Util
         public static int IndexOfString(string sourceString, string targetString, int start, int count, bool ignoreCase = false)
         {
             return sourceString.IndexOf(targetString, start, count, ignoreCase ? StringComparison.OrdinalIgnoreCase : StringComparison.Ordinal);
+        }
+
+        /// <summary>
+        /// 替换字符串中所有匹配的字符为指定字符
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="sourceChar">被替换的源字符</param>
+        /// <param name="targetChar">用于替换的目标字符</param>
+        /// <param name="ignoreCase">是否忽略大小写（仅对英文字母 a-z / A-Z 生效）</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceChar(string s, char sourceChar, char targetChar, bool ignoreCase = false)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (s == string.Empty) return s;
+
+            if (!ignoreCase)
+            {
+                return s.Replace(sourceChar, targetChar);
+            }
+
+            var sourceUpperChar = CharUtil.ToUpperLetter(sourceChar);
+            var resultChars = new char[s.Length];
+            for (var i = 0; i < s.Length; i++)
+            {
+                if (CharUtil.ToUpperLetter(s[i]) == sourceUpperChar)
+                {
+                    resultChars[i] = targetChar;
+                }
+                else
+                {
+                    resultChars[i] = s[i];
+                }
+            }
+
+            return new string(resultChars);
+        }
+
+        /// <summary>
+        /// 替换字符串中所有匹配的字符串为指定字符串
+        /// </summary>
+        /// <param name="s">源字符串</param>
+        /// <param name="sourceString">被替换的源字符串</param>
+        /// <param name="targetString">用于替换的目标字符串</param>
+        /// <param name="ignoreCase">是否忽略大小写（仅对英文字母 a-z / A-Z 生效）</param>
+        /// <returns>替换后的新字符串</returns>
+        public static string ReplaceString(string s, string sourceString, string targetString, bool ignoreCase = false)
+        {
+            if (s == null) throw new ArgumentNullException(nameof(s));
+            if (sourceString == null) throw new ArgumentNullException(nameof(sourceString));
+            if (targetString == null) throw new ArgumentNullException(nameof(targetString));
+
+            if (s == string.Empty || sourceString == string.Empty) return s;
+
+            var result = new StringBuilder();
+            var startIndex = 0;
+            var sourceLen = sourceString.Length;
+
+            while (startIndex <= s.Length - sourceLen)
+            {
+                var index = IndexOfString(s, sourceString, startIndex, s.Length - startIndex, ignoreCase);
+                if (index < 0)
+                {
+                    break;
+                }
+
+                result.Append(s, startIndex, index - startIndex);
+                result.Append(targetString);
+
+                startIndex = index + sourceLen;
+            }
+
+            if (startIndex < s.Length)
+            {
+                result.Append(s, startIndex, s.Length - startIndex);
+            }
+
+            return result.ToString();
         }
     }
 }
