@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using ETool.Core.Util.Enum;
 
 namespace ETool.Core.Util
 {
@@ -14,33 +15,16 @@ namespace ETool.Core.Util
         /// </summary>
         /// <param name="s1">第一个字符串</param>
         /// <param name="s2">第二个字符串</param>
-        /// <param name="ignoreCase">是否忽略英文字符的大小写</param>
+        /// <param name="stringCase">字符串大小写比较规则，默认不忽略大小写</param>
         /// <returns>如果字符串相等返回 true，否则返回 false</returns>
-        public static bool Equals(string s1, string s2, bool ignoreCase = false)
+        public static bool Equals(string s1, string s2, StringCase stringCase = StringCase.Ordinal)
         {
-            // 引用相等（包括都为 null）直接返回 true
-            if (s1 == s2)
-            {
-                return true;
-            }
-
-            // 任意一个为 null，另一个不为 null，直接返回 false
-            if (s1 == null || s2 == null)
-            {
-                return false;
-            }
-
-            // 长度不同直接返回 false
-            if (s1.Length != s2.Length)
-            {
-                return false;
-            }
+            if (s1 == s2) return true;
+            if (s1 == null || s2 == null) return false;
+            if (s1.Length != s2.Length) return false;
 
             // 不忽略大小写时一定不相等，直接返回 false
-            if (!ignoreCase)
-            {
-                return false;
-            }
+            if (stringCase == StringCase.Ordinal) return false;
 
             // 忽略大小写的前提下逐字符比较
             var len = s1.Length;

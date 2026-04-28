@@ -1,4 +1,5 @@
 ﻿using ETool.Core.Util;
+using ETool.Core.Util.Enum;
 using Xunit;
 
 namespace ETool.Core.Test.Net472.Util.StrUtilTest
@@ -43,7 +44,7 @@ namespace ETool.Core.Test.Net472.Util.StrUtilTest
         [InlineData("same", "same")] // 完全相同
         public void Equals_IgnoreCase_SameIgnoringCase_ReturnsTrue(string s1, string s2)
         {
-            Assert.True(StrUtil.Equals(s1, s2, ignoreCase: true));
+            Assert.True(StrUtil.Equals(s1, s2, StringCase.OrdinalIgnoreCase));
         }
 
         [Theory]
@@ -56,7 +57,7 @@ namespace ETool.Core.Test.Net472.Util.StrUtilTest
         [InlineData("ABC", "aBcD")] // 长度不同且内容不同
         public void Equals_IgnoreCase_DifferentContent_ReturnsFalse(string s1, string s2)
         {
-            Assert.False(StrUtil.Equals(s1, s2, ignoreCase: true));
+            Assert.False(StrUtil.Equals(s1, s2, StringCase.OrdinalIgnoreCase));
         }
 
         // 特殊场景：非字母字符不受大小写影响，但验证逐字符比较正确性
@@ -69,8 +70,8 @@ namespace ETool.Core.Test.Net472.Util.StrUtilTest
         [InlineData("中文", "汉字")] // Unicode 字符不同
         public void Equals_NonLetterCharacters_BehaveAsExpected(string s1, string s2)
         {
-            Assert.Equal(s1 == s2, StrUtil.Equals(s1, s2, ignoreCase: false));
-            Assert.Equal(s1 == s2, StrUtil.Equals(s1, s2, ignoreCase: true));
+            Assert.Equal(s1 == s2, StrUtil.Equals(s1, s2));
+            Assert.Equal(s1 == s2, StrUtil.Equals(s1, s2, StringCase.OrdinalIgnoreCase));
         }
     }
 }
