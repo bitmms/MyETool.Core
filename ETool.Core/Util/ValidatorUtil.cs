@@ -865,5 +865,17 @@ namespace ETool.Core.Util
 
             return true;
         }
+
+        /// <summary>
+        /// 判断一个字符串是否为指定格式的日期字符串
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <param name="formats">日期格式字符串，可传入多个</param>
+        /// <returns>如果字符串是指定格式的日期字符串则返回 true，否则返回 false</returns>
+        public static bool IsDateTimeString(string s, params string[] formats)
+        {
+            if (string.IsNullOrEmpty(s) || formats == null || formats.Length == 0) return false;
+            return DateTime.TryParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+        }
     }
 }

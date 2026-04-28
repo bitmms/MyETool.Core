@@ -56,5 +56,25 @@ namespace ETool.Core.Todo
             if (string.IsNullOrEmpty(s)) return Array.Empty<byte>();
             return Encoding.GetEncoding("GBK").GetBytes(s);
         }
+
+        /// <summary>
+        /// 获取字符串的字节数组
+        /// </summary>
+        /// <param name="str">要处理的字符串</param>
+        /// <returns>字符串的字节数组</returns>
+        public static byte[] GetBytes(string str)
+        {
+            return System.Text.Encoding.UTF8.GetBytes(str);
+        }
+
+        /// <summary>
+        /// 将字节数组转换为字符串
+        /// </summary>
+        /// <param name="bytes">要处理的字节数组</param>
+        /// <returns>字节数组转换后的字符串</returns>
+        public static string GetString(byte[] bytes)
+        {
+            return System.Text.Encoding.UTF8.GetString(bytes);
+        }
     }
 }

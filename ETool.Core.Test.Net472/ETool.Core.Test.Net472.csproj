@@ -118,6 +118,7 @@
         <Compile Include="Util\ValidatorUtilTest\IsContainsLowerLetterTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsContainsStringTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsContainsUpperLetterTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsDateStringTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEmailTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEndsWithTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEvenTest.cs" />
