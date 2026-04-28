@@ -1,9 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Text;
 using System.Xml;
 
-namespace EasyTool
+namespace ETool.Core.Todo
 {
     /// <summary>
     /// XML工具类
@@ -60,6 +59,7 @@ namespace EasyTool
             {
                 element.InnerText = value;
             }
+
             return element;
         }
 
@@ -173,6 +173,7 @@ namespace EasyTool
             {
                 document.Save(writer);
             }
+
             return stringBuilder.ToString();
         }
 
@@ -247,6 +248,7 @@ namespace EasyTool
             {
                 dictionary.Add(attribute.Name, attribute.Value);
             }
+
             return dictionary;
         }
 
@@ -265,6 +267,7 @@ namespace EasyTool
                 var attribute = CreateXmlAttribute(pair.Key, pair.Value);
                 AddXmlAttribute(element, attribute);
             }
+
             return element;
         }
     }

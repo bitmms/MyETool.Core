@@ -24,7 +24,7 @@ namespace ETool.Core.Test.Net472.Util.RandomUtilTest
         {
             var result = RandomUtil.GetRandomStringFromNumberAndLetter(200);
 
-            Assert.All(result, c => Assert.True(CharUtil.IsDigit(c) || CharUtil.IsLetter(c)));
+            Assert.All(result, c => Assert.True(ValidatorUtil.IsDigit(c) || ValidatorUtil.IsLetter(c)));
         }
 
         /// <summary>

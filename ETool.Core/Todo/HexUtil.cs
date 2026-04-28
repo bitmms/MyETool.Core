@@ -1,8 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Text;
+using ETool.Core.Util;
 
-namespace EasyTool
+namespace ETool.Core.Todo.ToolCategory
 {
     /// <summary>
     /// 16进制工具类
@@ -86,26 +86,6 @@ namespace EasyTool
         }
 
         /// <summary>
-        /// 将16进制字符串中的所有字符转换为大写
-        /// </summary>
-        /// <param name="hex">16进制字符串</param>
-        /// <returns>大写16进制字符串</returns>
-        public static string HexToUpper(string hex)
-        {
-            return hex.ToUpper();
-        }
-
-        /// <summary>
-        /// 将16进制字符串中的所有字符转换为小写
-        /// </summary>
-        /// <param name="hex">16进制字符串</param>
-        /// <returns>小写16进制字符串</returns>
-        public static string HexToLower(string hex)
-        {
-            return hex.ToLower();
-        }
-
-        /// <summary>
         /// 获取16进制字符串中指定位置的字符
         /// </summary>
         /// <param name="hex">16进制字符串</param>
@@ -114,7 +94,7 @@ namespace EasyTool
         /// <exception cref="IndexOutOfRangeException"></exception>
         public static char GetHexChar(string hex, int index)
         {
-            hex = HexToUpper(hex);
+            hex = hex.ToUpper();
             if (index < 0 || index >= hex.Length)
                 throw new IndexOutOfRangeException("Index must be within the range of the hex string");
 
@@ -131,23 +111,13 @@ namespace EasyTool
         /// <exception cref="ArgumentException"></exception>
         public static string ReplaceHexChar(string hex, int index, char newChar)
         {
-            if (!IsHexChar(newChar))
+            if (!ValidatorUtil.IsHexChar(newChar))
                 throw new ArgumentException("New character must be a valid hex character");
 
             StringBuilder sb = new StringBuilder(hex);
-            sb[index] = HexToUpper(newChar.ToString())[0];
+            sb[index] = newChar.ToString().ToUpper()[0];
 
             return sb.ToString();
-        }
-
-        /// <summary>
-        /// 判断一个字符是否是16进制字符
-        /// </summary>
-        /// <param name="c">字符</param>
-        /// <returns></returns>
-        public static bool IsHexChar(char c)
-        {
-            return (c >= '0' && c <= '9') || (c >= 'A' && c <= 'F') || (c >= 'a' && c <= 'f');
         }
 
         /// <summary>
@@ -160,11 +130,11 @@ namespace EasyTool
         /// <exception cref="ArgumentException"></exception>
         public static string ReplaceHexChar(string hex, int index, string newHexChar)
         {
-            if (newHexChar.Length != 1 || !IsHexChar(newHexChar[0]))
+            if (newHexChar.Length != 1 || !ValidatorUtil.IsHexChar(newHexChar[0]))
                 throw new ArgumentException("New character must be a valid hex character");
 
             StringBuilder sb = new StringBuilder(hex);
-            sb[index] = HexToUpper(newHexChar)[0];
+            sb[index] = newHexChar.ToUpper()[0];
 
             return sb.ToString();
         }
@@ -205,11 +175,11 @@ namespace EasyTool
         /// <exception cref="ArgumentException"></exception>
         public static string InsertHexChar(string hex, int index, char newChar)
         {
-            if (!IsHexChar(newChar))
+            if (!ValidatorUtil.IsHexChar(newChar))
                 throw new ArgumentException("New character must be a valid hex character");
 
             StringBuilder sb = new StringBuilder(hex);
-            sb.Insert(index, HexToUpper(newChar.ToString()));
+            sb.Insert(index, newChar.ToString().ToUpper());
 
             return sb.ToString();
         }
@@ -224,11 +194,11 @@ namespace EasyTool
         /// <exception cref="ArgumentException"></exception>
         public static string InsertHexChar(string hex, int index, string newHexChar)
         {
-            if (newHexChar.Length != 1 || !IsHexChar(newHexChar[0]))
+            if (newHexChar.Length != 1 || !ValidatorUtil.IsHexChar(newHexChar[0]))
                 throw new ArgumentException("New character must be a valid hex character");
 
             StringBuilder sb = new StringBuilder(hex);
-            sb.Insert(index, HexToUpper(newHexChar));
+            sb.Insert(index, newHexChar.ToUpper());
 
             return sb.ToString();
         }
@@ -239,7 +209,7 @@ namespace EasyTool
         /// <param name="hex">16进制字符串</param>
         /// <param name="index">位置下标</param>
         /// <param name="newByte">字符</param>
-        /// <returns新16进制字符串></returns>
+        /// <returns>新16进制字符串></returns>
         public static string InsertHexChar(string hex, int index, byte newByte)
         {
             string newHexChar = newByte.ToString("X2");
@@ -324,28 +294,6 @@ namespace EasyTool
         }
 
         /// <summary>
-        /// 将16进制字符串中指定位置的字符向左移动1位
-        /// </summary>
-        /// <param name="hex">16进制字符串</param>
-        /// <param name="index">位置下标</param>
-        /// <returns>新16进制字符串</returns>
-        public static string ShiftHexCharLeft(string hex, int index)
-        {
-            return ShiftHexChar(hex, index, -1);
-        }
-
-        /// <summary>
-        /// 将16进制字符串中指定位置的字符向右移动1位
-        /// </summary>
-        /// <param name="hex">16进制字符串</param>
-        /// <param name="index">位置下标</param>
-        /// <returns></returns>
-        public static string ShiftHexCharRight(string hex, int index)
-        {
-            return ShiftHexChar(hex, index, 1);
-        }
-
-        /// <summary>
         /// 将16进制字符串中指定位置的字符向左旋转1位
         /// </summary>
         /// <param name="hex">16进制字符串</param>
@@ -382,6 +330,5 @@ namespace EasyTool
 
             return hex;
         }
-
     }
 }

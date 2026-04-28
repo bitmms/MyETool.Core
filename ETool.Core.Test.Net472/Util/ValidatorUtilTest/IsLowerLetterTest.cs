@@ -1,7 +1,7 @@
 ﻿using ETool.Core.Util;
 using Xunit;
 
-namespace ETool.Core.Test.Net472.Util.CharUtilTest
+namespace ETool.Core.Test.Net472.Util.ValidatorUtilTest
 {
     public class IsLowerLetterTest
     {
@@ -22,7 +22,7 @@ namespace ETool.Core.Test.Net472.Util.CharUtilTest
         [InlineData('．', false, "特殊字符不合法")]
         public void Test(char input, bool expectedResult, string errorMessage)
         {
-            var result = CharUtil.IsLowerLetter(input);
+            var result = ValidatorUtil.IsLowerLetter(input);
             Assert.True(result == expectedResult, errorMessage);
         }
     }

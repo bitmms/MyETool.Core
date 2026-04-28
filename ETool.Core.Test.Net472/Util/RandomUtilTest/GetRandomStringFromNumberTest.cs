@@ -23,7 +23,7 @@ namespace ETool.Core.Test.Net472.Util.RandomUtilTest
         public void GetRandomStringFromNumber_OnlyDigits()
         {
             var result = RandomUtil.GetRandomStringFromNumber(100);
-            Assert.All(result, c => Assert.True(CharUtil.IsDigit(c)));
+            Assert.All(result, c => Assert.True(ValidatorUtil.IsDigit(c)));
         }
 
         /// <summary>

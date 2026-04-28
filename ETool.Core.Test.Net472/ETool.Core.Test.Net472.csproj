@@ -53,12 +53,11 @@
     </ItemGroup>
     <ItemGroup>
         <Compile Include="Properties\AssemblyInfo.cs" />
-        <Compile Include="Util\CharUtilTest\IsDigitTest.cs" />
-        <Compile Include="Util\CharUtilTest\IsLetterTest.cs" />
-        <Compile Include="Util\CharUtilTest\IsLowerLetterTest.cs" />
-        <Compile Include="Util\CharUtilTest\IsUpperLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToUpperLetterTest.cs" />
+        <Compile Include="Util\CloneUtilTest\DeepCloneAsyncTest.cs" />
+        <Compile Include="Util\CloneUtilTest\DeepCloneTest.cs" />
+        <Compile Include="Util\MaskUtilTest\MaskEmailTest.cs" />
         <Compile Include="Util\MaskUtilTest\MaskIdCardTest.cs" />
         <Compile Include="Util\MaskUtilTest\MaskPasswordTest.cs" />
         <Compile Include="Util\MaskUtilTest\MaskPhoneNumberTest.cs" />
@@ -119,14 +118,20 @@
         <Compile Include="Util\ValidatorUtilTest\IsContainsStringTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsContainsUpperLetterTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsDateStringTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsDigitTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEmailTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEndsWithTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsEvenTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsHexCharTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsHexStringTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsLetterTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsLowerLetterTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsOddTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsPerfectSquareTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsPrimeTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsPrivateIpv4Test.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsStartsWithTest.cs" />
+        <Compile Include="Util\ValidatorUtilTest\IsUpperLetterTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidIpv4Test.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidNumberTest.cs" />
         <Compile Include="Util\ValidatorUtilTest\IsValidPhoneNumberTest.cs" />

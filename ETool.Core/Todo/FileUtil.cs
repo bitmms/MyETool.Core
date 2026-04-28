@@ -4,7 +4,7 @@ using System.IO;
 using System.Net;
 using System.Text;
 
-namespace ETool.Core.Todo.CodeCategory
+namespace ETool.Core.Todo
 {
     /// <summary>
     /// 文件操作类

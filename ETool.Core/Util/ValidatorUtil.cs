@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
-using System.Net.Mail;
 
 namespace ETool.Core.Util
 {
@@ -44,7 +43,7 @@ namespace ETool.Core.Util
             // 后 9 位：必须是 0-9 的数字
             for (var i = 2; i < 11; i++)
             {
-                if (!CharUtil.IsDigit(s[i]))
+                if (!IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -79,7 +78,7 @@ namespace ETool.Core.Util
             var len = s.Length;
             for (var i = 0; i < len; i++)
             {
-                if (!CharUtil.IsDigit(s[i]))
+                if (!IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -187,7 +186,7 @@ namespace ETool.Core.Util
             var len = s.Length;
             for (var i = startIndex; i < len; i++)
             {
-                if (!CharUtil.IsDigit(s[i]))
+                if (!IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -228,7 +227,7 @@ namespace ETool.Core.Util
             // 除首位的其他字符校验：必须是 0-9 的数字
             for (var i = 1; i < len; i++)
             {
-                if (!CharUtil.IsDigit(s[i]))
+                if (!IsDigit(s[i]))
                 {
                     return false;
                 }
@@ -265,7 +264,7 @@ namespace ETool.Core.Util
             for (var i = 0; i < len; i++)
             {
                 // 段落处理
-                if (CharUtil.IsDigit(s[i]))
+                if (IsDigit(s[i]))
                 {
                     // 前导零
                     if (currentSegmentLen > 0 && currentSegmentSum == 0)
@@ -447,7 +446,7 @@ namespace ETool.Core.Util
             var len = s.Length;
             for (var i = 0; i < len; i++)
             {
-                if (!CharUtil.IsDigit(s[i])) return false;
+                if (!IsDigit(s[i])) return false;
             }
 
             return true;
@@ -465,7 +464,7 @@ namespace ETool.Core.Util
             var len = s.Length;
             for (var i = 0; i < len; i++)
             {
-                if (!CharUtil.IsLetter(s[i])) return false;
+                if (!IsLetter(s[i])) return false;
             }
 
             return true;
@@ -483,7 +482,7 @@ namespace ETool.Core.Util
             var len = s.Length;
             for (var i = 0; i < len; i++)
             {
-                if (!CharUtil.IsLowerLetter(s[i])) return false;
+                if (!IsLowerLetter(s[i])) return false;
             }
 
             return true;
@@ -501,7 +500,7 @@ namespace ETool.Core.Util
             var len = s.Length;
             for (var i = 0; i < len; i++)
             {
-                if (!CharUtil.IsUpperLetter(s[i])) return false;
+                if (!IsUpperLetter(s[i])) return false;
             }
 
             return true;
@@ -570,12 +569,12 @@ namespace ETool.Core.Util
             var digitLastIndex = len == 15 ? len : len - 1;
             for (var i = 0; i < digitLastIndex; i++)
             {
-                if (!CharUtil.IsDigit(s[i])) return false;
+                if (!IsDigit(s[i])) return false;
             }
 
             // 第18位字符只可以是 "xX0-9"
-            if (len == 18 && ignoreCase && !CharUtil.IsDigit(s[17]) && s[17] != 'X' && s[17] != 'x') return false;
-            if (len == 18 && !ignoreCase && !CharUtil.IsDigit(s[17]) && s[17] != 'X') return false;
+            if (len == 18 && ignoreCase && !IsDigit(s[17]) && s[17] != 'X' && s[17] != 'x') return false;
+            if (len == 18 && !ignoreCase && !IsDigit(s[17]) && s[17] != 'X') return false;
 
             // 出生日期格式校验
             var birthStr = len == 15 ? "19" + s.Substring(6, 6) : s.Substring(6, 8);
@@ -876,6 +875,75 @@ namespace ETool.Core.Util
         {
             if (string.IsNullOrEmpty(s) || formats == null || formats.Length == 0) return false;
             return DateTime.TryParseExact(s, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out _);
+        }
+
+        /// <summary>
+        /// 判断一个字符串是否为十六进制字符串
+        /// </summary>
+        /// <param name="s">待判断的字符串</param>
+        /// <returns>如果字符串是十六进制字符串则返回 true，否则返回 false</returns>
+        public static bool IsHexString(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s)) return false;
+
+            var len = s.Length;
+            for (var i = 0; i < len; i++)
+            {
+                var c = s[i];
+                if (!(c >= '0' && c <= '9' || c >= 'a' && c <= 'f' || c >= 'A' && c <= 'F')) return false;
+            }
+
+            return true;
+        }
+
+        /// <summary>
+        /// 判断一个字符是否是否为数字
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>如果字符为数字返回 true，否则返回 false</returns>
+        public static bool IsDigit(char c)
+        {
+            return c >= '0' && c <= '9';
+        }
+
+        /// <summary>
+        /// 判断一个字符是否为英文字符
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>如果字符为英文字符返回 true，否则返回 false</returns>
+        public static bool IsLetter(char c)
+        {
+            return c >= 'A' && c <= 'Z' || c >= 'a' && c <= 'z';
+        }
+
+        /// <summary>
+        /// 判断一个字符是否为大写英文字符
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>如果字符为大写英文字符返回 true，否则返回 false</returns>
+        public static bool IsUpperLetter(char c)
+        {
+            return c >= 'A' && c <= 'Z';
+        }
+
+        /// <summary>
+        /// 判断一个字符是否为小写英文字符
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>如果字符为小写英文字符返回 true，否则返回 false</returns>
+        public static bool IsLowerLetter(char c)
+        {
+            return c >= 'a' && c <= 'z';
+        }
+
+        /// <summary>
+        /// 判断一个字符是否为十六进制字符
+        /// </summary>
+        /// <param name="c">待判断的字符</param>
+        /// <returns>如果字符为十六进制字符则返回 true，否则返回 false</returns>
+        public static bool IsHexChar(char c)
+        {
+            return c >= '0' && c <= '9' || c >= 'A' && c <= 'F' || c >= 'a' && c <= 'f';
         }
     }
 }

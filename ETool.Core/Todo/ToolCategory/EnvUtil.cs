@@ -53,6 +53,11 @@ namespace EasyTool
             Environment.SetEnvironmentVariable(name, value);
         }
 
+        public static void Xx()
+        {
+            Console.WriteLine(Environment.GetEnvironmentVariable("JAVA_HOME"));
+        }
+
         /// <summary>
         /// 获取环境变量列表
         /// </summary>

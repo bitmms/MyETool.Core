@@ -36,7 +36,7 @@ namespace ETool.Core.Test.Net472.Util.MockUtilTest
                 // 3. 必须全部是数字
                 foreach (var t in phoneNumber)
                 {
-                    Assert.True(CharUtil.IsDigit(t), $"生成的手机号包含非数字字符: {phoneNumber}");
+                    Assert.True(ValidatorUtil.IsDigit(t), $"生成的手机号包含非数字字符: {phoneNumber}");
                 }
 
                 // 4. 第二位必须在 '3' 到 '9' 之间

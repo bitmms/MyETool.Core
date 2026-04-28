@@ -52,9 +52,9 @@ namespace ETool.Core.Util
             bool hasSpecial = false, hasDigit = false, hasUpper = false, hasLower = false;
             foreach (var c in password)
             {
-                if (CharUtil.IsDigit(c)) hasDigit = true;
-                else if (CharUtil.IsUpperLetter(c)) hasUpper = true;
-                else if (CharUtil.IsLowerLetter(c)) hasLower = true;
+                if (ValidatorUtil.IsDigit(c)) hasDigit = true;
+                else if (ValidatorUtil.IsUpperLetter(c)) hasUpper = true;
+                else if (ValidatorUtil.IsLowerLetter(c)) hasLower = true;
                 else if (PasswordAllowedSpecialChars.Contains(c)) hasSpecial = true;
                 else return PasswordStrength.Invalid;
             }

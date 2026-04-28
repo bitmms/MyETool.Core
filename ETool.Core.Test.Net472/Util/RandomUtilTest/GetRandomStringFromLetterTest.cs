@@ -23,7 +23,7 @@ namespace ETool.Core.Test.Net472.Util.RandomUtilTest
         public void GetRandomStringFromLetter_OnlyLetters()
         {
             var result = RandomUtil.GetRandomStringFromLetter(200);
-            Assert.All(result, c => Assert.True(CharUtil.IsLetter(c)));
+            Assert.All(result, c => Assert.True(ValidatorUtil.IsLetter(c)));
         }
 
         /// <summary>

@@ -1,57 +1,30 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Runtime.InteropServices;
-using System.Text;
 using System.Threading;
 
-namespace EasyTool
+namespace ETool.Core.Todo.ToolCategory
 {
-    /// <summary>
-    /// uuid生成风格
-    /// </summary>
-    public enum UUIDStyle
-    {
-        /// <summary>
-        /// guid
-        /// </summary>
-        GUID,
-
-        /// <summary>
-        /// mssql顺序guid
-        /// </summary>
-        SequentialGUID,
-
-        /// <summary>
-        /// 顺序
-        /// </summary>
-        Sequence,
-    }
-
     /// <summary>
     /// 唯一ID工具
     /// </summary>
     public class IdUtil
     {
-        private static readonly DateTime epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
-        private static int objectIdCounter = 0;
-
-        private static long _counter = DateTime.Now.Ticks;
+        private static readonly DateTime Epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+        private static int _objectIdCounter = 0;
 
         /// <summary>
         /// 生成UUID
         /// </summary>
         /// <returns>生成的UUID</returns>
-
         /// <summary>
         /// 生成MongoDB ObjectId
         /// </summary>
         /// <returns>生成的MongoDB ObjectId</returns>
         public static string ObjectId()
         {
-            byte[] timestamp = BitConverter.GetBytes((int)(DateTime.UtcNow - epoch).TotalSeconds);
+            byte[] timestamp = BitConverter.GetBytes((int)(DateTime.UtcNow - Epoch).TotalSeconds);
             byte[] machineIdentifier = BitConverter.GetBytes(Environment.MachineName.GetHashCode());
             byte[] processIdentifier = BitConverter.GetBytes(System.Diagnostics.Process.GetCurrentProcess().Id);
-            byte[] increment = BitConverter.GetBytes(Interlocked.Increment(ref objectIdCounter));
+            byte[] increment = BitConverter.GetBytes(Interlocked.Increment(ref _objectIdCounter));
 
             if (BitConverter.IsLittleEndian)
             {
@@ -70,13 +43,13 @@ namespace EasyTool
             return Convert.ToBase64String(objectId);
         }
 
-        private static readonly long epochTicks = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc).Ticks;
-        private static readonly long workerIdBits = 5L;
-        private static readonly long datacenterIdBits = 5L;
-        private static readonly long sequenceBits = 12L;
-        private static readonly long maxWorkerId = -1L ^ (-1L << (int)workerIdBits);
-        private static readonly long maxDatacenterId = -1L ^ (-1L << (int)datacenterIdBits);
-        private static readonly long sequenceMask = -1L ^ (-1L << (int)sequenceBits);
+        private static readonly long EpochTicks = new DateTime(2020, 1, 1, 0, 0, 0, DateTimeKind.Utc).Ticks;
+        private const long WorkerIdBits = 5L;
+        private const long DatacenterIdBits = 5L;
+        private const long SequenceBits = 12L;
+        private const long MaxWorkerId = -1L ^ (-1L << (int)WorkerIdBits);
+        private static readonly long maxDatacenterId = -1L ^ (-1L << (int)DatacenterIdBits);
+        private static readonly long sequenceMask = -1L ^ (-1L << (int)SequenceBits);
 
         private static long lastTimestamp = -1L;
         private static long sequence = 0L;
@@ -84,7 +57,7 @@ namespace EasyTool
 
         private static readonly Random random = new Random();
 
-        private static readonly long workerId = random.Next((int)maxWorkerId);
+        private static readonly long workerId = random.Next((int)MaxWorkerId);
         private static readonly long datacenterId = random.Next((int)maxDatacenterId);
 
         /// <summary>
@@ -95,7 +68,7 @@ namespace EasyTool
         {
             lock (lockObj)
             {
-                long timestamp = DateTime.UtcNow.Ticks - epochTicks;
+                long timestamp = DateTime.UtcNow.Ticks - EpochTicks;
 
                 if (timestamp < lastTimestamp)
                 {
@@ -118,20 +91,20 @@ namespace EasyTool
 
                 lastTimestamp = timestamp;
 
-                return (timestamp << (int)(workerIdBits + sequenceBits)) |
-                       (datacenterId << (int)sequenceBits) |
-                       (workerId << (int)sequenceBits) |
+                return (timestamp << (int)(WorkerIdBits + SequenceBits)) |
+                       (datacenterId << (int)SequenceBits) |
+                       (workerId << (int)SequenceBits) |
                        sequence;
             }
         }
 
         private static long NextMillis(long lastTimestamp)
         {
-            long timestamp = DateTime.UtcNow.Ticks - epochTicks;
+            long timestamp = DateTime.UtcNow.Ticks - EpochTicks;
 
             while (timestamp <= lastTimestamp)
             {
-                timestamp = DateTime.UtcNow.Ticks - epochTicks;
+                timestamp = DateTime.UtcNow.Ticks - EpochTicks;
             }
 
             return timestamp;

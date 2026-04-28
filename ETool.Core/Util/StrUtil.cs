@@ -72,7 +72,7 @@ namespace ETool.Core.Util
             var resultChars = new char[len];
             for (var i = 0; i < len; i++)
             {
-                resultChars[i] = CharUtil.IsLowerLetter(s[i]) ? CharUtil.ToUpperLetter(s[i]) : s[i];
+                resultChars[i] = ValidatorUtil.IsLowerLetter(s[i]) ? CharUtil.ToUpperLetter(s[i]) : s[i];
             }
 
             return new string(resultChars);
@@ -95,7 +95,7 @@ namespace ETool.Core.Util
             var resultChars = new char[len];
             for (var i = 0; i < len; i++)
             {
-                resultChars[i] = CharUtil.IsUpperLetter(s[i]) ? CharUtil.ToLowerLetter(s[i]) : s[i];
+                resultChars[i] = ValidatorUtil.IsUpperLetter(s[i]) ? CharUtil.ToLowerLetter(s[i]) : s[i];
             }
 
             return new string(resultChars);
@@ -425,7 +425,7 @@ namespace ETool.Core.Util
 
             var idx = 0;
             var len = s.Length;
-            var indexs = new int[len];
+            var indexArr = new int[len];
             var temp = s;
 
             s = ToUpperLetter(s);
@@ -438,7 +438,7 @@ namespace ETool.Core.Util
                 {
                     if (!charSet.Contains(s[i]))
                     {
-                        indexs[idx++] = i;
+                        indexArr[idx++] = i;
                     }
                 }
             }
@@ -448,7 +448,7 @@ namespace ETool.Core.Util
                 {
                     if (Array.IndexOf(chars, s[i]) < 0)
                     {
-                        indexs[idx++] = i;
+                        indexArr[idx++] = i;
                     }
                 }
             }
@@ -456,7 +456,7 @@ namespace ETool.Core.Util
             var resultChars = new char[idx];
             for (var i = 0; i < idx; i++)
             {
-                resultChars[i] = temp[indexs[i]];
+                resultChars[i] = temp[indexArr[i]];
             }
 
             return new string(resultChars, 0, idx);

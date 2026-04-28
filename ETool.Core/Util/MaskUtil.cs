@@ -82,13 +82,13 @@ namespace ETool.Core.Util
             var length = password.Length;
 
             // 长度≤4 固定返回 "****"
-            if (password.Length <= 4)
+            if (length <= 4)
             {
                 return "****";
             }
 
             // 初始化字符数组
-            var result = new char[password.Length];
+            var result = new char[length];
 
             // 保留前2位
             result[0] = password[0];
@@ -102,6 +102,56 @@ namespace ETool.Core.Util
             for (var i = 2; i < length - 2; i++)
             {
                 result[i] = maskChar;
+            }
+
+            return new string(result);
+        }
+
+        /// <summary>
+        /// 电子邮箱脱敏处理：保留用户名的前2位、@符合、域名的后2位
+        /// </summary>
+        /// <param name="email">待脱敏的电子邮箱字符串</param>
+        /// <param name="maskChar">用于替换的填充字符</param>
+        /// <returns>脱敏后的字符串</returns>
+        /// <exception cref="ArgumentNullException"><c>email</c> 为 null</exception>
+        public static string MaskEmail(string email, char maskChar = '*')
+        {
+            // 空值校验
+            if (email == null)
+            {
+                throw new ArgumentNullException(nameof(email));
+            }
+
+            if (!ValidatorUtil.IsEmail(email))
+            {
+                throw new ArgumentException("输入不是有效的电子邮箱地址", nameof(email));
+            }
+
+            // 提取长度
+            var length = email.Length;
+
+            // 长度≤5 固定返回 "**@**"
+            if (length <= 5)
+            {
+                return "**@**";
+            }
+
+            // 初始化字符数组
+            var result = new char[length];
+
+            // 保留前2位
+            result[0] = email[0];
+            result[1] = email[1];
+
+            // 保留后2位
+            result[length - 2] = email[length - 2];
+            result[length - 1] = email[length - 1];
+
+            // 中间填充
+            for (var i = 2; i < length - 2; i++)
+            {
+                if (email[i] != '@') result[i] = maskChar;
+                else result[i] = '@';
             }
 
             return new string(result);

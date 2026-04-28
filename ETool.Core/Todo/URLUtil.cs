@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Web;
 
-namespace EasyTool
+namespace ETool.Core.Todo
 {
     /// <summary>
     /// URL工具类
     /// </summary>
-    public class URLUtil
+    public static class UrlUtil
     {
         /// <summary>
         /// 解析URL并返回其组成部分。
@@ -36,6 +35,7 @@ namespace EasyTool
             {
                 query[parameter.Key] = parameter.Value;
             }
+
             uriBuilder.Query = query.ToString();
             return uriBuilder.ToString();
         }
@@ -54,6 +54,7 @@ namespace EasyTool
             {
                 query.Remove(parameter);
             }
+
             uriBuilder.Query = query.ToString();
             return uriBuilder.ToString();
         }
