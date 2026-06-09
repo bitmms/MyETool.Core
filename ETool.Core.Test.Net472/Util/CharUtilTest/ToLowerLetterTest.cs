@@ -10,7 +10,7 @@ namespace ETool.Core.Test.Net472.Util.CharUtilTest
         [InlineData('B', 'b', "B -> b")]
         [InlineData('C', 'c', "C -> c")]
         [InlineData('.', '.', ". -> c")]
-        [InlineData('Ａ', 'Ａ', "Ａ -> Ａ")]
+        [InlineData('Ａ', 'ａ', "Ａ -> Ａ")]
         [InlineData('ａ', 'ａ', "ａ -> ａ")]
         public void Test(char input, char expectedResult, string errorMessage)
         {

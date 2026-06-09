@@ -11,7 +11,7 @@ namespace ETool.Core.Test.Net472.Util.CharUtilTest
         [InlineData('c', 'C', "c -> C")]
         [InlineData('.', '.', ". -> c")]
         [InlineData('Ａ', 'Ａ', "Ａ -> Ａ")]
-        [InlineData('ａ', 'ａ', "ａ -> ａ")]
+        [InlineData('ａ', 'Ａ', "ａ -> ａ")]
         public void Test(char input, char expectedResult, string errorMessage)
         {
             var result = CharUtil.ToUpperLetter(input);
