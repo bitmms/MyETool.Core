@@ -8,11 +8,21 @@ namespace ETool.Core.Test.Net472.Core.CharUtilTest
         [Theory]
         [InlineData('a', 97, 0)]
         [InlineData('中', 45, 78)]
-        public void Test(char input, char expectedLow, char expectedHigh)
+        public void CharTest(char input, byte expectedLow, byte expectedHigh)
         {
-            var (low, high) = CharUtil.GetByteByLittleEndianUnicode(input);
-            Assert.True(low == expectedLow);
-            Assert.True(high == expectedHigh);
+            (byte low, byte high) result = CharUtil.GetByteByLittleEndianUnicode(input);
+            Assert.Equal(result.low, expectedLow);
+            Assert.Equal(result.high, expectedHigh);
+        }
+
+        [Fact]
+        public void CharArrayTest()
+        {
+            byte[] result = CharUtil.GetByteByLittleEndianUnicode(new[] { 'a', '中' });
+            Assert.Equal(97, result[0]);
+            Assert.Equal(0, result[1]);
+            Assert.Equal(45, result[2]);
+            Assert.Equal(78, result[3]);
         }
     }
 }
