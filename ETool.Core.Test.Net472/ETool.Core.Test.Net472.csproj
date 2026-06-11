@@ -52,6 +52,8 @@
         </Reference>
     </ItemGroup>
     <ItemGroup>
+        <Compile Include="Core\CharUtilTest\GetByteByBigEndianUnicodeTest.cs" />
+        <Compile Include="Core\CharUtilTest\GetByteByLittleEndianUnicodeTest.cs" />
         <Compile Include="Properties\AssemblyInfo.cs" />
         <Compile Include="Util\CharUtilTest\ToLowerLetterTest.cs" />
         <Compile Include="Util\CharUtilTest\ToUpperLetterTest.cs" />
